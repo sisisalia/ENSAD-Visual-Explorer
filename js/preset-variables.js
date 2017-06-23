@@ -195,3 +195,4 @@ var new_map = 1;
 var dbscan;
 var clusters;
 var single_icon;
+var touch = 0;

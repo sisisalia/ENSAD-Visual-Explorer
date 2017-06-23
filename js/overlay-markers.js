@@ -180,13 +180,38 @@ function overlayMarkers() {
 function setClusterPoint(projection) {
     var size = Object.keys(data.features).length;
     for (var i = 0; i < size; i++) {
+        // Filter
+        // Year filter
+        var incident_year = parseInt(data.features[i].properties.incident_date.substring(0,4));
+        if(years){
+          if(incident_year < years[0]) continue;
+          if(incident_year > years[1]) continue;
+        }
+        // Energy type filter
         var energy_type = data.features[i].properties.energy_chain;
         if (energy_type == null) energy_type = 'NA';
         var filter = energy_type_filter[energy_type];
         if (filter != null) energy_type = filter;
-        // Filter
         var index = energy_type_active.indexOf(energy_type);
         if (index == -1) continue;
+        // Energy stage filter
+        var stage = data.features[i].properties.energy_chain_stage;
+        if(stage == null) stage = 'NA';
+        var filter = energy_chain_filter[stage];
+        if(filter != null) stage = filter;
+        var index = energy_chain_filter_out.indexOf(stage);
+        if(index != -1) continue;
+        // Region filter
+        var check = 0;
+        for(var j = 0; j < region_filter_out.length; j++){
+          var answer = data.features[i].properties[region_filter_out[j]];
+          if(answer == true){
+            check = 1;
+            break;
+          }
+        }
+        if(check == 1) continue;
+        // Create data
         var obj = [];
         d = new google.maps.LatLng(data.features[i].geometry.coordinates[1], data.features[i].geometry.coordinates[0]);
         d = projection.fromLatLngToDivPixel(d);

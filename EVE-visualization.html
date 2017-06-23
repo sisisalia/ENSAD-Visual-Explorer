@@ -25,6 +25,7 @@
       } catch (e) {}
   </script>
   <header class="navbar-fixed-top">
+    <title>ENSAD Visual Explorer</title>
     <div class="title-header">
       ENSAD Visual Explorer
     </div>
@@ -52,14 +53,19 @@
   </div>
 
   <script type="text/javascript">
+
     $('header').hide();
-    $('.cover').css('width', $( window ).width());
-    $('.cover').css('height', $( window ).height());
-    $('.cover').css('background-color', 'white');
-    $('.cover').css('padding-top', '25%');
-    $('.cover').css('padding-left', '38%');
+    $('.cover').css('width', $( window ).width())
+              .css('height', $( window ).height())
+              .css('background-color', 'white')
+              .css('padding-top', '25%')
+              .css('padding-left', '40%')
+              .css('font-weight','bold')
+              .css('font-size', '30px')
+              .css('position','absolute')
+              .css('z-index', '1000');
     $('.cover').fadeIn();
-    $('.cover').fadeOut(3000);
+
   </script>
 
   <!-- Menu on the left when the page is loaded -->
