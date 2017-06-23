@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato" />
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://use.fontawesome.com/986cdf5935.js"></script>
+  <!-- Typekit for "adelle" font family -->
+  <script src="https://use.typekit.net/adt3ctv.js"></script>
+  <script>
+      try {
+          Typekit.load({
+              async: true
+          });
+      } catch (e) {}
+  </script>
+</head>
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top" style="background-color:white; border-color:white;">
+    <div class="title-header col col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        ENSAD Visual Explorer
+    </div>
+    <div class="col col-xs-2 col-sm-2 col-md-2 col-lg-2">
+      <img src="image/Logo/psi.png" alt="PSI" class="psi-image">
+    </div>
+    <div class="col col-xs-2 col-sm-2 col-md-2 col-lg-2">
+      <img src="image/Logo/frs.png" alt="FRS" class="frs-image">
+    </div>
+    <div class="col col-xs-2 col-sm-2 col-md-2 col-lg-2">
+        <img src="image/Logo/fcl.jpg" alt="FCL" class="fcl-image">
+        <span class="cival">
+          Developed by CIVAL
+        </span>
+    </div>
+</div>
+
+<div class="container">
+
+  <div class="row row-1">
+  <div class="link-to-application text-center">
+    <span class="link-title">Explore Energy-related Accidents </br> around the World</span> </br>
+    <p></p>
+    <button class="start">Start now</button> </br>
+    </br></br>
+    <div id="learn-more">
+      <span style="font: bold 14px lato:">Learn more about EVE</span> </br>
+      <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+    </div>
+  </div>
+  </div>
+
+  <div class="row row-2">
+    <div class="col-sm-6 col-md-6 col-lg-6">
+      <p class="title">What is EVE?</p>
+      <p class="content">The Energy-related Severe Accident Database (ENSAD) is the most comprehensive collection of historical accidents in the energy sector, covering complete energy chains. It was developed and first released by the Paul Scherrer Institut (PSI) in the 1990s, and since then has been continuously updated and extended, both in terms of content as well as scope and features.</p>
+      <p class="content">This project aims to develeop a web-based Geographic Information System (GIS) to visualize the geographical distribution and analyse the spatio-temporal charcateristics of accidents. The expected result is a web-based ENSAD Visual Explorer (EVE) that allows the public audience to access the ENSAD online with a simple but useful user interface (UI). The EVE visualises and maps the data from ENSAD and also presents graphs by using the data.</p>
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-6">
+      <p></p>
+      <p class="sub-title">Key features</p>
+      <p class="content">Differentiate Yourself and Attract More Attention Sales and Profits</p>
+      <img src="image/keyfeatures.png" alt="KeyFeatures" class="key-features">
+    </div>
+  </div>
+
+  <div class="row row-3">
+    <div class="col-sm-6 col-md-6 col-lg-6">
+    <p></p>
+      <img src="image/city.png" alt="City" class="city">
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-6">
+      <p class="title">Joint project of Singapore-ETH Centre & Paul Scherrer Institut</p>
+      <p class="sub-title">Future Resilient Systems (FRS) & Future Cities Laboratory (FCL) at Singapore-ETH Centre</p>
+      <p class="content">The Energy-related Severe Accident Database (ENSAD) is the most comprehensive collection of historical accidents in the energy sector, covering complete energy chains. It was developed and first released by the Paul Scherrer Institut (PSI) in the 1990s, and since then has been continuously updated and extended, both in terms of content as well as scope and features.</p>
+      <p class="sub-title">Paul Scherrer Institut</p>
+      <p class="content">It was developed and first released by the Paul Scherrer Institut (PSI) in the 1990s, and since then has been continuously updated and extended, both in terms of content as well as scope and features.</p>
+    </div>
+  </div>
+
+<div class="row row-4">
+  <p class="title">Publications</p>
+  <p>--------------</p>
+  <p>--------------</p>
+  <p>--------------</p>
+</div>
+
+</br>
+
+<div class="row row-5">
+  <p class="title">Team</p>
+  <p class="content">Kim Wansub, Data Specialist</p>
+  <p class="content">Shiho Asada, UI and Visualisation Designer</p>
+  <p class="content">Sisi Salia, UI and Visualisation Developer</p>
+  <p class="content">Peter Burgherr, ENSAD Development&Analysis</p>
+  <p class="content">Matteo Spada, ENSAD Development&Analysis</p>
+</div>
+
+</div>
+
+</body>
+
+<script type="text/javascript">
+$('.start').on('click',function(){
+  window.location.replace("/EVE-visualization.html");
+})
+
+$('#learn-more').on('click',function(){
+    $('html, body').animate({
+        scrollTop: $(".row-2").offset().top - 60
+    }, 1000);
+})
+
+</script>

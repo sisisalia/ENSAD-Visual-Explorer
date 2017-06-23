@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato" />
+  <script src="https://use.fontawesome.com/986cdf5935.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+  <script src="plug-in/jquery-ui-slider-pips.js"></script>
+  <link rel="stylesheet" href="plug-in/jquery-ui-slider-pips.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier/1.0.3/oms.min.js"></script>
+  <!-- Typekit for "adelle" font family -->
+  <script src="https://use.typekit.net/adt3ctv.js"></script>
+  <script>
+      try {
+          Typekit.load({
+              async: true
+          });
+      } catch (e) {}
+  </script>
+  <header class="navbar-fixed-top">
+    <div class="title-header">
+      ENSAD Visual Explorer
+    </div>
+    <div>
+      <img src="image/Logo/fcl.jpg" alt="FCL" class="fcl-image">
+      <br/>
+      <span class="cival">
+        Developed by CIVAL
+      </span>
+    </div>
+    <div>
+      <img src="image/Logo/frs.png" alt="FRS" class="frs-image">
+    </div>
+    <div>
+      <img src="image/Logo/psi.png" alt="PSI" class="psi-image">
+    </div>
+  </header>
+</head>
+
+<body>
+
+  <!-- Cover to prevent user to see the page while the page is loading -->
+  <div class="cover">
+    ENSAD Visual Explorer
+  </div>
+
+  <script type="text/javascript">
+    $('header').hide();
+    $('.cover').css('width', $( window ).width());
+    $('.cover').css('height', $( window ).height());
+    $('.cover').css('background-color', 'white');
+    $('.cover').css('padding-top', '25%');
+    $('.cover').css('padding-left', '38%');
+    $('.cover').fadeIn();
+    $('.cover').fadeOut(3000);
+  </script>
+
+  <!-- Menu on the left when the page is loaded -->
+  <div class="menu-1">
+    <!-- Menu's title -->
+    <table class="main-menu-1-title">
+      <col width="33%"><col width="40%"><col width="33%">
+      <tr>
+        <td class="accidents">
+          Accidents
+        </td>
+        <td class="damage">
+          <i class="fa fa-eye-slash" aria-hidden="true"></i>
+          Damage
+        </td>
+        <td class="more">
+          <i class="fa fa-eye-slash" aria-hidden="true"></i>
+          More
+        </td>
+      </tr>
+    </table>
+    <!-- Menu's content -->
+    <nav class="main-menu-1">
+      <p style="margin-top:-8px;"></p>
+      <span class="general-title">Select Energy Type</span>
+      <table id="energy-types">
+        <col width="33.3%"><col width="33.3%"><col width="33.3%">
+        <tr>
+          <td style="padding-top:10px;">
+            <img src="image/energy-type-on/battery.png" alt="Battery" width="47px" height="47px" class="energy-type battery"></br>
+            Battery
+          </td>
+          <td style="padding-top:10px;">
+            <img src="image/energy-type-on/biomass.png" alt="Biomass" width="47px" height="47px" class="energy-type biomass"></br>
+            Biomass
+          </td>
+          <td style="padding-top:10px;">
+            <img src="image/energy-type-on/coal.png" alt="Coal" width="47px" height="47px" class="energy-type coal"></br>
+            Coal
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <img src="image/energy-type-on/electricity.png" alt="Electricity" width="47px" height="47px" class="energy-type electricity"></br>
+            Electricity
+          </td>
+          <td>
+            <img src="image/energy-type-on/fuelcell.png" alt="Fuel cell" width="47px" height="47px" class="energy-type fuelcell"></br>
+            Fuel cell
+          </td>
+          <td>
+            <img src="image/energy-type-on/geothermal.png" alt="Geothermal" width="47px" height="47px" class="energy-type geothermal"></br>
+            Geothermal
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <img src="image/energy-type-on/hydrogen.png" alt="Hydrogen" width="47px" height="47px" class="energy-type hyrdrogen"></br>
+            Hydrogen
+          </td>
+          <td>
+            <img src="image/energy-type-on/hydropower.png" alt="Hydropower" width="47px" height="47px" class="energy-type hydropower"></br>
+            Hydropower
+          </td>
+          <td>
+            <img src="image/energy-type-on/lpg.png" alt="LPG" width="47px" height="47px" class="energy-type lpg"></br>
+            LPG
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <img src="image/energy-type-on/marine.png" alt="Marine" width="47px" height="47px" class="energy-type marine"></br>
+            Marine
+          </td>
+          <td>
+            <img src="image/energy-type-on/naturalgas.png" alt="Natural gas" width="47px" height="47px" class="energy-type naturalgas"></br>
+            Natural gas
+          </td>
+          <td>
+            <img src="image/energy-type-on/nuclear.png" alt="Nuclear" width="47px" height="47px" class="energy-type nuclear"></br>
+            Nuclear
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <img src="image/energy-type-on/oil.png" alt="Oil" width="47px" height="47px" class="energy-type oil"></br>
+            Oil
+          </td>
+          <td>
+            <img src="image/energy-type-on/solar.png" alt="Solar" width="47px" height="47px" class="energy-type solar"></br>
+            Solar
+          </td>
+          <td>
+            <img src="image/energy-type-on/wind.png" alt="Wind" width="47px" height="47px" class="energy-type wind"></br>
+            Wind
+          </td>
+        </tr>
+      </table>
+    </nav>
+  </div>
+
+  <!-- Menu on the left after the user clicks either 'Damage' or 'More' -->
+  <div class="menu-2">
+    <!-- 'Accidents' menu -->
+    <table class="menu-2-accidents">
+      <tr class="main-menu-2-title">
+        <td class="accidents">
+          Accidents
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="image/energy-type-on/battery.png" alt="Battery" width="32px" height="32px" class="energy-type battery"></br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="image/energy-type-on/biomass.png" alt="Biomass" width="32px" height="32px" class="energy-type biomass"></br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="image/energy-type-on/coal.png" alt="Coal" width="32px" height="32px" class="energy-type coal"></br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="image/energy-type-on/electricity.png" alt="Electricity" width="32px" height="32px" class="energy-type electricity"></br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="image/energy-type-on/fuelcell.png" alt="Fuel Cell" width="32px" height="32px" class="energy-type fuelcell"></br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="image/energy-type-on/geothermal.png" alt="Geothermal" width="32px" height="32px" class="energy-type geothermal"></br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="image/energy-type-on/hydrogen.png" alt="Hydrogen" width="32px" height="32px" class="energy-type hydrogen"></br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="image/energy-type-on/hydropower.png" alt="Hydropower" width="32px" height="32px" class="energy-type hydropower"></br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="image/energy-type-on/lpg.png" alt="LPG" width="32px" height="32px" class="energy-type lpg"></br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="image/energy-type-on/marine.png" alt="Marine" width="32px" height="32px" class="energy-type marine"></br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="image/energy-type-on/naturalgas.png" alt="Natural gas" width="32px" height="32px" class="energy-type naturalgas"></br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="image/energy-type-on/nuclear.png" alt="Nuclear" width="32px" height="32px" class="energy-type nuclear"></br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="image/energy-type-on/oil.png" alt="Oil" width="32px" height="32px" class="energy-type oil"></br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="image/energy-type-on/solar.png" alt="Solar" width="32px" height="32px" class="energy-type solar"></br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="image/energy-type-on/wind.png" alt="Wind" width="32px" height="32px" class="energy-type wind"></br>
+        </td>
+      </tr>
+    </table>
+    <!-- 'Accidents' tooltip for menu-2 -->
+    <table class="menu-2-accidents-tooltip">
+      <tr>
+        <td id="battery-tooltip">
+          <span class="tooltip-style">Battery</span>
+        </td>
+      </tr>
+      <tr>
+        <td id="biomass-tooltip">
+          <span class="tooltip-style">Biomass</span>
+        </td>
+      </tr>
+      <tr>
+        <td id="coal-tooltip">
+          <span class="tooltip-style">Coal</span>
+        </td>
+      </tr>
+      <tr>
+        <td id="electricity-tooltip">
+          <span class="tooltip-style">Electricity</span>
+        </td>
+      </tr>
+      <tr>
+        <td id="fuelcell-tooltip">
+          <span class="tooltip-style">Fuel cell</span>
+        </td>
+      </tr>
+      <tr>
+        <td id="geothermal-tooltip">
+          <span class="tooltip-style">Geothermal</span>
+        </td>
+      </tr>
+      <tr>
+        <td id="hydrogen-tooltip">
+          <span class="tooltip-style">Hydrogen</span>
+        </td>
+      </tr>
+      <tr>
+        <td id="hydropower-tooltip">
+          <span class="tooltip-style">Hydropower</span>
+        </td>
+      </tr>
+      <tr>
+        <td id="lpg-tooltip">
+          <span class="tooltip-style">LPG</span>
+        </td>
+      </tr>
+      <tr>
+        <td id="marine-tooltip">
+          <span class="tooltip-style">Marine</span>
+        </td>
+      </tr>
+      <tr>
+        <td id="naturalgas-tooltip">
+          <span class="tooltip-style">Natural gas</span>
+        </td>
+      </tr>
+      <tr>
+        <td id="nuclear-tooltip">
+          <span class="tooltip-style">Nuclear</span>
+        </td>
+      </tr>
+      <tr>
+        <td id="oil-tooltip">
+          <span class="tooltip-style">Oil</span>
+        </td>
+      </tr>
+      <tr>
+        <td id="solar-tooltip">
+          <span class="tooltip-style">Solar</span>
+        </td>
+      </tr>
+      <tr>
+        <td id="wind-tooltip">
+          <span class="tooltip-style">Wind</span>
+        </td>
+      </tr>
+    </table>
+
+    <!-- 'More' menu when the user clicks 'More' -->
+    <div class="menu-2-more">
+      <!-- 'More' menu title -->
+      <table width="100%" class="main-menu-2-title">
+        <col width="50%"><col width="50%">
+        <tr>
+          <td class="damage">
+            <i class="fa fa-eye-slash" aria-hidden="true"></i>
+            Damage
+          </td>
+          <td class="more">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+            More
+          </td>
+        </tr>
+      </table>
+      <!-- 'More' menu content -->
+      <div class="menu-2-more-content">
+        <span class="general-title">by Energy Chain Stages</span>
+        <table id="energy-stages">
+          <col width="33.3%"><col width="33.3%"><col width="33.3%">
+          <tr>
+            <td>
+              <img src="image/energy-stage-on/exploration.png" alt="Exploration" width="47px" height="47px" class="energy-stage"></br>
+              <span>Exploration</span>
+            </td>
+            <td>
+              <img src="image/energy-stage-on/extraction.png" alt="Extraction" width="47px" height="47px" class="energy-stage"></br>
+              <span>Extraction</span>
+            </td>
+            <td>
+              <img src="image/energy-stage-on/processing.png" alt="Processing" width="47px" height="47px" class="energy-stage"></br>
+              <span>Processing</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img src="image/energy-stage-on/transport.png" alt="Transport" width="47px" height="47px" class="energy-stage"></br>
+              <span>Transport</span>
+            </td>
+            <td>
+              <img src="image/energy-stage-on/storage.png" alt="Storage" width="47px" height="47px" class="energy-stage"></br>
+              <span>Storage</span>
+            </td>
+            <td>
+              <img src="image/energy-stage-on/powerplant.png" alt="Power plant" width="47px" height="47px" class="energy-stage"></br>
+              <span>Power plant</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p style="margin-top:-20px;"></p>
+              <img src="image/energy-stage-on/enduse.png" alt="End use" width="47px" height="47px" class="energy-stage"></br>
+              <span>End use</span>
+            </td>
+            <td>
+              <p style="margin-top:-8px;"></p>
+              <img src="image/energy-stage-on/waste.png" alt="waste" width="47px" height="47px" class="energy-stage"></br>
+              <span>Waste processing</span>
+            </td>
+            <!-- A blank space to create 3 columns -->
+            <td>
+            </td>
+          </tr>
+        </table>
+        <p></p>
+        <span class="general-title">by Regions</span>
+        <table class="menu-2-regions" width="100%">
+          <!-- 'id' of the '.regions' follow the attributes found in database -->
+          <tr>
+            <td width="20%">
+              <label class="switch" style="padding-top:12px;"><input class="regions" id="oecd" type="checkbox" checked><div class="slider"></div></label>
+            </td>
+            <td width ="30%">
+              OECD
+            </td>
+            <td>
+              <label class="switch"><input class="regions" id="g20" type="checkbox" checked><div class="slider"></div></label>
+            </td>
+            <td>
+              G20
+            </td>
+          </tr>
+          <tr>
+            <td width="20%">
+              <label class="switch"><input class="regions" id="opec" type="checkbox" checked><div class="slider"></div></label>
+            </td>
+            <td width ="30%">
+              OPEC
+            </td>
+            <td width ="20%">
+              <label class="switch"><input class="regions" id="eu27" type="checkbox" checked><div class="slider"></div></label>
+            </td>
+            <td width ="30%">
+              EU
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- 'Damage' menu when the user clicks 'Damage' -->
+    <div class="menu-2-damage">
+      <!-- 'Damage' menu title -->
+      <table width="100%" class="main-menu-2-title">
+        <col width="50%"><col width="50%">
+        <tr>
+          <td class="damage">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+            Damage
+          </td>
+          <td class="more">
+            <i class="fa fa-eye-slash" aria-hidden="true"></i>
+            More
+          </td>
+        </tr>
+      </table>
+      <div class="menu-2-damage-content">
+        <span class="general-title">by Damage Type</span>
+        <table id="damage-types">
+          <col width="33.3%"><col width="33.3%"><col width="33.3%">
+          <tr>
+            <td style="color:black" id="fatalities">
+              <img src="image/damage-on/fatalities.png" alt="waste" width="47px" height="47px" class="damage-type"></br>
+              <span>Fatalities</span>
+            </td>
+            <td>
+              <img src="image/damage-off/injured.png" alt="waste" width="47px" height="47px" class="damage-type"></br>
+              <span>Injured</span>
+            </td>
+            <td>
+              <img src="image/damage-off/evacuees.png" alt="waste" width="47px" height="47px" class="damage-type"></br>
+              <span>Evacuees</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img src="image/damage-off/spillsize.png" alt="waste" width="47px" height="47px" class="damage-type"></br>
+              <span>Spill size</span>
+            </td>
+            <td>
+              <img src="image/damage-off/dollars.png" alt="waste" width="47px" height="47px" class="damage-type"></br>
+              <span>Economics</span>
+            </td>
+            <td>
+            </td>
+          </tr>
+        </table>
+        <p></p>
+        <span class="general-title">Severity Level</span>
+        <table width="100%">
+          <col width="20%"><col width="60%"><col width="20%">
+          <tr>
+            <td style="padding-left:20px;">
+              <div id="severity-range"></div>
+            </td>
+            <td>
+              <svg style="margin-left:-10px;" height="110" width="175">
+                <!-- The area of circles are directly proportional to each other -->
+                <circle id="lvl5" cx="68" cy="58.981" r="49.981" stroke="#B9CAD4" stroke-width="1" fill="#87A1B1" />
+                <circle id="lvl4" cx="68" cy="63.3358" r="45.6262" stroke="#B9CAD4" stroke-width="1" fill="transparent" />
+                <circle id="lvl3" cx="68" cy="68.1527" r="40.8093" stroke="#B9CAD4" stroke-width="1" fill="transparent" />
+                <circle id="lvl2" cx="68" cy="73.6201" r="35.3419" stroke="#B9CAD4" stroke-width="1" fill="transparent" />
+                <circle id="lvl1" cx="68" cy="80.1055" r="28.8565" stroke="#B9CAD4" stroke-width="1" fill="transparent" />
+                <circle id="lvl0" cx="68" cy="88.5574" r="20.4046" stroke="#B9CAD4" stroke-width="1" fill="transparent" />
+                <path stroke="#C8C8C8" stroke-width="1" stroke-dasharray="5,2" d="M0 9 l140 0" />
+                <text x="145" y="10" fill="black" font-family="lato" font-size="11">Lvl 5</text>
+                <path stroke="#C8C8C8" stroke-width="1" stroke-dasharray="5,2" d="M0 17 l140 0" />
+                <text x="145" y="20" fill="black" font-family="lato" font-size="11">Lvl 4</text>
+                <path stroke="#C8C8C8" stroke-width="1" stroke-dasharray="5,2" d="M0 27 l140 0" />
+                <text x="145" y="30" fill="black" font-family="lato" font-size="11">Lvl 3</text>
+                <path stroke="#C8C8C8" stroke-width="1" stroke-dasharray="5,2" d="M0 38 l140 0" />
+                <text x="145" y="42" fill="black" font-family="lato" font-size="11">Lvl 2</text>
+                <path stroke="#C8C8C8" stroke-width="1" stroke-dasharray="5,2" d="M0 51 l140 0" />
+                <text x="145" y="54" fill="black" font-family="lato" font-size="11">Lvl 1</text>
+                <path stroke="#C8C8C8" stroke-width="1" stroke-dasharray="5,2" d="M0 68 l140 0" />
+                <text x="145" y="71" fill="black" font-family="lato" font-size="11">Lvl 0</text>
+                <path stroke="#C8C8C8" stroke-width="1" stroke-dasharray="5,2" d="M0 109 l140 0" />
+              </svg>
+            </td>
+          </tr>
+        </table>
+        <span style="font:10px lato;">*Level 0... No damage or data not available</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 'Year' of accidents menu at the top right of the window -->
+  <nav class="year-menu">
+    <div class="year-item" style="font: bold 12px adelle; padding-top: 20px;">
+      Year
+    </div>
+    <br />
+    <div class="year-item" id="year-range" style="font: bold 16px lato;">1860 - 2020</div>
+    <p></p>
+    <li class="year-item">
+      <br />
+      <div id="slider-range"></div>
+      <br />
+    </li>
+  </nav>
+
+  <!-- 'Extra menu' below the 'Year' menu -->
+  <nav class="extra-menu">
+    <table width ='100%' style="text-align:center; margin-top:3px;">
+      <tr>
+        <td>
+          <i style="font-size:17px;" class="fa fa-area-chart" aria-hidden="true" title="Chart"></i>
+        </td>
+        <td>
+          <i style="font-size:17px;" class="fa fa-repeat" aria-hidden="true" title="Refresh"></i>
+        </td>
+        <td>
+          <i style="font-size:17px;" class="fa fa-sign-out" aria-hidden="true" title="Sign Out"></i>
+        </td>
+      </tr>
+    </table>
+  </nav>
+
+  <!-- 'About EVE' at the bottom right of the window -->
+  <div id="about-EVE">About EVE</div>
+  <div id='about-EVE-content'>
+    <span id=about-EVE-content-title>About EVE</span>
+    <i class="fa fa-times" aria-hidden="true"></i>
+    </br>
+    </br>
+    <span>The Energy-related Severe Accident Database (ENSAD) is the most comprehensive collection of historical accidents in the energy sector, covering complete energy chains. It was developed and first released by the Paul Scherrer Institut (PSI) in the 1990s, and since then has been continuously updated and extended, both in terms of content as well as scope and features. This project aims to develop a web-based Geographic Information System (GIS) to visualize the geographical distribution and analyse the spatio-temporal characteristics of accidents. The expected result is a web-based ENSAD Visual Explorer (EVE) that allows the public audience to access the ENSAD online with a simple but useful user interface (UI).</span>
+    </br></br>
+    <div class="text-center">
+      <button id="send-feedback"><i class="fa fa-paper-plane" aria-hidden="true"></i> Send feedback </button>
+    </div>
+  </div>
+
+  <!-- Chart -->
+  <div class="chart-menu">
+    <select name="chart-type" id='chart-type'>
+      <option value="energy-type-year">Years vs Energy type</option>
+      <option value="regions-year">Years vs Regions</option>
+      <option value="line-chart">Line Chart </option>
+    </select>
+    <div id="chart"></div>
+  </div>
+
+  <!-- Google Map -->
+  <div id="map"></div>
+
+  <script src="https://maps.googleapis.com/maps/api/js?v=3&amp;libraries=places&amp;key=AIzaSyCTVQh_6X6mO8NWR58geheSip4zrQARKlo&amp;callback=initMap"></script>
+  <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+  <script src="//d3js.org/d3.v4.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/EVE-visualisation.css">
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src='plug-in/DBSCAN.js'></script>
+  <script src='data/set-data.js'></script>
+  <script src='js/preset-variables.js'></script>
+  <script src='js/interaction.js'></script>
+  <script src='js/google-map.js'></script>
+  <script src='chart/energy-type-vs-year.js'></script>
+  <script src='chart/regions-vs-year.js'></script>
+  <script src='chart/lineChart.js'></script>
+  <script src='js/overlay-piechart.js'></script>
+  <script src='js/overlay-overlapping-markers.js'></script>
+  <script src='js/overlay-markers.js'></script>
+  <!-- <script src='js/google-map-markers.js'></script> -->
+  <script type="text/javascript">
+    // Used to create data for chart
+    function yearCategory(duration, year){
+      earliest_year = parseInt(duration[0]);
+      for(var i = 0; i < duration.length; i++){
+        var cat = parseInt(duration[i+1]);
+        var year = parseInt(year);
+        if(year < earliest_year){
+          return null;
+        }
+        if(year < cat){
+          return i;
+        }
+      }
+    }
+  </script>
+</body>
