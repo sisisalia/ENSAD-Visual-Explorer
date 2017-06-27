@@ -15,7 +15,7 @@ function overlayMarkers() {
             clustered_points_information = [];
 
             var projection = this.getProjection(),
-                radius = 10;
+                radius = circle_size['Level 0'];
 
             // If-condition to prevent clustering algorithm to work during translation
             if (new_map == 1) {
@@ -35,26 +35,67 @@ function overlayMarkers() {
                 }
                 for (var i = 0; i < clusters.length; i++) {
                     var array = [];
-                    var added = 0;
+                    var length;
+                    var energy_count = {
+                      'Hydropower' : 0,
+                      'LPG' : 0,
+                      'Natural gas' : 0,
+                      'NA' : 0,
+                      'Non-hydro' : 0,
+                      'Battery' : 0,
+                      'Biomass' : 0,
+                      'Coal' : 0,
+                      'Electricity' : 0,
+                      'Fuel cell' : 0,
+                      'Geothermal' : 0,
+                      'Hydrogen' : 0,
+                      'Marine' : 0,
+                      'Nuclear' : 0,
+                      'Oil' : 0,
+                      'Solar' : 0,
+                      'Wind' : 0,
+                    }
                     var average_position = getAveragePosition(clusters[i], clustered_points_location);
                     for (var j = 0; j < clusters[i].length; j++) {
                         var obj = new Object();
                         obj.average_position = average_position;
                         obj.exact_position = clustered_points_location[clusters[i][j]];
-                        if (added == 0) {
-                            obj.length = clusters[i].length;
-                            added = 1;
+                        if (j == clusters[i].length - 1) {
+                            length = clusters[i].length;
                         }
                         obj.coordinates = clustered_points_information[clusters[i][j]].geometry.coordinates;
+                        var type = clustered_points_information[clusters[i][j]].properties.energy_chain;
+                        var filter = energy_type_filter[type];
+                        if(filter != null) type = filter;
+                        energy_count[type]++;
                         obj = setIndividualPoint(clustered_points_location, clustered_points_information, clusters[i][j], obj);
                         array.push(obj);
                     }
-                    // Sort cluster where same energy type are next to one another
+                    // Sort pie chart where same energy type are next to one another
                     array.sort(function(a, b) {
-                        var x = a.type;
-                        var y = b.type;
-                        return (x < y) ? -1 : (x > y) ? 1 : 0;
+                        var x = [a.type];
+                        var y = [b.type];
+                        return (x > y) ? -1 : (x < y) ? 1 : 0;
                     })
+                    // Sort pie chart where larger number of energy come first
+                    array.sort(function(a, b) {
+                        var x = energy_count[a.type];
+                        var y = energy_count[b.type];
+                        return (x > y) ? -1 : (x < y) ? 1 : 0;
+                    })
+                    // To make sure that the text will render last so it will not be obstructed by pie chart's path
+                    array[array.length-1].length = length;
+                    var accumulated = 0;
+                    var final;
+                    $.map(array, function(d,i){
+                      if(i == array.length - 1){
+                        accumulated += parseInt(d[damage_filter[damage_selected]].substring(6, d[damage_filter[damage_selected]].length));
+                        final = Math.round(accumulated/array.length);
+                      }else{
+                        accumulated += parseInt(d[damage_filter[damage_selected]].substring(6, d[damage_filter[damage_selected]].length));
+                      }
+                    })
+                    array[array.length-1].piechartrad = circle_size['Level ' + final];
                     // If zoom level is more than 7, split up the clustered nodes accordingly
                     if (zoom_level < opt.maxZoom - 3) {
                         overlayPieChart(array);
@@ -67,13 +108,33 @@ function overlayMarkers() {
                 var marker = layer.selectAll("svg")
                     .data(single_icon)
                     .enter().append("svg")
-                    .attr('width', radius * 2 + 3)
-                    .attr('height', radius * 2 + 3)
+                    .attr('width', function(d){
+                      if(damage_active == 1){
+                        return d.radbydamage * 2 + 3;
+                      }else{
+                        return radius * 2 + 3;
+                      }
+                    })
+                    .attr('height', function(d){
+                      if(damage_active == 1){
+                        return d.radbydamage * 2 + 3;
+                      }else{
+                        return radius * 2 + 3;
+                      }
+                    })
                     .style("left", function(d) {
-                        return ((d.location[0] - radius) + "px")
+                      if(damage_active == 1){
+                        return ((d.location[0] - d.radbydamage) + "px");
+                      }else{
+                        return ((d.location[0] - radius) + "px");
+                      }
                     })
                     .style("top", function(d) {
-                        return ((d.location[1] - radius) + "px")
+                      if(damage_active == 1){
+                        return ((d.location[1] - d.radbydamage) + "px");
+                      }else{
+                        return ((d.location[1] - radius) + "px");
+                      }
                     })
                     .attr('class', function(d) {
                         return 'marker';
@@ -81,7 +142,13 @@ function overlayMarkers() {
 
                 // Add a circle.
                 var circle = marker.append("circle")
-                    .attr("r", radius)
+                    .attr("r", function(d){
+                      if(damage_active == 1){
+                        return d.radbydamage;
+                      }else{
+                        return radius;
+                      }
+                    })
                     .attr('fill', function(d) {
                         var type = energy_type_filter[d.type];
                         if (type != null) return energy_color[type];
@@ -91,8 +158,20 @@ function overlayMarkers() {
                     })
                     .attr('stroke', 'white')
                     .attr('strokeWeight', '1px')
-                    .attr("cx", radius)
-                    .attr("cy", radius)
+                    .attr("cx", function(d){
+                      if(damage_active == 1){
+                        return d.radbydamage;
+                      }else{
+                        return radius;
+                      }
+                    })
+                    .attr("cy", function(d){
+                      if(damage_active == 1){
+                        return d.radbydamage;
+                      }else{
+                        return radius;
+                      }
+                    })
                     .attr('class', function(d) {
                         return 'node';
                     });
@@ -101,7 +180,7 @@ function overlayMarkers() {
                 var images = marker.append("svg:image")
                     .attr("xlink:href", function(d) {
                       // Image changes depending if the user clicked 'More' or others menu tab
-                        if (energy_chain_selected == 1) {
+                        if (energy_chain_active == 1) {
                             energy_chain_src = energy_chain_image_white[energy_chain_filter[d.stage]];
                             if (energy_chain_src != null) return energy_chain_src;
                         }
@@ -111,8 +190,20 @@ function overlayMarkers() {
                             return energy_type_image_white[d.type];
                         }
                     })
-                    .attr("x", 0)
-                    .attr("y", 0)
+                    .attr("x", function(d){
+                      if(damage_active == 1){
+                        return d.radbydamage - radius;
+                      }else{
+                        return 0;
+                      }
+                    })
+                    .attr("y", function(d){
+                      if(damage_active == 1){
+                        return d.radbydamage - radius
+                      }else{
+                        return 0;
+                      }
+                    })
                     .attr("height", radius * 2)
                     .attr("width", radius * 2)
                     .attr('class', 'node')
@@ -139,7 +230,7 @@ function overlayMarkers() {
                                 '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Fatalities</td><td style="font:10px lato">' + d.fatalities + '</td></tr>' +
                                 '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Injured</td><td style="font:10px lato">' + d.injured + '</td></tr>' +
                                 '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Evacuees</td><td style="font:10px lato">' + d.evacuees + '</td></tr>' +
-                                '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Economic damage</td><td style="font:10px lato">' + d.economic + '</td></tr>' +
+                                '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Economic damage</td><td style="font:10px lato">' + d.economic_damage + '</td></tr>' +
                                 '</table>';
                         } else {
                             var contentString = '<div style="font:bold 11px lato"> Accident id: ' + d.id + '</div>' +
@@ -153,7 +244,7 @@ function overlayMarkers() {
                                 '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Fatalities</td><td style="font:10px lato">' + d.fatalities + '</td></tr>' +
                                 '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Injured</td><td style="font:10px lato">' + d.injured + '</td></tr>' +
                                 '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Evacuees</td><td style="font:10px lato">' + d.evacuees + '</td></tr>' +
-                                '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Economic damage</td><td style="font:10px lato">' + d.economic + '</td></tr>' +
+                                '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Economic damage</td><td style="font:10px lato">' + d.economic_damage + '</td></tr>' +
                                 '</table>';
                         }
                         tooltip.html(contentString)
@@ -162,12 +253,6 @@ function overlayMarkers() {
                     })
                     .on("mouseout", function(d) {
                         $('.node-information').remove();
-                    })
-                    .style("left", function(d) {
-                        return ((d.location[0] - radius) + "px")
-                    })
-                    .style("top", function(d) {
-                        return ((d.location[1] - radius) + "px")
                     });
                 new_map = 0;
             }
@@ -211,6 +296,12 @@ function setClusterPoint(projection) {
           }
         }
         if(check == 1) continue;
+        // Severity level check
+        if(damage_active == 1){
+          var severity = data.features[i].properties[damage_filter[damage_selected]];
+          var severity_lvl = severityLevel(parseInt(severity), window['severity_level_' + damage_filter[damage_selected]]);
+          if(severity_level_included.indexOf(severity_lvl) == -1) continue;
+        }
         // Create data
         var obj = [];
         d = new google.maps.LatLng(data.features[i].geometry.coordinates[1], data.features[i].geometry.coordinates[0]);
@@ -248,9 +339,17 @@ function setIndividualPoint(clustered_points_location, clustered_points_informat
   obj.injured = severityLevel(parseInt(injured), severity_level_injured);
   var evacuees = selected.evacuees;
   obj.evacuees = severityLevel(parseInt(evacuees), severity_level_evacuees);
-  var economic = selected.economic_damage;
-  obj.economic = severityLevel(parseInt(economic), severity_level_economics);
+  var economic_damage = selected.economic_damage;
+  obj.economic_damage = severityLevel(parseInt(economic_damage), severity_level_economic_damage);
   obj.id = selected.accident_id;
+  if(!existing_object){
+    if(damage_active == 1){
+      if(damage_selected == 'Spill size') obj.radbydamage = null;
+      obj.radbydamage = circle_size[obj[damage_filter[damage_selected]]];
+    }
+  }else{
+    obj.radbydamage = null;
+  }
   return obj;
 }
 
@@ -299,5 +398,5 @@ google.maps.event.addListener(map, 'zoom_changed', function() {
     // Set timer for the broswer to respond correctly, if not the visualization could become a mess
     setTimeout(function() {
         resetMarkers();
-    }, 100);
+    }, 500);
 });

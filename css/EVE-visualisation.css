@@ -511,11 +511,6 @@ input:checked + .slider:before {
 .fa-sign-out{
   cursor: pointer;
 }
-.cover{
-  position: absolute;
-  z-index: 1000;
-  font: bold 30px adelle;
-}
 .chart-menu{
 	height: auto;
 	width: auto;

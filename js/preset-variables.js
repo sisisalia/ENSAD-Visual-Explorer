@@ -12,8 +12,9 @@ var years = [];
 var severity_level_included = ['Level 0', 'Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5'];
 // Damage selected, only one damage is shown
 var damage_selected = 'Fatalities';
+var damage_active = 0;
 // Toogle between 0 and 1, if user clicks 'More', it will become 1, other than that it will be kept as 0
-var energy_chain_selected = 0;
+var energy_chain_active = 0;
 // Region to be filtered out
 var region_filter_out = [];
 
@@ -23,7 +24,7 @@ var severity_level_fatalities = [0,4,20,100,500];
 var severity_level_injured = [0,9,50,100,500];
 var severity_level_evacuees = [0,199,1000,5000,10000];
 var severity_level_spillsize = [0,199,1000,10000,100000];
-var severity_level_economics = [0,4.99,20,100,1000];
+var severity_level_economic_damage = [0,4.99,20,100,1000];
 
 // Link after sign out from EVE visualisation
 var home = 'http://localhost:8000';
@@ -196,3 +197,11 @@ var dbscan;
 var clusters;
 var single_icon;
 var touch = 0;
+
+var damage_filter = {
+  'Fatalities' : 'fatalities',
+  'Injured' : 'injured',
+  'Evacuees' : 'evacuees',
+  'Economics' : 'economic_damage',
+  'Spill size' : 'spillsize',
+}

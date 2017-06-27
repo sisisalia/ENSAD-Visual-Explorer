@@ -45,10 +45,9 @@ $('.damage').on('click', function() {
         $('.menu-2-more').hide();
         $('.menu-2').show();
         $('.menu-2-damage').show();
-        if (energy_chain_selected == 1) {
-            energy_chain_selected = 0;
-            resetMarkers();
-        }
+        energy_chain_active = 0;
+        damage_active = 1;
+        resetMarkers();
     }
 })
 
@@ -57,10 +56,9 @@ $('.accidents').on('click', function() {
     if ($('.menu-1').is(':hidden')) {
         $('.menu-2').hide();
         $('.menu-1').show();
-        if (energy_chain_selected == 1) {
-            energy_chain_selected = 0;
-            resetMarkers();
-        }
+        energy_chain_active = 0;
+        damage_active = 0;
+        resetMarkers();
     }
 })
 
@@ -71,10 +69,9 @@ $('.more').on('click', function() {
         $('.menu-2-damage').hide();
         $('.menu-2').show();
         $('.menu-2-more').show();
-        if (energy_chain_selected == 0) {
-            energy_chain_selected = 1;
-            resetMarkers();
-        }
+        energy_chain_active = 1;
+        damage_active = 0;
+        resetMarkers();
     }
 })
 
@@ -251,6 +248,7 @@ var slider = $("#severity-range").slider({
     max: 100,
     values: [0, 100],
     slide: function(event, ui) {
+      setTimeout(function() {
         var includeLeft = event.keyCode != $.ui.keyCode.RIGHT;
         var includeRight = event.keyCode != $.ui.keyCode.LEFT;
         var value = findNearest(includeLeft, includeRight, ui.value);
@@ -271,12 +269,15 @@ var slider = $("#severity-range").slider({
         var lower_value = bottom;
         var upper_index = values.indexOf(upper_value);
         var lower_index = values.indexOf(lower_value);
+        severity_level_included = [];
         // When both lower and upper is on level 5
         if (trueValues[lower_index] == null) {
             $('#lvl5').attr('fill', '#87A1B1');
             for (i = 4; i >= 0; i--) {
                 $('#lvl' + i).attr('fill', 'white');
             }
+            severity_level_included.push('Level 5');
+            resetMarkers();
             return false;
         };
         for (i = 0; i <= 5; i++) {
@@ -296,7 +297,6 @@ var slider = $("#severity-range").slider({
             }
         }
         if (lower == null) lower = -1;
-        severity_level_included = [];
         for (i = upper; i > lower; i--) {
             severity_level_included.push('Level ' + i);
         }
@@ -305,6 +305,7 @@ var slider = $("#severity-range").slider({
         }
         resetMarkers();
         return false;
+      }, 100);
     },
 });
 
@@ -381,14 +382,16 @@ $('#slider-range .ui-slider-handle').css('margin-left', '-3px');
 
 // Refresh
 $('.fa-repeat').on('click', function() {
-    energy_type_active = ['Non-hydro', 'Hydropower', 'Natural gas', 'LPG', 'Battery', 'Biomass', 'Coal', 'Electricity', 'Fuel Cell', 'Geothermal', 'Hydrogen', 'Marine', 'Nuclear', 'Oil', 'Solar', 'Wind'];
+    energy_type_active = ['Non-hydro', 'Hydropower', 'Natural gas', 'LPG', 'Battery', 'Biomass', 'Coal', 'Electricity', 'Fuel Cell', 'Geothermal', 'Hydrogen', 'Marine', 'Nuclear', 'Oil', 'Solar', 'Wind','NA'];
     energy_chain_filter_out = [];
     severity_level_included = ['Level 0', 'Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5'];
     damage_selected = 'Fatalities';
-    energy_chain_selected = 0;
     region_filter_out = [];
     years = [];
     $('.markers').remove();
+    var new_center = new google.maps.LatLng(37.76487, 0);
+    map.panTo(new_center);
+    map.setZoom(4);
     resetMarkers();
     $('.energy-type').each(function() {
         var text = $(this).attr('src');

@@ -5,12 +5,16 @@ function overlayPieChart(obj) {
         var layer = d3.select(this.getPanes().overlayMouseTarget).append("div").attr("class", "markers");
 
         overlay.draw = function() {
-            var radius = 15;
+            var radius = circle_size['Level 0'] * 1.5;
             var padding = 3;
+
+            if(damage_active == 1){
+              radius = obj[obj.length -1].piechartrad;
+            }
 
             var arc = d3.arc()
                 .outerRadius(radius)
-                .innerRadius(radius - 6);
+                .innerRadius(0);
 
             var pie = d3.pie().value(1);
 
@@ -44,25 +48,57 @@ function overlayPieChart(obj) {
                     }
                 });
 
-            marker.append('text')
-                .style('font-weight', 'bold')
-                .attr('dx', function(d) {
-                    // Centralize the text
+            if(damage_active == 1){
+              marker.append('text')
+                  .style('font-weight', 'bold')
+                  .style('fill', 'white')
+                  .style('font-size', function(d){
                     var num = String(d.data.length).length;
-                    if (num == 1) {
-                        return radius - 4;
-                    }
-                    if (num == 2) {
-                        return radius / 2 + 1;
-                    }
                     if (num == 3) {
-                        return radius / 2 - 2;
+                        return '8px';
                     }
-                })
-                .attr('dy', radius + 4)
-                .text(function(d) {
-                    return d.data.length;
-                });
+                    return '10px';
+                  })
+                  .attr('dx', function(d) {
+                      // Centralize the text
+                      var num = String(d.data.length).length;
+                      if (num == 1) {
+                          return radius - 3;
+                      }
+                      if (num == 2) {
+                          return radius / 2 - 1;
+                      }
+                      if (num == 3) {
+                          return radius / 2 - 3;
+                      }
+                  })
+                  .attr('dy', radius + 4)
+                  .text(function(d) {
+                      return d.data.length;
+                  });
+            }else{
+              marker.append('text')
+                  .style('font-weight', 'bold')
+                  .style('fill', 'white')
+                  .style('font-size', '10px')
+                  .attr('dx', function(d) {
+                      // Centralize the text
+                      var num = String(d.data.length).length;
+                      if (num == 1) {
+                          return radius - 3;
+                      }
+                      if (num == 2) {
+                          return radius / 2 + 1;
+                      }
+                      if (num == 3) {
+                          return radius / 2 - 2;
+                      }
+                  })
+                  .attr('dy', radius + 4)
+                  .text(function(d) {
+                      return d.data.length;
+                  });
+            }
         };
     };
     // Bind our overlay to the map…

@@ -1,7 +1,8 @@
 function overlayOverlappingMarkers(array) {
     var increment = 360 / array.length;
     var angle = 0;
-    var radius = 10;
+    var radius = circle_size['Level 0'];
+    var max_radius = circle_size['Level 5'];
     var padding = 40;
 
     var overlay = new google.maps.OverlayView();
@@ -15,19 +16,23 @@ function overlayOverlappingMarkers(array) {
             var marker = layer.selectAll("svg")
                 .data(array)
                 .enter().append("svg")
-                .attr('width', radius + padding + 5)
-                .attr('height', radius * 2 + 3)
+                .attr('width', function(d){
+                    return max_radius + padding + 5;
+                })
+                .attr('height', function(d){
+                    return max_radius * 2 + 3;
+                })
                 // .style('border','1px solid black')
                 .style("left", function(d) {
-                    return ((d.exact_position[0] - radius - padding) + "px")
+                      return ((d.exact_position[0] - max_radius - padding + 8.5) + "px")
                 })
                 .style("top", function(d) {
-                    return ((d.exact_position[1] - radius) + "px")
+                    return ((d.exact_position[1] - max_radius) + "px")
                 })
                 .attr('transform', function(d) {
                     var rotate = angle;
                     angle += increment;
-                    return 'rotate(' + rotate + ', ' + (radius * 2 + 2.5) + ', ' + (-1.5) + ')';
+                    return 'rotate(' + rotate + ', ' + (max_radius - 7) + ', ' + '0' + ')'; // 6.5 due to 5 + 3/2
                 })
                 .attr('class', function(d) {
                     return 'marker';
@@ -37,7 +42,13 @@ function overlayOverlappingMarkers(array) {
 
             // Add a circle.
             var circle = marker.append("circle")
-                .attr("r", radius)
+                .attr("r", function(d){
+                  if(damage_active == 1){
+                    return circle_size[d[damage_filter[damage_selected]]];
+                  }else{
+                    return radius;
+                  }
+                })
                 .attr('fill', function(d) {
                     var type = energy_type_filter[d.type];
                     if (type != null) return energy_color[type];
@@ -47,12 +58,16 @@ function overlayOverlappingMarkers(array) {
                 })
                 .attr('stroke', 'white')
                 .attr('strokeWeight', '1px')
-                .attr("cx", radius)
-                .attr("cy", radius);
+                .attr("cx", function(d){
+                  return max_radius;
+                })
+                .attr("cy", function(d){
+                  return (max_radius * 2 + 3)/2;
+                });
 
             var images = marker.append("svg:image")
                 .attr("xlink:href", function(d) {
-                    if (energy_chain_selected == 1) {
+                    if (energy_chain_active == 1) {
                         energy_chain_src = energy_chain_image_white[energy_chain_filter[d.stage]];
                         if (energy_chain_src != null) return energy_chain_src;
                     }
@@ -62,15 +77,19 @@ function overlayOverlappingMarkers(array) {
                         return energy_type_image_white[d.type];
                     }
                 })
-                .attr("x", 0)
-                .attr("y", 0)
+                .attr("x", function(d){
+                  return max_radius - radius;
+                })
+                .attr("y", function(d){
+                  return (max_radius * 2 + 3)/2 - radius;
+                })
                 .attr('transform', function(d) {
                     var rotate = angle;
                     angle += increment;
-                    return 'rotate(' + (-rotate) + ', ' + radius + ', ' + (radius) + ')';
+                    return 'rotate(' + (-rotate ) + ', ' + (max_radius) + ', ' + (max_radius+1.5) + ')';
                 })
-                .attr("height", 20)
-                .attr("width", 20)
+                .attr("height", 17)
+                .attr("width", 17)
                 .attr('class', 'node')
                 .on("mouseover", function(d) {
                     var tooltip = d3.select("body")
@@ -125,25 +144,33 @@ function overlayOverlappingMarkers(array) {
                 .attr('stroke', 'white')
                 .attr('strokeWeight', '3px')
                 .attr('class', 'dot')
-                .attr("cx", radius + padding)
-                .attr("cy", radius);
+                .attr("cx", function(d){
+                  return max_radius * 2 + 5;
+                })
+                .attr("cy", function(d){
+                  return (max_radius * 2 + 3)/2;
+                });
 
             marker.append("svg:line")
                 .style('stroke', 'black')
                 .style("stroke-dasharray", "3,3")
                 .attr('class', 'line')
                 .attr("x1", function(d) {
-                    return radius * 2 + 3;
+                    if(damage_active == 1){
+                      return max_radius + circle_size[d[damage_filter[damage_selected]]];
+                    }else{
+                      return max_radius + radius;
+                    }
                 })
                 .attr("y1", function(d) {
-                    return radius;
+                    return (max_radius * 2 + 3)/2;
                 })
                 .attr("x2", function(d) {
-                    return radius + padding + 3;
+                    return max_radius * 2 + 5;
                 })
                 .attr("y2", function(d) {
-                    return radius;
-                });
+                    return (max_radius * 2 + 3)/2;
+              });
 
         };
     };
