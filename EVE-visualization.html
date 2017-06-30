@@ -24,6 +24,7 @@
           });
       } catch (e) {}
   </script>
+  <link rel="stylesheet" type="text/css" href="css/EVE-visualisation.css">
   <header class="navbar-fixed-top">
     <title>ENSAD Visual Explorer</title>
     <div class="title-header">
@@ -65,7 +66,6 @@
               .css('position','absolute')
               .css('z-index', '1000');
     $('.cover').fadeIn();
-
   </script>
 
   <!-- Menu on the left when the page is loaded -->
@@ -123,7 +123,7 @@
         </tr>
         <tr>
           <td>
-            <img src="image/energy-type-on/hydrogen.png" alt="Hydrogen" width="47px" height="47px" class="energy-type hyrdrogen"></br>
+            <img src="image/energy-type-on/hydrogen.png" alt="Hydrogen" width="47px" height="47px" class="energy-type hydrogen"></br>
             Hydrogen
           </td>
           <td>
@@ -145,22 +145,36 @@
             Natural gas
           </td>
           <td>
-            <img src="image/energy-type-on/nuclear.png" alt="Nuclear" width="47px" height="47px" class="energy-type nuclear"></br>
-            Nuclear
+            <img src="image/energy-type-on/nonhydro.png" alt="Non-hydro" width="47px" height="47px" class="energy-type nonhydro"></br>
+            Non-hydro
           </td>
         </tr>
         <tr>
+          <td>
+            <img src="image/energy-type-on/nuclear.png" alt="Nuclear" width="47px" height="47px" class="energy-type nuclear"></br>
+            Nuclear
+          </td>
           <td>
             <img src="image/energy-type-on/oil.png" alt="Oil" width="47px" height="47px" class="energy-type oil"></br>
             Oil
           </td>
           <td>
             <img src="image/energy-type-on/solar.png" alt="Solar" width="47px" height="47px" class="energy-type solar"></br>
-            Solar
+            Solarthermal
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <img src="image/energy-type-on/solarp.png" alt="Solar photovolatic" width="47px" height="47px" class="energy-type solarp"></br>
+            Solar photovolatic
           </td>
           <td>
-            <img src="image/energy-type-on/wind.png" alt="Wind" width="47px" height="47px" class="energy-type wind"></br>
+            <img src="image/energy-type-on/wind.png" alt="Wind" width="47px" height="47px" class="energy-type wind" style="margin-top:-8px;"></br>
             Wind
+          </td>
+          <td>
+            <img src="image/energy-type-on/na.png" alt="NA" width="47px" height="47px" class="energy-type na" style="margin-top:-8px;"></br>
+            Not available
           </td>
         </tr>
       </table>
@@ -178,77 +192,92 @@
       </tr>
       <tr>
         <td>
-          <img src="image/energy-type-on/battery.png" alt="Battery" width="32px" height="32px" class="energy-type battery"></br>
+          <img src="image/energy-type-on/battery.png" alt="Battery" width="28px" height="28px" class="energy-type battery"></br>
         </td>
       </tr>
       <tr>
         <td>
-          <img src="image/energy-type-on/biomass.png" alt="Biomass" width="32px" height="32px" class="energy-type biomass"></br>
+          <img src="image/energy-type-on/biomass.png" alt="Biomass" width="28px" height="28px" class="energy-type biomass"></br>
         </td>
       </tr>
       <tr>
         <td>
-          <img src="image/energy-type-on/coal.png" alt="Coal" width="32px" height="32px" class="energy-type coal"></br>
+          <img src="image/energy-type-on/coal.png" alt="Coal" width="28px" height="28px" class="energy-type coal"></br>
         </td>
       </tr>
       <tr>
         <td>
-          <img src="image/energy-type-on/electricity.png" alt="Electricity" width="32px" height="32px" class="energy-type electricity"></br>
+          <img src="image/energy-type-on/electricity.png" alt="Electricity" width="28px" height="28px" class="energy-type electricity"></br>
         </td>
       </tr>
       <tr>
         <td>
-          <img src="image/energy-type-on/fuelcell.png" alt="Fuel Cell" width="32px" height="32px" class="energy-type fuelcell"></br>
+          <img src="image/energy-type-on/fuelcell.png" alt="Fuel Cell" width="28px" height="28px" class="energy-type fuelcell"></br>
         </td>
       </tr>
       <tr>
         <td>
-          <img src="image/energy-type-on/geothermal.png" alt="Geothermal" width="32px" height="32px" class="energy-type geothermal"></br>
+          <img src="image/energy-type-on/geothermal.png" alt="Geothermal" width="28px" height="28px" class="energy-type geothermal"></br>
         </td>
       </tr>
       <tr>
         <td>
-          <img src="image/energy-type-on/hydrogen.png" alt="Hydrogen" width="32px" height="32px" class="energy-type hydrogen"></br>
+          <img src="image/energy-type-on/hydrogen.png" alt="Hydrogen" width="28px" height="28px" class="energy-type hydrogen"></br>
         </td>
       </tr>
       <tr>
         <td>
-          <img src="image/energy-type-on/hydropower.png" alt="Hydropower" width="32px" height="32px" class="energy-type hydropower"></br>
+          <img src="image/energy-type-on/hydropower.png" alt="Hydropower" width="28px" height="28px" class="energy-type hydropower"></br>
         </td>
       </tr>
       <tr>
         <td>
-          <img src="image/energy-type-on/lpg.png" alt="LPG" width="32px" height="32px" class="energy-type lpg"></br>
+          <img src="image/energy-type-on/lpg.png" alt="LPG" width="28px" height="28px" class="energy-type lpg"></br>
         </td>
       </tr>
       <tr>
         <td>
-          <img src="image/energy-type-on/marine.png" alt="Marine" width="32px" height="32px" class="energy-type marine"></br>
+          <img src="image/energy-type-on/marine.png" alt="Marine" width="28px" height="28px" class="energy-type marine"></br>
         </td>
       </tr>
       <tr>
         <td>
-          <img src="image/energy-type-on/naturalgas.png" alt="Natural gas" width="32px" height="32px" class="energy-type naturalgas"></br>
+          <img src="image/energy-type-on/naturalgas.png" alt="Natural gas" width="28px" height="28px" class="energy-type naturalgas"></br>
         </td>
       </tr>
       <tr>
         <td>
-          <img src="image/energy-type-on/nuclear.png" alt="Nuclear" width="32px" height="32px" class="energy-type nuclear"></br>
+          <img src="image/energy-type-on/nonhydro.png" alt="Non-hydro" width="28px" height="28px" class="energy-type nonhydro"></br>
         </td>
       </tr>
       <tr>
         <td>
-          <img src="image/energy-type-on/oil.png" alt="Oil" width="32px" height="32px" class="energy-type oil"></br>
+          <img src="image/energy-type-on/nuclear.png" alt="Nuclear" width="28px" height="28px" class="energy-type nuclear"></br>
         </td>
       </tr>
       <tr>
         <td>
-          <img src="image/energy-type-on/solar.png" alt="Solar" width="32px" height="32px" class="energy-type solar"></br>
+          <img src="image/energy-type-on/oil.png" alt="Oil" width="28px" height="28px" class="energy-type oil"></br>
         </td>
       </tr>
       <tr>
         <td>
-          <img src="image/energy-type-on/wind.png" alt="Wind" width="32px" height="32px" class="energy-type wind"></br>
+          <img src="image/energy-type-on/solar.png" alt="Solarthermal" width="28px" height="28px" class="energy-type solar"></br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="image/energy-type-on/solarp.png" alt="Solar photovolatic" width="28px" height="28px" class="energy-type solarp"></br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="image/energy-type-on/wind.png" alt="Wind" width="28px" height="28px" class="energy-type wind"></br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="image/energy-type-on/na.png" alt="NA" width="28px" height="28px" class="energy-type na"></br>
         </td>
       </tr>
     </table>
@@ -310,6 +339,11 @@
         </td>
       </tr>
       <tr>
+        <td id="nonhydro-tooltip">
+          <span class="tooltip-style">Non-hydro</span>
+        </td>
+      </tr>
+      <tr>
         <td id="nuclear-tooltip">
           <span class="tooltip-style">Nuclear</span>
         </td>
@@ -321,12 +355,22 @@
       </tr>
       <tr>
         <td id="solar-tooltip">
-          <span class="tooltip-style">Solar</span>
+          <span class="tooltip-style">Solarthermal</span>
+        </td>
+      </tr>
+      <tr>
+        <td id="solarp-tooltip">
+          <span class="tooltip-style">Solar photovolatic</span>
         </td>
       </tr>
       <tr>
         <td id="wind-tooltip">
           <span class="tooltip-style">Wind</span>
+        </td>
+      </tr>
+      <tr>
+        <td id="na-tooltip">
+          <span class="tooltip-style">NA</span>
         </td>
       </tr>
     </table>
@@ -383,16 +427,18 @@
           <tr>
             <td>
               <p style="margin-top:-20px;"></p>
-              <img src="image/energy-stage-on/enduse.png" alt="End use" width="47px" height="47px" class="energy-stage"></br>
-              <span>End use</span>
-            </td>
-            <td>
-              <p style="margin-top:-8px;"></p>
               <img src="image/energy-stage-on/waste.png" alt="waste" width="47px" height="47px" class="energy-stage"></br>
               <span>Waste processing</span>
             </td>
-            <!-- A blank space to create 3 columns -->
             <td>
+              <p style="margin-top:-8px;"></p>
+              <img src="image/energy-stage-on/enduse-dom.png" alt="DOM/COM" width="47px" height="47px" class="energy-stage"></br>
+              <span>Domestic and commercial end use</span>
+            </td>
+            <td>
+              <p style="margin-top:-20px;"></p>
+              <img src="image/energy-stage-on/enduse.png" alt="End use" width="47px" height="47px" class="energy-stage"></br>
+              <span>Other end use</span>
             </td>
           </tr>
         </table>
@@ -497,23 +543,30 @@
                 <circle id="lvl1" cx="68" cy="80.1055" r="28.8565" stroke="#B9CAD4" stroke-width="1" fill="transparent" />
                 <circle id="lvl0" cx="68" cy="88.5574" r="20.4046" stroke="#B9CAD4" stroke-width="1" fill="transparent" />
                 <path stroke="#C8C8C8" stroke-width="1" stroke-dasharray="5,2" d="M0 9 l140 0" />
-                <text x="145" y="10" fill="black" font-family="lato" font-size="11">Lvl 5</text>
+                <text x="145" y="10" fill="black" font-family="lato" font-size="11">Lv 5</text>
                 <path stroke="#C8C8C8" stroke-width="1" stroke-dasharray="5,2" d="M0 17 l140 0" />
-                <text x="145" y="20" fill="black" font-family="lato" font-size="11">Lvl 4</text>
+                <text x="145" y="20" fill="black" font-family="lato" font-size="11">Lv 4</text>
                 <path stroke="#C8C8C8" stroke-width="1" stroke-dasharray="5,2" d="M0 27 l140 0" />
-                <text x="145" y="30" fill="black" font-family="lato" font-size="11">Lvl 3</text>
+                <text x="145" y="30" fill="black" font-family="lato" font-size="11">Lv 3</text>
                 <path stroke="#C8C8C8" stroke-width="1" stroke-dasharray="5,2" d="M0 38 l140 0" />
-                <text x="145" y="42" fill="black" font-family="lato" font-size="11">Lvl 2</text>
+                <text x="145" y="42" fill="black" font-family="lato" font-size="11">Lv 2</text>
                 <path stroke="#C8C8C8" stroke-width="1" stroke-dasharray="5,2" d="M0 51 l140 0" />
-                <text x="145" y="54" fill="black" font-family="lato" font-size="11">Lvl 1</text>
+                <text x="145" y="54" fill="black" font-family="lato" font-size="11">Lv 1</text>
                 <path stroke="#C8C8C8" stroke-width="1" stroke-dasharray="5,2" d="M0 68 l140 0" />
-                <text x="145" y="71" fill="black" font-family="lato" font-size="11">Lvl 0</text>
+                <text x="145" y="71" fill="black" font-family="lato" font-size="11">Lv 0</text>
                 <path stroke="#C8C8C8" stroke-width="1" stroke-dasharray="5,2" d="M0 109 l140 0" />
               </svg>
             </td>
           </tr>
         </table>
-        <span style="font:10px lato;">*Level 0... No damage or data not available</span>
+        <span style="font:10px lato;">
+          <p style="margin-top:8px;">*Level 5... Very high</p>
+          <p style="margin-top:-10px;">*Level 4... High</p>
+          <p style="margin-top:-10px;">*Level 3... Moderate</p>
+          <p style="margin-top:-10px;">*Level 2... Low</p>
+          <p style="margin-top:-10px;">*Level 1... Very low</p>
+          <p style="margin-top:-10px;">*Level 0... No damage or data not available</p>
+        </span>
       </div>
     </div>
   </div>
@@ -580,7 +633,6 @@
   <script src="https://maps.googleapis.com/maps/api/js?v=3&amp;libraries=places&amp;key=AIzaSyCTVQh_6X6mO8NWR58geheSip4zrQARKlo&amp;callback=initMap"></script>
   <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
   <script src="//d3js.org/d3.v4.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="css/EVE-visualisation.css">
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script src='plug-in/DBSCAN.js'></script>
   <script src='data/set-data.js'></script>

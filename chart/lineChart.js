@@ -4,6 +4,7 @@ function createLineData(){
   for(i = 0; i < size; i++){
     var incident_date = data.features[i].properties.incident_date;
     var year = incident_date.substring(0,incident_date.length - 1);
+    if(parseInt(year) < 1860) continue;
     var myObj = new Object();
     myObj.date = year;
     for(j = 0; j < energy_type_active.length; j++){

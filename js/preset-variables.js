@@ -2,7 +2,8 @@
 
 // Energy type to be included in the map
 // This will also filter out the energy type which is not defined in the database
-var energy_type_active = ['Hydropower', 'Natural gas', 'LPG', 'Battery', 'Biomass', 'Coal', 'Electricity', 'Fuel Cell', 'Geothermal', 'Hydrogen', 'Marine', 'Nuclear', 'Oil', 'Solar', 'Wind', 'Non-hydro', 'NA'];
+var energy_type_active = ['Hydropower'];
+// var energy_type_active = ['Hydropower', 'Natural gas', 'LPG', 'Battery', 'Biomass', 'Coal', 'Electricity', 'Fuel cell', 'Geothermal', 'Hydrogen', 'Marine', 'Nuclear', 'Oil', 'Solarthermal', 'Solar photovolatic', 'Wind', 'Non-hydro', 'NA'];
 // Energy to be filtered out from the map
 var energy_chain_filter_out = [];
 // This will keep range of year of accidents when the user changes the year
@@ -52,17 +53,15 @@ var markers_circles = [];
 // right side is the proper representation while left side is any input to change to a proper representation
 // right side is following the text found in the top left menu
 var energy_type_filter = {
-  'NA' : 'NA',
-  'Non-hydro' : 'Non-hydro',
   'Natural Gas' : 'Natural gas',
-  'Solarthermal' : 'Solar',
-  'Solar Photovolatic' : 'Solar',
+  'Solar Photovolatic' : 'Solar photovolatic',
+  'Fuel Cell' : 'Fuel cell',
   'hydropower' : 'Hydropower',
   'battery' : 'Battery',
   'biomass' : 'Biomass',
   'coal' : 'Coal',
   'electricity' : 'Electricity',
-  'fuelcell' : 'Fuel Cell',
+  'fuelcell' : 'Fuel cell',
   'geothermal' : 'Geothermal',
   'hydrogen' : 'Hydrogen',
   'lpg' : 'LPG',
@@ -70,13 +69,17 @@ var energy_type_filter = {
   'naturalgas' : 'Natural gas',
   'nuclear' : 'Nuclear',
   'oil' : 'Oil',
-  'solar' : 'Solar',
+  'solar' : 'Solarthermal',
+  'solarp' : 'Solar photovolatic',
   'wind' : 'Wind',
+  'na' : 'NA',
+  'nonhydro' : 'Non-hydro',
 };
 
 // Filtering energy chain stages to a proper presentation
 // Proper presentation is following the text found in the top left menu
 var energy_chain_filter = {
+  'Other End Use' : 'Other end use',
   'Power/Heating Plant' : 'Power plant',
   'Processing/Production' : 'Processing',
 };
@@ -95,8 +98,11 @@ var energy_type_image_color = {
   'Natural gas' : '/image/energy-type-on/naturalgas.png',
   'Nuclear' : '/image/energy-type-on/nuclear.png',
   'Oil' : '/image/energy-type-on/oil.png',
-  'Solar' : '/image/energy-type-on/solar.png',
+  'Solarthermal' : '/image/energy-type-on/solar.png',
   'Wind' : '/image/energy-type-on/wind.png',
+  'Solar Photovolatic' : '/image/energy-type-on/solarp.png',
+  'NA' : '/image/energy-type-on/na.png',
+  'Non-hydro' : '/image/energy-type-on/nonhydro.png',
 };
 
 var energy_type_image_white = {
@@ -113,12 +119,15 @@ var energy_type_image_white = {
   'Natural gas' : '/image/energy-type-white/naturalgas-w.png',
   'Nuclear' : '/image/energy-type-white/nuclear-w.png',
   'Oil' : '/image/energy-type-white/oil-w.png',
-  'Solar' : '/image/energy-type-white/solar-w.png',
+  'Solarthermal' : '/image/energy-type-white/solar-w.png',
   'Wind' : '/image/energy-type-white/wind-w.png',
+  'Solar Photovolatic' : '/image/energy-type-white/solarp-w.png',
+  'NA' : '/image/energy-type-white/na-w.png',
+  'Non-hydro' : '/image/energy-type-white/nonhydro-w.png',
 };
 
 var energy_chain_image_color = {
-  'End use' : '/image/energy-stage-on/enduse.png',
+  'Other end use' : '/image/energy-stage-on/enduse.png',
   'Exploration' : '/image/energy-stage-on/exploration.png',
   'Extraction' : '/image/energy-stage-on/extraction.png',
   'Power plant' : '/image/energy-stage-on/powerplant.png',
@@ -126,27 +135,29 @@ var energy_chain_image_color = {
   'Storage' : '/image/energy-stage-on/storage.png',
   'Transport' : '/image/energy-stage-on/transport.png',
   'Waste processing' : '/image/energy-stage-on/waste.png',
+  'DOM/COM' : '/image/energy-stage-on/enduse-dom.png',
 };
 
 // Color for the circles in the map
 var energy_color = {
-  'Battery' : '#F49064',
-  'Biomass' : '#7FAD3E',
-  'Coal' : '#606060',
-  'Electricity' : '#FFCC33',
-  'Fuel cell' : '#A0A0A0',
+  'Battery' : '#f29a7e',
+  'Biomass' : '#8faf08',
+  'Coal' : '#414141',
+  'Electricity' : '#ffdd33',
+  'Fuel cell' : '#6e6e6e',
   'Geothermal' : '#992825',
   'Hydrogen' : '#7E3874',
   'Hydropower' : '#1EA2E2',
-  'LPG' : '#33A594',
-  'Marine' : '#197EBF',
+  'LPG' : '#39b2af',
+  'Marine' : '#1b68bc',
   'Natural gas' : '#DB4C60',
   'Nuclear' : '#DEAA00',
   'Oil' : '#A39AE7',
-  'Solar' : '#E5632F',
-  'Wind' : '#21A554',
-  'NA' : 'black',
-  'Non-hydro' : 'pink',
+  'Solarthermal' : '#E5632F',
+  'Solar photovolatic' : '#9e642b',
+  'Wind' : '#1f9b4b',
+  'NA' : '#b4b4b4',
+  'Non-hydro' : '#7fd6e2',
 };
 
 var energy_chain_image_white = {
@@ -158,6 +169,7 @@ var energy_chain_image_white = {
   'Storage' : '/image/energy-stage-white/storage-w.png',
   'Transport' : '/image/energy-stage-white/transportation-w.png',
   'Waste processing' : '/image/energy-stage-white/waste-w.png',
+  'DOM/COM' : '/image/energy-stage-on/enduse-dom-w.png',
 }
 
 var damage_on = {
@@ -188,8 +200,9 @@ var zoom_level = 3;
 var clustered_points_location = [];
 var clustered_points_information = [];
 var zoom = {
-  3 : 16,
-  4 : 12,
+  2 : 12,
+  3 : 12,
+  4 : 10,
   5 : 7,
 }
 var new_map = 1;

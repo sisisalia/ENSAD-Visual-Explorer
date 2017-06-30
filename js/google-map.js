@@ -1,9 +1,18 @@
 // Map variables
 // Minimum and maximum zooming of google map
-var opt = {
-    minZoom: 3,
-    maxZoom: 10
-};
+// for smaller screen
+if($(window).width() < 1500){
+  var opt = {
+      minZoom: 2,
+      maxZoom: 15
+  };
+// for bigger screen
+}else{
+  var opt = {
+      minZoom: 3,
+      maxZoom: 10
+  };
+}
 
 // Get data from 'map-styles.json' using ajax
 var style = (function() {
@@ -29,7 +38,9 @@ var map = new google.maps.Map(d3.select("#map").node(), {
     center: new google.maps.LatLng(37.76487, 0),
     zoom: opt.minZoom + 1,
     mapTypeControlOptions: {
-        mapTypeIds: ['satellite', 'hybrid', 'styled_map'],
+        // 'Map', 'satellite', 'simple map'
+        mapTypeIds: ['roadmap', 'terrain', 'satellite', 'hybrid',
+                    'styled_map'],
         position: google.maps.ControlPosition.RIGHT_BOTTOM
     },
     scaleControl: true,

@@ -3,7 +3,7 @@ function overlayOverlappingMarkers(array) {
     var angle = 0;
     var radius = circle_size['Level 0'];
     var max_radius = circle_size['Level 5'];
-    var padding = 40;
+    var padding = 100;
 
     var overlay = new google.maps.OverlayView();
 
@@ -56,7 +56,7 @@ function overlayOverlappingMarkers(array) {
                         return energy_color[d.type];
                     }
                 })
-                .attr('stroke', 'white')
+                .attr('stroke', 'transparent')
                 .attr('strokeWeight', '1px')
                 .attr("cx", function(d){
                   return max_radius;
@@ -78,9 +78,15 @@ function overlayOverlappingMarkers(array) {
                     }
                 })
                 .attr("x", function(d){
+                  if((d.type == 'Non-hydro') || (d.type == 'NA')){
+                    return max_radius - radius + 3;
+                  }
                   return max_radius - radius;
                 })
                 .attr("y", function(d){
+                  if((d.type == 'Non-hydro') || (d.type == 'NA')){
+                    return (max_radius * 2 + 3)/2 - radius + 3;
+                  }
                   return (max_radius * 2 + 3)/2 - radius;
                 })
                 .attr('transform', function(d) {
@@ -88,8 +94,18 @@ function overlayOverlappingMarkers(array) {
                     angle += increment;
                     return 'rotate(' + (-rotate ) + ', ' + (max_radius) + ', ' + (max_radius+1.5) + ')';
                 })
-                .attr("height", 17)
-                .attr("width", 17)
+                .attr("height", function(d){
+                  if((d.type == 'Non-hydro') || (d.type == 'NA')){
+                    return 10;
+                  }
+                  return 17;
+                })
+                .attr("width", function(d){
+                  if((d.type == 'Non-hydro') || (d.type == 'NA')){
+                    return 10;
+                  }
+                  return 17;
+                })
                 .attr('class', 'node')
                 .on("mouseover", function(d) {
                     var tooltip = d3.select("body")
@@ -98,8 +114,7 @@ function overlayOverlappingMarkers(array) {
                         .style('position', 'absolute');
 
                     tooltip.transition()
-                        .duration(50)
-                        .style("opacity", .9);
+                        .duration(50);
                     var energy_chain_src = energy_chain_image_color[energy_chain_filter[d.stage]];
                     if (energy_chain_src != null) {
                         var contentString = '<div style="font:bold 11px lato"> Accident id: ' + d.id + '</div>' +
@@ -113,7 +128,7 @@ function overlayOverlappingMarkers(array) {
                             '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Fatalities</td><td style="font:10px lato">' + d.fatalities + '</td></tr>' +
                             '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Injured</td><td style="font:10px lato">' + d.injured + '</td></tr>' +
                             '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Evacuees</td><td style="font:10px lato">' + d.evacuees + '</td></tr>' +
-                            '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Economic damage</td><td style="font:10px lato">' + d.economic + '</td></tr>' +
+                            '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Economic damage</td><td style="font:10px lato">' + d.economic_damage + '</td></tr>' +
                             '</table>';
                     } else {
                         var contentString = '<div style="font:bold 11px lato"> Accident id: ' + d.id + '</div>' +
@@ -127,7 +142,7 @@ function overlayOverlappingMarkers(array) {
                             '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Fatalities</td><td style="font:10px lato">' + d.fatalities + '</td></tr>' +
                             '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Injured</td><td style="font:10px lato">' + d.injured + '</td></tr>' +
                             '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Evacuees</td><td style="font:10px lato">' + d.evacuees + '</td></tr>' +
-                            '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Economic damage</td><td style="font:10px lato">' + d.economic + '</td></tr>' +
+                            '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Economic damage</td><td style="font:10px lato">' + d.economic_damage + '</td></tr>' +
                             '</table>';
                     }
                     tooltip.html(contentString)
@@ -145,7 +160,7 @@ function overlayOverlappingMarkers(array) {
                 .attr('strokeWeight', '3px')
                 .attr('class', 'dot')
                 .attr("cx", function(d){
-                  return max_radius * 2 + 5;
+                  return max_radius * 2 + padding/2 - 15;
                 })
                 .attr("cy", function(d){
                   return (max_radius * 2 + 3)/2;
@@ -166,7 +181,7 @@ function overlayOverlappingMarkers(array) {
                     return (max_radius * 2 + 3)/2;
                 })
                 .attr("x2", function(d) {
-                    return max_radius * 2 + 5;
+                    return max_radius * 2 + padding/2 - 15;
                 })
                 .attr("y2", function(d) {
                     return (max_radius * 2 + 3)/2;

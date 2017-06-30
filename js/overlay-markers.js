@@ -25,7 +25,8 @@ function overlayMarkers() {
                 // DBSCAN
                 var dbscan = new DBSCAN();
                 // Get the indexes of the clustered group
-                var clusters = dbscan.run(clustered_points_location, zoom[zoom_level], 2);
+                // clustered_points_location, neighbourhood radius, number of pts needed to form a cluster
+                var clusters = dbscan.run(clustered_points_location, 12, 2);
 
                 var single_icon = [];
                 for (var i = 0; i < dbscan.noise.length; i++) {
@@ -52,7 +53,8 @@ function overlayMarkers() {
                       'Marine' : 0,
                       'Nuclear' : 0,
                       'Oil' : 0,
-                      'Solar' : 0,
+                      'Solarthermal' : 0,
+                      'Solar photovolatic' : 0,
                       'Wind' : 0,
                     }
                     var average_position = getAveragePosition(clusters[i], clustered_points_location);
@@ -71,20 +73,9 @@ function overlayMarkers() {
                         obj = setIndividualPoint(clustered_points_location, clustered_points_information, clusters[i][j], obj);
                         array.push(obj);
                     }
-                    // Sort pie chart where same energy type are next to one another
-                    array.sort(function(a, b) {
-                        var x = [a.type];
-                        var y = [b.type];
-                        return (x > y) ? -1 : (x < y) ? 1 : 0;
-                    })
-                    // Sort pie chart where larger number of energy come first
-                    array.sort(function(a, b) {
-                        var x = energy_count[a.type];
-                        var y = energy_count[b.type];
-                        return (x > y) ? -1 : (x < y) ? 1 : 0;
-                    })
                     // To make sure that the text will render last so it will not be obstructed by pie chart's path
                     array[array.length-1].length = length;
+                    // Average damage level
                     var accumulated = 0;
                     var final;
                     $.map(array, function(d,i){
@@ -156,7 +147,7 @@ function overlayMarkers() {
                             return energy_color[d.type];
                         }
                     })
-                    .attr('stroke', 'white')
+                    .attr('stroke', 'transparent')
                     .attr('strokeWeight', '1px')
                     .attr("cx", function(d){
                       if(damage_active == 1){
@@ -192,20 +183,46 @@ function overlayMarkers() {
                     })
                     .attr("x", function(d){
                       if(damage_active == 1){
-                        return d.radbydamage - radius;
+                        if((d.type == 'Non-hydro') || (d.type == 'NA')){
+                        return d.radbydamage - radius + 3;
                       }else{
+                        return d.radbydamage - radius;
+                      }
+                      }else{
+                        if((d.type == 'Non-hydro') || (d.type == 'NA')){
+                        return 3;
+                        }else{
                         return 0;
+                        }
                       }
                     })
                     .attr("y", function(d){
                       if(damage_active == 1){
-                        return d.radbydamage - radius
+                        if((d.type == 'Non-hydro') || (d.type == 'NA')){
+                        return d.radbydamage - radius + 3;
                       }else{
+                        return d.radbydamage - radius;
+                      }
+                      }else{
+                        if((d.type == 'Non-hydro') || (d.type == 'NA')){
+                        return 3;
+                        }else{
                         return 0;
+                        }
                       }
                     })
-                    .attr("height", radius * 2)
-                    .attr("width", radius * 2)
+                    .attr("height", function(d){
+                      if((d.type == 'Non-hydro') || (d.type == 'NA')){
+                        return radius * 2 - 6;
+                      }
+                      return radius * 2
+                    })
+                    .attr("width", function(d){
+                      if((d.type == 'Non-hydro') || (d.type == 'NA')){
+                        return radius * 2 - 6;
+                      }
+                      return radius * 2
+                    })
                     .attr('class', 'node')
                     .on("mouseover", function(d) {
                         // Tooltip
@@ -215,8 +232,8 @@ function overlayMarkers() {
                             .style('position', 'absolute');
 
                         tooltip.transition()
-                            .duration(50)
-                            .style("opacity", .9);
+                            .duration(50);
+
                         var energy_chain_src = energy_chain_image_color[energy_chain_filter[d.stage]];
                         if (energy_chain_src != null) {
                             var contentString = '<div style="font:bold 11px lato"> Accident id: ' + d.id + '</div>' +

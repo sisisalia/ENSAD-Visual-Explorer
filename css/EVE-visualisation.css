@@ -50,9 +50,9 @@
     margin-top: 113px;
     margin-left: 6.5px;
     width: 210px;
-    height: 420px;
+    height: auto;
     padding-bottom: 8px;
-    background-color: rgba(243,245,247,0.8);
+    background-color: rgba(243,245,247,0.9);
     box-shadow: 1px 2px 4px 1px rgba(0,0,0,0.1);
     border-radius: 2px;
     position: absolute;
@@ -78,7 +78,7 @@
   width: 53px;
   height: 600px;
   padding-bottom: 8px;
-  background-color: rgba(243,245,247,0.8);
+  background-color: rgba(243,245,247,0.9);
   box-shadow: 1px 2px 4px 1px rgba(0,0,0,0.1);
   border-radius: 2px;
   position: absolute;
@@ -93,7 +93,7 @@
   z-index: 5;
 }
 .menu-1 .accidents{
-  background-color: rgba(243,245,247,0.8);
+  background-color: rgba(243,245,247,0.9);
   padding: 3px;
   cursor: pointer;
 }
@@ -116,7 +116,7 @@
   cursor: pointer;
 }
 .menu-2-more .more{
-  background-color: rgba(243,245,247,0.8);
+  background-color: rgba(243,245,247,0.9);
   padding: 3px;
   cursor: pointer;
 }
@@ -128,7 +128,7 @@
   z-index: 5;
 }
 .menu-2-damage-content{
-  height: 360px;
+  height: auto;
 	width: 210px;
 	border-radius: 1px;
 	background-color: rgba(243,245,247,0.9);
@@ -137,7 +137,7 @@
   padding-top:8px;
 }
 .menu-2-damage .damage{
-  background-color: rgba(243,245,247,0.8);
+  background-color: rgba(243,245,247,0.9);
   padding: 3px;
   cursor: pointer;
 }
@@ -155,7 +155,7 @@
   text-align: center;
 }
 .menu-2-more-content{
-	height: 360px;
+	height: 370px;
 	width: 210px;
 	border-radius: 1px;
 	background-color: rgba(243,245,247,0.9);
@@ -221,7 +221,7 @@ html, body, #map {
   width: 204px;
   height: 110px;
   padding-bottom: 8px;
-  background-color: rgba(243,245,247,0.8);
+  background-color: rgba(243,245,247,0.9);
   box-shadow: 1px 2px 4px 1px rgba(0,0,0,0.1);
   border-radius: 2px;
   top: 95px;
@@ -354,8 +354,8 @@ input:checked + .slider:before {
 #severity-range{
     width:5px;
     margin-left:-2px;
-    height:103px;
-    margin-top: 5px;
+    height:60px;
+    margin-bottom: 33px;
 }
 #severity-range .ui-slider-line{
     margin-top:-10px;
@@ -399,11 +399,11 @@ input:checked + .slider:before {
 }
 
 .menu-2-accidents-tooltip{
-  margin-top: 105px;
+  margin-top: 102px;
   margin-left: 55px;
   width: 60px;
   height: 600px;
-  padding-bottom: 8px;
+  padding-bottom: 7px;
   background-color: transparent;
   position: absolute;
   z-index: 3;
@@ -523,7 +523,7 @@ input:checked + .slider:before {
   right: 10px;
   float:right;
   position: absolute;
-  z-index: 3;
+  z-index: 10;
   padding : 10px;
 }
 

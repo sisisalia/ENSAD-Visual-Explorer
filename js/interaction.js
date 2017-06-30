@@ -19,7 +19,11 @@ $('#map').on('click', function() {
     $('#about-EVE-content').hide();
 })
 $('#about-EVE').on('click', function() {
+  if($('#about-EVE-content').is(':visible')){
+    $('#about-EVE-content').hide();
+  }else{
     $('#about-EVE-content').show();
+  }
 })
 
 // Hovering on the 'Accidents' menu after either clicking 'Damage' or 'More' menu
@@ -114,6 +118,26 @@ $('#chart-type').change(function() {
     }
 })
 
+$('.energy-type').each(function(){
+  var text = $(this).attr('src');
+  var index = (text.lastIndexOf('/'));
+  var temp = text.substring(index + 1, text.length - 4);
+  var filter = energy_type_filter[temp];
+  if(filter != null) temp = filter;
+  var choice = energy_type_active.indexOf(temp);
+  // if choice == -1 turn it off
+  if(choice == -1){
+    var index = (text.lastIndexOf('/'));
+    var temp = text.substring(index + 1, text.length);
+    var src = 'image/energy-type-off/' + temp;
+    var type = $(this).attr('class');
+    var index = type.indexOf(' ');
+    var type = type.substring(index + 1, type.length);
+    $('.' + type).attr('src', src);
+    ($('.' + type).parent().css('color', '#87A1B1'));
+  }
+})
+
 // Upon clicking the content under 'Accidents' menu
 $('.energy-type').on('click', function() {
     var text = $(this).attr('src');
@@ -131,7 +155,8 @@ $('.energy-type').on('click', function() {
         var temp = $(this).attr('class');
         var index = temp.indexOf(' ');
         temp = temp.substring(index + 1, temp.length);
-        temp = energy_type_filter[temp];
+        filter = energy_type_filter[temp];
+        if(filter != null) temp = filter;
         energy_type_active.push(temp);
         resetMarkers();
     }
@@ -146,7 +171,8 @@ $('.energy-type').on('click', function() {
         var temp = $(this).attr('class');
         var index = temp.indexOf(' ');
         temp = temp.substring(index + 1, temp.length);
-        temp = energy_type_filter[temp];
+        filter = energy_type_filter[temp];
+        if(filter != null) temp = filter;
         var index = energy_type_active.indexOf(temp);
         energy_type_active.splice(index, 1);
         resetMarkers();
@@ -238,9 +264,10 @@ $('.regions').on('click', function() {
 
 // Severity range in 'Damage' menu under 'Severity Level'
 // 'trueValues' is directly correspond to 'values'
-var trueValues = [-1, 0, 1, 2, 3, 4, 5];
+var trueValues = [0, 1, 2, 3, 4, 5];
 // This will determine the distance in which the slider move
-var values = [0, 40, 55, 68, 80, 90, 100];
+var values = [0, 28, 50, 68, 85, 100];
+var severity_height = [0,16,29,39,49,58]
 var slider = $("#severity-range").slider({
     orientation: 'vertical',
     range: true,
@@ -265,13 +292,13 @@ var slider = $("#severity-range").slider({
         var index = bottom.indexOf('p');
         bottom = parseInt(bottom.substring(0, index));
         var upper_value = height + bottom;
-        if (upper_value == 101) upper_value = 100;
+        if (upper_value == 57) upper_value = 58;
         var lower_value = bottom;
-        var upper_index = values.indexOf(upper_value);
-        var lower_index = values.indexOf(lower_value);
+        var upper_index = severity_height.indexOf(upper_value);
+        var lower_index = severity_height.indexOf(lower_value);
         severity_level_included = [];
         // When both lower and upper is on level 5
-        if (trueValues[lower_index] == null) {
+        if ((upper_index == lower_index) && (upper_index == 58) ) {
             $('#lvl5').attr('fill', '#87A1B1');
             for (i = 4; i >= 0; i--) {
                 $('#lvl' + i).attr('fill', 'white');
@@ -283,8 +310,8 @@ var slider = $("#severity-range").slider({
         for (i = 0; i <= 5; i++) {
             $('#lvl' + i).attr('fill', 'transparent');
         }
-        $('#lvl' + trueValues[upper_index]).attr('fill', '#87A1B1');
-        for (i = trueValues[lower_index] - 1; i >= 0; i--) {
+        $('#lvl' + upper_index).attr('fill', '#87A1B1');
+        for (i = lower_index - 1; i >= 0; i--) {
             $('#lvl' + i).attr('fill', 'white');
         }
         var upper;
@@ -300,7 +327,7 @@ var slider = $("#severity-range").slider({
         for (i = upper; i > lower; i--) {
             severity_level_included.push('Level ' + i);
         }
-        for (i = upper_index; i <= 5; i++) {
+        for (i = 5; i > upper_index; i--) {
             $('#lvl' + i).attr('fill', 'white');
         }
         resetMarkers();
@@ -389,8 +416,7 @@ $('.fa-repeat').on('click', function() {
     region_filter_out = [];
     years = [];
     $('.markers').remove();
-    var new_center = new google.maps.LatLng(37.76487, 0);
-    map.panTo(new_center);
+    map.panTo(map.getCenter());
     map.setZoom(4);
     resetMarkers();
     $('.energy-type').each(function() {
