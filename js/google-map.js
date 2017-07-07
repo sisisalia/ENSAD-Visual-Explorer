@@ -1,4 +1,10 @@
-// Map variables
+/*
+Purpose :
+1. Create a google map
+2. Set boundary of google map
+3. Set minimum and maximum zoom level
+*/
+
 // Minimum and maximum zooming of google map
 // for smaller screen
 if($(window).width() < 1500){
@@ -10,7 +16,7 @@ if($(window).width() < 1500){
 }else{
   var opt = {
       minZoom: 3,
-      maxZoom: 10
+      maxZoom: 15
   };
 }
 
@@ -29,6 +35,7 @@ var style = (function() {
     return style;
 })();
 
+// Create a map according to 'map-styles.json'
 var styledMapType = new google.maps.StyledMapType(style, {
     name: "Simple Map"
 });
@@ -45,7 +52,6 @@ var map = new google.maps.Map(d3.select("#map").node(), {
     },
     scaleControl: true,
     streetViewControl: false,
-    // scrollwheel:  false,
 });
 
 // Include custom map type control
@@ -56,6 +62,7 @@ map.setMapTypeId('styled_map');
 map.setOptions(opt);
 
 // restrict the appropriate region for users
+// Hence, user is only able to view one map
 var initial_center = map.getCenter();
 var lastValidCenter = initial_center;
 

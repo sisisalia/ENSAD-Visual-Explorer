@@ -33,10 +33,7 @@
       <img src="image/Logo/frs.png" alt="FRS" class="frs-image">
     </div>
     <div class="col col-xs-2 col-sm-2 col-md-2 col-lg-2">
-        <img src="image/Logo/fcl.jpg" alt="FCL" class="fcl-image">
-        <span class="cival">
-          Developed by CIVAL
-        </span>
+        <img src="image/Logo/fcl.png" alt="FCL" class="fcl-image">
     </div>
 </div>
 
@@ -106,14 +103,18 @@
 </body>
 
 <script type="text/javascript">
+// Link after click 'Start now'
+var login = 'http://localhost:8000/EVE-visualization.html';
+
 $('.start').on('click',function(){
-  window.location.replace("/EVE-visualization.html");
+  window.location.replace(login);
 })
 
+// Animation after click 'Learn more about EVE'
 $('#learn-more').on('click',function(){
     $('html, body').animate({
         scrollTop: $(".row-2").offset().top - 60
-    }, 1000);
+    }, 700);
 })
 
 </script>

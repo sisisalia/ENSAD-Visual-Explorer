@@ -14,7 +14,6 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
   <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier/1.0.3/oms.min.js"></script>
   <!-- Typekit for "adelle" font family -->
   <script src="https://use.typekit.net/adt3ctv.js"></script>
   <script>
@@ -31,11 +30,8 @@
       ENSAD Visual Explorer
     </div>
     <div>
-      <img src="image/Logo/fcl.jpg" alt="FCL" class="fcl-image">
+      <img src="image/Logo/fcl.png" alt="FCL" class="fcl-image">
       <br/>
-      <span class="cival">
-        Developed by CIVAL
-      </span>
     </div>
     <div>
       <img src="image/Logo/frs.png" alt="FRS" class="frs-image">
@@ -54,7 +50,7 @@
   </div>
 
   <script type="text/javascript">
-
+  // Create a cover while google map is setting up
     $('header').hide();
     $('.cover').css('width', $( window ).width())
               .css('height', $( window ).height())
@@ -174,7 +170,7 @@
           </td>
           <td>
             <img src="image/energy-type-on/na.png" alt="NA" width="47px" height="47px" class="energy-type na" style="margin-top:-8px;"></br>
-            Not available
+            Not applicable
           </td>
         </tr>
       </table>
@@ -453,22 +449,16 @@
             <td width ="30%">
               OECD
             </td>
-            <td>
+            <td width="20%">
               <label class="switch"><input class="regions" id="g20" type="checkbox" checked><div class="slider"></div></label>
             </td>
-            <td>
+            <td width ="30%">
               G20
             </td>
           </tr>
           <tr>
-            <td width="20%">
-              <label class="switch"><input class="regions" id="opec" type="checkbox" checked><div class="slider"></div></label>
-            </td>
-            <td width ="30%">
-              OPEC
-            </td>
             <td width ="20%">
-              <label class="switch"><input class="regions" id="eu27" type="checkbox" checked><div class="slider"></div></label>
+              <label class="switch"><input class="regions" id="eu28" type="checkbox" checked><div class="slider"></div></label>
             </td>
             <td width ="30%">
               EU
@@ -577,7 +567,7 @@
       Year
     </div>
     <br />
-    <div class="year-item" id="year-range" style="font: bold 16px lato;">1860 - 2020</div>
+    <div class="year-item" id="year-range" style="font: bold 16px lato;"></div>
     <p></p>
     <li class="year-item">
       <br />
@@ -627,26 +617,29 @@
     <div id="chart"></div>
   </div>
 
+<svg id="area" width="1403" height="1006" style="position:absolute; z-index:-1;">
+ <polygon id="area-circle">
+ </polygon>
+</svg>
   <!-- Google Map -->
   <div id="map"></div>
 
   <script src="https://maps.googleapis.com/maps/api/js?v=3&amp;libraries=places&amp;key=AIzaSyCTVQh_6X6mO8NWR58geheSip4zrQARKlo&amp;callback=initMap"></script>
-  <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
-  <script src="//d3js.org/d3.v4.min.js"></script>
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script src='plug-in/DBSCAN.js'></script>
-  <script src='data/set-data.js'></script>
-  <script src='js/preset-variables.js'></script>
-  <script src='js/interaction.js'></script>
+ <script src="//d3js.org/d3.v4.min.js"></script>
   <script src='js/google-map.js'></script>
+  <script src='data/set-data.js'></script>
+  <script src='js/variables.js'></script>
+  <script src='js/init.js'></script>
+  <script src='js/interaction.js'></script>
   <script src='chart/energy-type-vs-year.js'></script>
   <script src='chart/regions-vs-year.js'></script>
   <script src='chart/lineChart.js'></script>
   <script src='js/overlay-piechart.js'></script>
   <script src='js/overlay-overlapping-markers.js'></script>
+  <script src='js/dbscan.js'></script>
   <script src='js/overlay-markers.js'></script>
-  <!-- <script src='js/google-map-markers.js'></script> -->
   <script type="text/javascript">
+    overlayMarkers();
     // Used to create data for chart
     function yearCategory(duration, year){
       earliest_year = parseInt(duration[0]);

@@ -1,4 +1,12 @@
+/*
+Purpose :
+1. Overlay circles, a black dot and dashed line when there is overlapping markers after a certain zoom level
+*/
+
+// 'array' == contains an array of objects in which the object are on the same position
+// each object contains information to create a circle and its tooltip
 function overlayOverlappingMarkers(array) {
+    // Angle need to be incremented
     var increment = 360 / array.length;
     var angle = 0;
     var radius = circle_size['Level 0'];
@@ -7,12 +15,12 @@ function overlayOverlappingMarkers(array) {
 
     var overlay = new google.maps.OverlayView();
 
-    // Add the container when the overlay is added to the map.
     overlay.onAdd = function() {
         var layer = d3.select(this.getPanes().overlayMouseTarget).append("div").attr("class", "markers");
         // Draw each marker as a separate SVG element.
         // We could use a single SVG, but what size would it have?
         overlay.draw = function() {
+            // Note that width and height of svg might block other elements
             var marker = layer.selectAll("svg")
                 .data(array)
                 .enter().append("svg")
@@ -22,17 +30,17 @@ function overlayOverlappingMarkers(array) {
                 .attr('height', function(d){
                     return max_radius * 2 + 3;
                 })
-                // .style('border','1px solid black')
                 .style("left", function(d) {
-                      return ((d.exact_position[0] - max_radius - padding + 8.5) + "px")
+                      return ((d.geodata.x - max_radius - padding + 8.5) + "px")
                 })
                 .style("top", function(d) {
-                    return ((d.exact_position[1] - max_radius) + "px")
+                    return ((d.geodata.y - max_radius) + "px")
                 })
+                // Rotate the different nodes in the cluster so that they will not stack up together
                 .attr('transform', function(d) {
                     var rotate = angle;
                     angle += increment;
-                    return 'rotate(' + rotate + ', ' + (max_radius - 7) + ', ' + '0' + ')'; // 6.5 due to 5 + 3/2
+                    return 'rotate(' + rotate + ', ' + (max_radius - 7) + ', ' + '0' + ')'; // 7 due to 5 + 3/2
                 })
                 .attr('class', function(d) {
                     return 'marker';
@@ -67,9 +75,19 @@ function overlayOverlappingMarkers(array) {
 
             var images = marker.append("svg:image")
                 .attr("xlink:href", function(d) {
+                  // Image changes depending if the user clicked 'More' or others menu tab
                     if (energy_chain_active == 1) {
-                        energy_chain_src = energy_chain_image_white[energy_chain_filter[d.stage]];
-                        if (energy_chain_src != null) return energy_chain_src;
+                        var filter = energy_chain_filter[d.stage];
+                        var result;
+                        if(filter != null){
+                          result = energy_chain_image_white[filter];
+                        }
+                        else{
+                          result = energy_chain_image_white[d.stage];
+                        }
+                        if(result != null){
+                          return result;
+                        }
                     }
                     var type = energy_type_filter[d.type];
                     if (type != null) return energy_type_image_white[type];
@@ -78,36 +96,39 @@ function overlayOverlappingMarkers(array) {
                     }
                 })
                 .attr("x", function(d){
-                  if((d.type == 'Non-hydro') || (d.type == 'NA')){
+                  // Due to different size of images, need to be manually adjusted
+                  if((d.type == 'Non-hydro') || (d.type == 'Not applicable')|| (energy_chain_active ==  1 && d.stage == 'DOM/COM')){
                     return max_radius - radius + 3;
                   }
                   return max_radius - radius;
                 })
                 .attr("y", function(d){
-                  if((d.type == 'Non-hydro') || (d.type == 'NA')){
+                  if((d.type == 'Non-hydro') || (d.type == 'Not applicable')|| (energy_chain_active ==  1 && d.stage == 'DOM/COM')){
                     return (max_radius * 2 + 3)/2 - radius + 3;
                   }
                   return (max_radius * 2 + 3)/2 - radius;
                 })
+                // Rotate the image to face the correct way
                 .attr('transform', function(d) {
                     var rotate = angle;
                     angle += increment;
                     return 'rotate(' + (-rotate ) + ', ' + (max_radius) + ', ' + (max_radius+1.5) + ')';
                 })
                 .attr("height", function(d){
-                  if((d.type == 'Non-hydro') || (d.type == 'NA')){
+                  if((d.type == 'Non-hydro') || (d.type == 'Not applicable')|| (energy_chain_active ==  1 && d.stage == 'DOM/COM')){
                     return 10;
                   }
                   return 17;
                 })
                 .attr("width", function(d){
-                  if((d.type == 'Non-hydro') || (d.type == 'NA')){
+                  if((d.type == 'Non-hydro') || (d.type == 'Not applicable')|| (energy_chain_active ==  1 && d.stage == 'DOM/COM')){
                     return 10;
                   }
                   return 17;
                 })
                 .attr('class', 'node')
                 .on("mouseover", function(d) {
+                    // Tooltip
                     var tooltip = d3.select("body")
                         .append("div")
                         .attr("class", "node-information")
@@ -115,15 +136,27 @@ function overlayOverlappingMarkers(array) {
 
                     tooltip.transition()
                         .duration(50);
-                    var energy_chain_src = energy_chain_image_color[energy_chain_filter[d.stage]];
-                    if (energy_chain_src != null) {
+
+                        var filter = energy_chain_filter[d.stage];
+                        if(filter != null) {
+                          energy_chain_src = energy_chain_image_color[filter];
+                        }
+                        else{
+                          energy_chain_src = energy_chain_image_color[d.stage];
+                        }
+                        if(d.stage == 'DOM/COM'){
+                          var stage = 'Domestic and commercial end use';
+                        }else{
+                          stage = d.stage;
+                        }
+                        if (energy_chain_src != null) {
                         var contentString = '<div style="font:bold 11px lato"> Accident id: ' + d.id + '</div>' +
                             '<div style="padding:3px;"><img src="' + energy_type_image_color[d.type] + '" width="15" height="15"> <img src="' + energy_chain_src + '" width="15" height="15"></div>' +
                             '<table>' +
                             '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Year</td><td style="font:10px lato">' + d.year + '</td></tr>' +
-                            '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Location</td><td style="font:10px lato">' + d.location_country + '</td></tr>' +
+                            '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Location</td><td style="font:10px lato">' + d.location + '</td></tr>' +
                             '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy type</td><td style="font:10px lato">' + d.type + '</td></tr>' +
-                            '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy stage</td><td style="font:10px lato">' + d.stage + '</td></tr>' +
+                            '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy stage</td><td style="font:10px lato">' + stage + '</td></tr>' +
                             '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Infrastructure</td><td style="font:10px lato">' + d.infrastructure + '</td></tr>' +
                             '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Fatalities</td><td style="font:10px lato">' + d.fatalities + '</td></tr>' +
                             '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Injured</td><td style="font:10px lato">' + d.injured + '</td></tr>' +
@@ -135,9 +168,9 @@ function overlayOverlappingMarkers(array) {
                             '<div style="padding:3px;"><img src="' + energy_type_image_color[d.type] + '" width="15" height="15"></div>' +
                             '<table>' +
                             '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Year</td><td style="font:10px lato">' + d.year + '</td></tr>' +
-                            '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Location</td><td style="font:10px lato">' + d.location_country + '</td></tr>' +
+                            '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Location</td><td style="font:10px lato">' + d.location + '</td></tr>' +
                             '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy type</td><td style="font:10px lato">' + d.type + '</td></tr>' +
-                            '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy stage</td><td style="font:10px lato">' + d.stage + '</td></tr>' +
+                            '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy stage</td><td style="font:10px lato">' + stage + '</td></tr>' +
                             '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Infrastructure</td><td style="font:10px lato">' + d.infrastructure + '</td></tr>' +
                             '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Fatalities</td><td style="font:10px lato">' + d.fatalities + '</td></tr>' +
                             '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Injured</td><td style="font:10px lato">' + d.injured + '</td></tr>' +
@@ -153,6 +186,7 @@ function overlayOverlappingMarkers(array) {
                     $('.node-information').remove();
                 });
 
+            // Add a black dot in the exact position of the cluster
             marker.append("circle")
                 .attr("r", 3)
                 .attr('fill', 'black')
@@ -166,6 +200,7 @@ function overlayOverlappingMarkers(array) {
                   return (max_radius * 2 + 3)/2;
                 });
 
+            // Create dashed line to connect the black dot and the nodes after transform
             marker.append("svg:line")
                 .style('stroke', 'black')
                 .style("stroke-dasharray", "3,3")
@@ -189,5 +224,6 @@ function overlayOverlappingMarkers(array) {
 
         };
     };
+    // Overlay onto the map
     overlay.setMap(map);
 }
