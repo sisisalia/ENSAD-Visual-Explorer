@@ -9,7 +9,7 @@ $('.menu-2').hide();
 $('[id$="-tooltip"]').hide();
 $('.chart-menu').hide();
 $('.node-information').hide();
-$('.cover').fadeOut(2500);
+$('.cover').fadeOut(100);
 
 // About EVE link at the bottom right window
 $('#about-EVE-content .fa-times').on('click', function() {
@@ -309,6 +309,7 @@ for(var i = 0; i < severity_level_included.length; i++){
   initial_severity.push(parseInt(temp));
 }
 initial_severity.sort();
+
 var slider = $("#severity-range").slider({
     orientation: 'vertical',
     range: true,
@@ -355,21 +356,21 @@ var slider = $("#severity-range").slider({
         for (i = lower_index - 1; i >= 0; i--) {
             $('#lvl' + i).attr('fill', 'white');
         }
-        var upper;
-        var lower;
-        for (i = 5; i >= 0; i--) {
-            if ($('#lvl' + i).attr('fill') == '#87A1B1') upper = i;
-            if ($('#lvl' + i).attr('fill') == 'white') {
-                lower = i;
-                break;
-            }
-        }
-        if (lower == null) lower = -1;
-        for (i = upper; i > lower; i--) {
+        for(var i = 5; i >= 0; i--){
+          if(i == upper_index){
+            $('#lvl' + i).css('fill','#87A1B1');
             severity_level_included.push('Level ' + i);
-        }
-        for (i = 5; i > upper_index; i--) {
-            $('#lvl' + i).attr('fill', 'white');
+          }
+          if(i < upper_index){
+            $('#lvl' + i).css('fill','transparent');
+            severity_level_included.push('Level ' + i);
+          }
+          if(i > upper_index){
+            $('#lvl' + i).css('fill','white');
+          }
+          if(i < lower_index){
+            $('#lvl' + i).css('fill','white');
+          }
         }
         resetMarkers();
         return false;
