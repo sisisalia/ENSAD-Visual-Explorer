@@ -4,96 +4,95 @@ Purpose:
 2. Call for 'overlay-piechart.js' and 'overlay-overlapping-markers.js'
 3. Filtering data
 */
-
 function overlayMarkers() {
     var overlay = new google.maps.OverlayView();
+    zoom_level = map.getZoom();
 
     overlay.onAdd = function() {
         var layer = d3.select(this.getPanes().overlayMouseTarget).append("div").attr("class", "markers");
+        // Get the projection of the map
+        projection = this.getProjection();
+        // Set radius of the circle
+        var radius = circle_size['Level 0'];
+
+        var filtered_data = filterData();
+        // If there is no need for cluster, set the distance to 0
+        var minDistance = zoom[zoom_level];
+        if(minDistance == null) minDistance = 0;
+        // Dbscan
+        var clustered = dbscanCenterDistance(filtered_data, minDistance);
+        // Array of objects which does not need to cluster
+        var single_icon = [];
+        // Separate the data for pie chart or circle
+        for(var i = 0; i < clustered.length; i++){
+          // Data for circle
+          if(clustered[i].length == 1){
+            var obj = setIndividualPoint(clustered[i][0]);
+            single_icon.push(obj);
+          }else{
+          // Data for cluster
+            // Data to be passed to create a pie chart
+            var array = [];
+            var length;
+            // an array of average position where the pie chart will be put on the map
+            var average_position = getAveragePosition(clustered[i]);
+            // For each object in a cluster, set the object information needed
+            for (var j = 0; j < clustered[i].length; j++) {
+                var obj = new Object();
+                obj.average_position = average_position;
+                // Indicate number of objects in a cluster
+                if (j == clustered[i].length - 1) {
+                    length = clustered[i].length;
+                }
+                obj.coordinates = clustered[i][j].geometry.coordinates;
+                obj = setIndividualPoint(clustered[i][j], obj);
+                array.push(obj);
+            }
+            // To make sure that the text will render last so it will be on top of the pie chart
+            array[array.length-1].length = length;
+            // 'piechartrad' == Average damage level
+            var accumulated = 0;
+            var final;
+            $.map(array, function(d,i){
+              if(i == array.length - 1){
+                accumulated += parseInt(d[damage_filter[damage_selected]].substring(6, d[damage_filter[damage_selected]].length));
+                final = Math.round(accumulated/array.length);
+              }else{
+                accumulated += parseInt(d[damage_filter[damage_selected]].substring(6, d[damage_filter[damage_selected]].length));
+              }
+            })
+            array[array.length-1].piechartrad = circle_size['Level ' + final];
+            if(isNaN(array[array.length-1].piechartrad)){
+              array[array.length-1].piechartrad = circle_size['NA'];
+            }
+            // If zoom level is more than half of the maximum zoom level, split up the clustered nodes accordingly
+            if (zoom_level < opt.maxZoom) {
+                overlayPieChart(array);
+            } else {
+                overlayOverlappingMarkers(array);
+            }
+          }
+        }
+
         // Draw each marker as a separate SVG element
         // We could use a single SVG, but what size would it have?
         overlay.draw = function() {
-            // Get the projection of the map
-            projection = this.getProjection();
-            // Set radius of the circle
-            var radius = circle_size['Level 0'];
-            // If-condition to prevent clustering algorithm to work during translation
-            if (new_map == 1) {
-                var filtered_data = filterData();
-                // If there is no need for cluster, set the distance to 0
-                var minDistance = zoom[zoom_level];
-                if(minDistance == null) minDistance = 0;
-                // Dbscan
-                var clustered = dbscanCenterDistance(filtered_data, minDistance);
-                // Array of objects which does not need to cluster
-                var single_icon = [];
-                // Separate the data for pie chart or circle
-                for(var i = 0; i < clustered.length; i++){
-                  // Data for circle
-                  if(clustered[i].length == 1){
-                    var obj = setIndividualPoint(clustered[i][0]);
-                    single_icon.push(obj);
-                  }else{
-                  // Data for cluster
-                    // Data to be passed to create a pie chart
-                    var array = [];
-                    var length;
-                    // an array of average position where the pie chart will be put on the map
-                    var average_position = getAveragePosition(clustered[i]);
-                    // For each object in a cluster, set the object information needed
-                    for (var j = 0; j < clustered[i].length; j++) {
-                        var obj = new Object();
-                        obj.average_position = average_position;
-                        // Indicate number of objects in a cluster
-                        if (j == clustered[i].length - 1) {
-                            length = clustered[i].length;
-                        }
-                        obj.coordinates = clustered[i][j].geometry.coordinates;
-                        obj = setIndividualPoint(clustered[i][j], obj);
-                        array.push(obj);
-                    }
-                    // To make sure that the text will render last so it will be on top of the pie chart
-                    array[array.length-1].length = length;
-                    // 'piechartrad' == Average damage level
-                    var accumulated = 0;
-                    var final;
-                    $.map(array, function(d,i){
-                      if(i == array.length - 1){
-                        accumulated += parseInt(d[damage_filter[damage_selected]].substring(6, d[damage_filter[damage_selected]].length));
-                        final = Math.round(accumulated/array.length);
-                      }else{
-                        accumulated += parseInt(d[damage_filter[damage_selected]].substring(6, d[damage_filter[damage_selected]].length));
-                      }
-                    })
-                    array[array.length-1].piechartrad = circle_size['Level ' + final];
-                    if(isNaN(array[array.length-1].piechartrad)){
-                      array[array.length-1].piechartrad = circle_size['NA'];
-                    }
-                    // If zoom level is more than half of the maximum zoom level, split up the clustered nodes accordingly
-                    if (zoom_level < opt.maxZoom/2) {
-                        overlayPieChart(array);
-                    } else {
-                        overlayOverlappingMarkers(array);
-                    }
-                  }
-                }
-
                 // Set up individual markers
                 var marker = layer.selectAll("svg")
                     .data(single_icon)
                     .enter().append("svg")
                     .attr('width', function(d){
                       if(damage_active == 1){
-                        return d.radbydamage * 2 + 3;
+                        return d.radbydamage * 2;
                       }else{
-                        return radius * 2 + 3;
+                        return radius * 2;
                       }
                     })
                     .attr('height', function(d){
                       if(damage_active == 1){
-                        return d.radbydamage * 2 + 3;
+                        return d.radbydamage * 2;
                       }else{
-                        return radius * 2 + 3;
+                        return radius * 2;
                       }
                     })
                     .style("left", function(d) {
@@ -112,6 +111,42 @@ function overlayMarkers() {
                     })
                     .attr('class', function(d) {
                         return 'marker';
+                    })
+                    .on("mouseover", function(d) {
+                        // Tooltip
+                        var tooltip = d3.select("body")
+                            .append("div")
+                            .attr("class", "node-information")
+                            .style('position', 'absolute');
+
+                        var contentString = '<div style="font:bold 11px lato"> Accident id: ' + d.id + '</div>';
+
+                        energy_chain_src = energy_chain_image_color[d.stage];
+
+                        if (energy_chain_src != null) {
+                            contentString += '<div style="padding:3px;"><img src="' + energy_type_image_color[d.type] + '" width="15" height="15"> <img src="' + energy_chain_src + '" width="15" height="15"></div>';
+                        } else {
+                            contentString += '<div style="padding:3px;"><img src="' + energy_type_image_color[d.type] + '" width="15" height="15"></div>';
+                        }
+
+                        contentString += '<table>' +
+                        '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Year</td><td style="font:10px lato">' + d.year + '</td></tr>' +
+                        '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Location</td><td style="font:10px lato">' + d.location + '</td></tr>' +
+                        '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy type</td><td style="font:10px lato">' + d.type + '</td></tr>' +
+                        '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy stage</td><td style="font:10px lato">' + d.stage + '</td></tr>' +
+                        '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Infrastructure</td><td style="font:10px lato">' + d.infrastructure + '</td></tr>' +
+                        '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Fatalities</td><td style="font:10px lato">' + d.fatalities + '</td></tr>' +
+                        '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Injured</td><td style="font:10px lato">' + d.injured + '</td></tr>' +
+                        '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Evacuees</td><td style="font:10px lato">' + d.evacuees + '</td></tr>' +
+                        '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Economic damage</td><td style="font:10px lato">' + d.economic_damage + '</td></tr>' +
+                        '</table>';
+
+                        tooltip.html(contentString)
+                            .style("left", (d3.event.pageX) + "px")
+                            .style("top", (d3.event.pageY) + "px");
+                    })
+                    .on("mouseout", function(d) {
+                        $('.node-information').remove();
                     });
 
                 // Add a circle.
@@ -124,14 +159,9 @@ function overlayMarkers() {
                       }
                     })
                     .attr('fill', function(d) {
-                        var type = energy_type_filter[d.type];
-                        if (type != null) return energy_color[type];
-                        else {
-                            return energy_color[d.type];
-                        }
+                        return energy_color[d.type];
                     })
                     .attr('stroke', 'transparent')
-                    .attr('strokeWeight', '1px')
                     .attr("cx", function(d){
                       if(damage_active == 1){
                         return d.radbydamage;
@@ -151,27 +181,32 @@ function overlayMarkers() {
                     });
 
                 // Overlay images on top of the circle
-                var images = marker.append("svg:image")
+                var image = marker.append("svg:image")
                     .attr("xlink:href", function(d) {
                       // Image changes depending if the user clicked 'More' or others menu tab
                         if (energy_chain_active == 1) {
-                            var filter = energy_chain_filter[d.stage];
-                            var result;
-                            if(filter != null){
-                              result = energy_chain_image_white[filter];
-                            }
-                            else{
-                              result = energy_chain_image_white[d.stage];
-                            }
-                            if(result != null){
+                            result = energy_chain_image_white[d.stage];
+                            if(result == undefined){
+                              return energy_type_image_white[d.type];
+                            }else{
                               return result;
                             }
                         }
-                        var type = energy_type_filter[d.type];
-                        if (type != null) return energy_type_image_white[type];
                         else {
                             return energy_type_image_white[d.type];
                         }
+                    })
+                    .attr("height", function(d){
+                      if((d.type == 'Non-hydro') || (d.type == 'Not applicable') || (energy_chain_active == 1 && d.stage == 'Domestic and commercial end use')){
+                        return radius * 2 - 6;
+                      }
+                      return radius * 2
+                    })
+                    .attr("width", function(d){
+                      if((d.type == 'Non-hydro') || (d.type == 'Not applicable') || (energy_chain_active == 1 && d.stage == 'Domestic and commercial end use')){
+                        return radius * 2 - 6;
+                      }
+                      return radius * 2
                     })
                     .attr("x", function(d){
                       if(damage_active == 1){
@@ -182,7 +217,7 @@ function overlayMarkers() {
                         return d.radbydamage - radius;
                       }
                       }else{
-                        if((d.type == 'Non-hydro') || (d.type == 'Not applicable') || (energy_chain_active == 1 && d.stage == 'DOM/COM')){
+                        if((d.type == 'Non-hydro') || (d.type == 'Not applicable') || (energy_chain_active == 1 && d.stage == 'Domestic and commercial end use')){
                         return 3;
                         }else{
                         return 0;
@@ -197,92 +232,14 @@ function overlayMarkers() {
                         return d.radbydamage - radius;
                       }
                       }else{
-                        if((d.type == 'Non-hydro') || (d.type == 'Not applicable') || (energy_chain_active == 1 && d.stage == 'DOM/COM')){
+                        if((d.type == 'Non-hydro') || (d.type == 'Not applicable') || (energy_chain_active == 1 && d.stage == 'Domestic and commercial end use')){
                         return 3;
                         }else{
                         return 0;
                         }
                       }
                     })
-                    .attr("height", function(d){
-                      if(energy_chain_active == 1 && d.stage == 'DOM/COM'){
-                        return radius * 2 - 6;
-                      }
-                      if((d.type == 'Non-hydro') || (d.type == 'Not applicable')){
-                        return radius * 2 - 6;
-                      }
-                      return radius * 2
-                    })
-                    .attr("width", function(d){
-                      if(energy_chain_active == 1 && d.stage == 'DOM/COM'){
-                        return radius * 2 - 6;
-                      }
-                      if((d.type == 'Non-hydro') || (d.type == 'Not applicable')){
-                        return radius * 2 - 6;
-                      }
-                      return radius * 2
-                    })
-                    .attr('class', 'node')
-                    .on("mouseover", function(d) {
-                        // Tooltip
-                        var tooltip = d3.select("body")
-                            .append("div")
-                            .attr("class", "node-information")
-                            .style('position', 'absolute');
-
-                        tooltip.transition()
-                            .duration(50);
-
-                        var filter = energy_chain_filter[d.stage];
-                        if(filter != null) {
-                          energy_chain_src = energy_chain_image_color[filter];
-                        }
-                        else{
-                          energy_chain_src = energy_chain_image_color[d.stage];
-                        }
-                        if(d.stage == 'DOM/COM'){
-                          var stage = 'Domestic and commercial end use';
-                        }else{
-                          stage = d.stage;
-                        }
-                        if (energy_chain_src != null) {
-                            var contentString = '<div style="font:bold 11px lato"> Accident id: ' + d.id + '</div>' +
-                                '<div style="padding:3px;"><img src="' + energy_type_image_color[d.type] + '" width="15" height="15"> <img src="' + energy_chain_src + '" width="15" height="15"></div>' +
-                                '<table>' +
-                                '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Year</td><td style="font:10px lato">' + d.year + '</td></tr>' +
-                                '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Location</td><td style="font:10px lato">' + d.location + '</td></tr>' +
-                                '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy type</td><td style="font:10px lato">' + d.type + '</td></tr>' +
-                                '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy stage</td><td style="font:10px lato">' + stage + '</td></tr>' +
-                                '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Infrastructure</td><td style="font:10px lato">' + d.infrastructure + '</td></tr>' +
-                                '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Fatalities</td><td style="font:10px lato">' + d.fatalities + '</td></tr>' +
-                                '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Injured</td><td style="font:10px lato">' + d.injured + '</td></tr>' +
-                                '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Evacuees</td><td style="font:10px lato">' + d.evacuees + '</td></tr>' +
-                                '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Economic damage</td><td style="font:10px lato">' + d.economic_damage + '</td></tr>' +
-                                '</table>';
-                        } else {
-                            var contentString = '<div style="font:bold 11px lato"> Accident id: ' + d.id + '</div>' +
-                                '<div style="padding:3px;"><img src="' + energy_type_image_color[d.type] + '" width="15" height="15"></div>' +
-                                '<table>' +
-                                '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Year</td><td style="font:10px lato">' + d.year + '</td></tr>' +
-                                '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Location</td><td style="font:10px lato">' + d.location + '</td></tr>' +
-                                '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy type</td><td style="font:10px lato">' + d.type + '</td></tr>' +
-                                '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy stage</td><td style="font:10px lato">' + stage + '</td></tr>' +
-                                '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Infrastructure</td><td style="font:10px lato">' + d.infrastructure + '</td></tr>' +
-                                '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Fatalities</td><td style="font:10px lato">' + d.fatalities + '</td></tr>' +
-                                '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Injured</td><td style="font:10px lato">' + d.injured + '</td></tr>' +
-                                '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Evacuees</td><td style="font:10px lato">' + d.evacuees + '</td></tr>' +
-                                '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Economic damage</td><td style="font:10px lato">' + d.economic_damage + '</td></tr>' +
-                                '</table>';
-                        }
-                        tooltip.html(contentString)
-                            .style("left", (d3.event.pageX) + "px")
-                            .style("top", (d3.event.pageY) + "px");
-                    })
-                    .on("mouseout", function(d) {
-                        $('.node-information').remove();
-                    });
-                new_map = 0;
-            }
+                    .attr('class', 'node');
         };
     };
     // Bind our overlay to the map…
@@ -304,7 +261,7 @@ function filterData() {
         }
         // Always include 'NA' despite the filtering
         if(years && incident_year != 'NA'){
-          if(incident_year < years[0]) {console.log('oh');continue;}
+          if(incident_year < years[0]) continue;
           if(incident_year > years[1]) continue;
         }
         // Energy type filter
@@ -378,6 +335,8 @@ function setIndividualPoint(node, existing_object){
   if (obj.location == null) obj.location = selected.country;
   obj.stage = selected.energy_chain_stage;
   if (obj.stage == null) obj.stage = 'NA';
+  filter = energy_chain_filter[obj.stage];
+  if(filter != null) obj.stage = filter;
   obj.infrastructure = selected.infra_type;
   if (obj.infrastructure == null) obj.infrastructure = 'NA';
   var fatalities = selected.fatalities;
@@ -392,6 +351,7 @@ function setIndividualPoint(node, existing_object){
   // if there is an existing object, use piechartrad instead
   if(!existing_object){
     if(damage_active == 1){
+      // Since spill size attribute is not available in 'data'
       if(damage_selected == 'Spill size') obj.radbydamage = null;
       // radius to be used if 'Damage' menu is clicked
       obj.radbydamage = circle_size[obj[damage_filter[damage_selected]]];
@@ -403,7 +363,7 @@ function setIndividualPoint(node, existing_object){
 }
 
 // 'num' == number of damages from 'data' variable
-// 'severity_type' == severity type chosen
+// 'severity_type' == JSON object passed according to severity type from 'init.js' (eg. severity_level_fatalities, severity_level_evacuees)
 // Return severity level accordingly
 function severityLevel(num, severity_type) {
     if (isNaN(num)) return 'NA';

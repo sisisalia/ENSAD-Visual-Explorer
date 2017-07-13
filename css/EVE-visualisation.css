@@ -367,6 +367,7 @@ input:checked + .slider:before {
   cursor: pointer;
 }
 
+/* Tooltip for accidents menu during 'Damage' menu and 'More' menu*/
 .tooltip {
     position: relative;
     display: inline-block;
@@ -385,10 +386,6 @@ input:checked + .slider:before {
     /* Position the tooltip */
     position: absolute;
     z-index: 1;
-}
-
-.tooltip:hover .tooltiptext {
-    visibility: visible;
 }
 
 .menu-2-accidents-tooltip{
@@ -423,6 +420,8 @@ input:checked + .slider:before {
     border-style: solid;
     border-color: transparent black transparent transparent;
 }
+
+
 .node-information {
    padding : 8px;
    background-color: rgba(243,245,247,0.9);

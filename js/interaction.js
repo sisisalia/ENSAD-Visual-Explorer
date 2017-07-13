@@ -3,13 +3,13 @@ Purpose : Interaction between menu and the map
 */
 
 // Intial set up when page is loaded
-$('header').fadeIn(3000);
+$('header').show();
 $('#about-EVE-content').hide();
 $('.menu-2').hide();
 $('[id$="-tooltip"]').hide();
 $('.chart-menu').hide();
 $('.node-information').hide();
-$('.cover').fadeOut(100);
+$('.cover').fadeOut(2500);
 
 // About EVE link at the bottom right window
 $('#about-EVE-content .fa-times').on('click', function() {
@@ -26,10 +26,67 @@ $('#about-EVE').on('click', function() {
   }
 })
 
+// Set on/off according to 'energy_type_active' variable
+$('.energy-type').each(function(){
+  var text = $(this).attr('src');
+  var index = (text.lastIndexOf('/'));
+  var temp = text.substring(index + 1, text.length - 4);
+  var filter = energy_type_filter[temp];
+  if(filter != null) temp = filter;
+  var choice = energy_type_active.indexOf(temp);
+  if(choice == -1){
+    var index = (text.lastIndexOf('/'));
+    var temp = text.substring(index + 1, text.length);
+    var src = 'image/energy-type-off/' + temp;
+    var type = $(this).attr('class');
+    var index = type.indexOf(' ');
+    var type = type.substring(index + 1, type.length);
+    $('.' + type).attr('src', src);
+    ($('.' + type).parent().css('color', '#87A1B1'));
+  }
+})
+
+// Set on/off according to 'damage_selected' variable
+$('.damage-type').each( function() {
+    var text = $.trim(($(this).parent().text()));
+    if (text == damage_selected){
+      $(this).parent().css('color', '#87A1B1');
+      $(this).parent().css('color', 'black');
+      var text = $(this).attr('src');
+      var index = (text.lastIndexOf('/'));
+      var temp = text.substring(index + 1, text.length);
+      var src = 'image/damage-on/' + temp;
+      $(this).attr('src', src);
+    }
+})
+
+// Set on/off according to 'energy_chain_filter_out'
+$('.energy-stage').each(function() {
+    var text = $.trim(($(this).parent().text()));
+    if(energy_chain_filter_out.indexOf(text) == -1) return;
+    else{
+      var text = $(this).attr('src');
+      var index = (text.lastIndexOf('/'));
+      var temp = text.substring(index + 1, text.length);
+      var src = 'image/energy-stage-off/' + temp;
+      $(this).attr('src', src);
+      ($(this).parent().css('color', '#87A1B1'));
+    }
+})
+
+// Set on/off according to 'region_filter_out'
+$('.regions').each(function() {
+    var id = $(this).attr('id');
+    var checked = region_filter_out.indexOf(id);
+    if (checked == -1) return;
+    else{
+      $('#' + id).attr('checked', false);
+    }
+})
+
 // Hovering on the 'Accidents' menu after either clicking 'Damage' or 'More' menu
 // Tooltip for energy types in 'Accidents' menu appears
 $(".menu-2-accidents .energy-type").mouseover(function() {
-    $('[id$="-tooltip"]').hide();
     $('.menu-2-accidents-tooltip').css('z-index', '10');
     var temp = $(this).attr('class');
     var index = temp.indexOf(' ');
@@ -116,27 +173,6 @@ $('#chart-type').change(function() {
         createLineData();
         createLineChart();
     }
-})
-
-// Set on/off according to 'energy_type_active' variable
-$('.energy-type').each(function(){
-  var text = $(this).attr('src');
-  var index = (text.lastIndexOf('/'));
-  var temp = text.substring(index + 1, text.length - 4);
-  var filter = energy_type_filter[temp];
-  if(filter != null) temp = filter;
-  var choice = energy_type_active.indexOf(temp);
-  // if choice == -1 turn it off
-  if(choice == -1){
-    var index = (text.lastIndexOf('/'));
-    var temp = text.substring(index + 1, text.length);
-    var src = 'image/energy-type-off/' + temp;
-    var type = $(this).attr('class');
-    var index = type.indexOf(' ');
-    var type = type.substring(index + 1, type.length);
-    $('.' + type).attr('src', src);
-    ($('.' + type).parent().css('color', '#87A1B1'));
-  }
 })
 
 // Upon clicking the content under 'Accidents' menu
@@ -264,17 +300,21 @@ $('.regions').on('click', function() {
 })
 
 // Severity range in 'Damage' menu under 'Severity Level'
-// 'trueValues' is directly correspond to 'values'
-var trueValues = [0, 1, 2, 3, 4, 5];
 // This will determine the distance in which the slider move
 var values = [0, 28, 50, 68, 85, 100];
-var severity_height = [0,16,29,39,49,58]
+var severity_height = [0,16,29,39,49,58];
+var initial_severity = [];
+for(var i = 0; i < severity_level_included.length; i++){
+  var temp = severity_level_included[i].substring(severity_level_included[i].length - 1);
+  initial_severity.push(parseInt(temp));
+}
+initial_severity.sort();
 var slider = $("#severity-range").slider({
     orientation: 'vertical',
     range: true,
     min: 0,
     max: 100,
-    values: [0, 100],
+    values: [values[initial_severity[0]], values[initial_severity[initial_severity.length - 1]]],
     slide: function(event, ui) {
       setTimeout(function() {
         var includeLeft = event.keyCode != $.ui.keyCode.RIGHT;
@@ -337,6 +377,28 @@ var slider = $("#severity-range").slider({
     },
 });
 
+// Color the severity circles accordingly
+$('[id^="lvl"]').each(function(){
+  var id = $(this).attr('id');
+  var num = id.substring(id.length - 1);
+  var level = severity_level_included[severity_level_included.length - 1];
+  var upper_limit = level.substring(level.length - 1);
+  level = severity_level_included[0];
+  var lower_limit = level.substring(level.length - 1);
+  if(num == upper_limit){
+    $(this).css('fill','#87A1B1');
+  }
+  if(num < upper_limit){
+    $(this).css('fill','transparent');
+  }
+  if(num > upper_limit){
+    $(this).css('fill','white');
+  }
+  if(num < lower_limit){
+    $(this).css('fill','white');
+  }
+})
+
 // Function for 'Severity' slider
 function findNearest(includeLeft, includeRight, value) {
     var nearest = null;
@@ -368,7 +430,7 @@ $("#slider-range").slider({
     min: minYear,
     max: maxYear,
     step: 10,
-    values: [1860, 2020],
+    values: years,
     slide: function(event, ui) {
         $('#year-range').text(ui.values[0] + ' - ' + ui.values[1]);
         years = [];
@@ -418,7 +480,7 @@ $('.fa-repeat').on('click', function() {
     years = [];
     $('.markers').remove();
     map.panTo(map.getCenter());
-    map.setZoom(4);
+    map.setZoom(initial_zoom);
     resetMarkers();
     $('.energy-type').each(function() {
         var text = $(this).attr('src');

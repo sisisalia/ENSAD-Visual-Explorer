@@ -182,6 +182,6 @@ var damage_filter = {
 ///        Variables        ///
 ///////////////////////////////
 
-var new_map = 1;
 var touch = 0;
 var projection;
+var zoom_level;

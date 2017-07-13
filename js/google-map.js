@@ -50,7 +50,6 @@ var map = new google.maps.Map(d3.select("#map").node(), {
                     'styled_map'],
         position: google.maps.ControlPosition.RIGHT_BOTTOM
     },
-    scaleControl: true,
     streetViewControl: false,
 });
 
@@ -93,7 +92,8 @@ google.maps.event.addListener(map, 'bounds_changed', function() {
     }
 
     updateBound();
-    var displacement = pre_ne.lng() - ne.lng(); //  180 > displacement > 0, move left;
+    var displacement = pre_ne.lng() - ne.lng();
+    //  180 > displacement > 0, move left;
     // displacement < 0 or displacement > 180,  move right
 
     if (sw.lng() > 0 && sw.lng() > ne.lng() && displacement && displacement > 0 && displacement < 180) { // move left

@@ -153,8 +153,6 @@ function overlayOverlappingMarkers(array) {
                   $('.node-information').remove();
               });
 
-
-
             // Add a black dot in the exact position of the cluster
             marker.append("circle")
                 .attr("r", 3)

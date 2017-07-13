@@ -60,7 +60,7 @@
               .css('font-weight','bold')
               .css('font-size', '30px')
               .css('position','absolute')
-              .css('z-index', '1000');
+              .css('z-index', '1500');
     $('.cover').fadeIn();
   </script>
 
@@ -446,21 +446,27 @@
             <td width="20%">
               <label class="switch" style="padding-top:12px;"><input class="regions" id="oecd" type="checkbox" checked><div class="slider"></div></label>
             </td>
-            <td width ="30%">
+            <td width ="25%">
               OECD
             </td>
             <td width="20%">
-              <label class="switch"><input class="regions" id="g20" type="checkbox" checked><div class="slider"></div></label>
+              <label class="switch" style="padding-top:12px;"><input class="regions" id="non_oecd" type="checkbox" checked><div class="slider"></div></label>
             </td>
-            <td width ="30%">
-              G20
+            <td width ="35%">
+              Non-OECD
             </td>
           </tr>
           <tr>
+            <td width="20%">
+              <label class="switch"><input class="regions" id="g20" type="checkbox" checked><div class="slider"></div></label>
+            </td>
+            <td width ="25%">
+              G20
+            </td>
             <td width ="20%">
               <label class="switch"><input class="regions" id="eu28" type="checkbox" checked><div class="slider"></div></label>
             </td>
-            <td width ="30%">
+            <td width ="35%">
               EU
             </td>
           </tr>
@@ -489,8 +495,8 @@
         <table id="damage-types">
           <col width="33.3%"><col width="33.3%"><col width="33.3%">
           <tr>
-            <td style="color:black" id="fatalities">
-              <img src="image/damage-on/fatalities.png" alt="waste" width="47px" height="47px" class="damage-type"></br>
+            <td>
+              <img src="image/damage-off/fatalities.png" alt="waste" width="47px" height="47px" class="damage-type"></br>
               <span>Fatalities</span>
             </td>
             <td>
@@ -526,7 +532,7 @@
             <td>
               <svg style="margin-left:-10px;" height="110" width="175">
                 <!-- The area of circles are directly proportional to each other -->
-                <circle id="lvl5" cx="68" cy="58.981" r="49.981" stroke="#B9CAD4" stroke-width="1" fill="#87A1B1" />
+                <circle id="lvl5" cx="68" cy="58.981" r="49.981" stroke="#B9CAD4" stroke-width="1" fill="transparent" />
                 <circle id="lvl4" cx="68" cy="63.3358" r="45.6262" stroke="#B9CAD4" stroke-width="1" fill="transparent" />
                 <circle id="lvl3" cx="68" cy="68.1527" r="40.8093" stroke="#B9CAD4" stroke-width="1" fill="transparent" />
                 <circle id="lvl2" cx="68" cy="73.6201" r="35.3419" stroke="#B9CAD4" stroke-width="1" fill="transparent" />

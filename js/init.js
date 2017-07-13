@@ -22,7 +22,7 @@ var circle_size = {
 };
 
 // Initial zoom level
-var zoom_level = opt.minZoom + 1;
+var initial_zoom = opt.minZoom + 1;
 // Key == zoom level while value == distance to be clustered in km
 var zoom = {
   2 : 1000,
@@ -58,7 +58,7 @@ var damage_selected = 'Fatalities';
 var damage_active = 0;
 // Toogle between 0 and 1, if user clicks 'More', it will become 1, other than that it will be kept as 0
 var energy_chain_active = 0;
-// Region to be filtered out
+// Region to be filtered out, it should contain the attribute named in the raw data, eg g20, eu28, oecd, non-oecd
 var region_filter_out = [];
 
-$('#year-range').html(minYear + ' - ' + maxYear);
+$('#year-range').html(years[0] + ' - ' + years[1]);

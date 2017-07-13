@@ -12,64 +12,64 @@ function overlayPieChart(obj) {
     overlay.onAdd = function() {
         var layer = d3.select(this.getPanes().overlayMouseTarget).append("div").attr("class", "markers");
 
+        // a default size of pie chart
+        var radius = circle_size['Level 0'] * 1.5;
+
+        if(damage_active == 1){
+          // changed the radius if 'Damage' menu is clicked
+          radius = obj[obj.length-1].piechartrad;
+          // get the average damage level to show on the tooltip
+          var ave_level;
+          $.map(circle_size, function(d,i){
+            if(d == radius){
+              ave_level = i;
+            }
+          })
+        }
+
+        // number of objects in a cluster
+        var total_nodes = obj.length;
+
+        // Create an object contains all of the energy type and equate to 0
+        var energy_count = Object.create(energy_type_image_color);
+        $.map(energy_count, function(d, i){
+          energy_count[i] = 0;
+        })
+        // Count number of energy type found in the cluster for tooltip
+        for(var i = 0; i < total_nodes; i++){
+          energy_count[obj[i].type]++;
+        }
+
+        // Contains data to create a pie chart(average_position, coordinates, type, number)
+        // 'average_position' == where the pie chart is located
+        // 'coordinates' == geographic position of the node in the map
+        // 'type' == energy type of the node
+        // 'number' == number of type in the cluster
+        var pie_data = [];
+
+        $.map(energy_count,function(d,i){
+          if(d == 0) return;
+          var new_obj = new Object();
+          new_obj.type = i;
+          new_obj.number = d;
+          for(var i = 0; i < obj.length; i++){
+            if(obj[i].type == new_obj.type){
+              new_obj.average_position = obj[i].average_position;
+              new_obj.coordinates = obj[i].coordinates;
+              break;
+            }
+          }
+          pie_data.push(new_obj);
+        })
+
+        // Create tooltip
+        var contentString = '<table><tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Accident(s) : </td></tr>';
+
+        for(var i = 0; i <  pie_data.length; i++){
+          contentString += '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">'+ pie_data[i].type + '</td><td style="padding-top:2px; font:10px lato">' + pie_data[i].number + '</td></tr>';
+        }
+
         overlay.draw = function() {
-            // a default size of pie chart
-            var radius = circle_size['Level 0'] * 1.5;
-            var padding = 3;
-
-            if(damage_active == 1){
-              // changed the radius if 'Damage' menu is clicked
-              radius = obj[obj.length -1].piechartrad;
-              // get the average damage level to show on the tooltip
-              var ave_level;
-              $.map(circle_size, function(d,i){
-                if(d == radius){
-                  ave_level = i;
-                }
-              })
-            }
-
-            // number of objects in a cluster
-            var total_nodes = obj.length;
-
-            // Create an object contains all of the energy type and equate to 0
-            var energy_count = Object.create(energy_type_image_color);
-            $.map(energy_count, function(d, i){
-              energy_count[i] = 0;
-            })
-            // Count number of energy type found in the cluster for tooltip
-            for(var i = 0; i < total_nodes; i++){
-              energy_count[obj[i].type]++;
-            }
-
-            // Contains data to create a pie chart(average_position, coordinates, type, number)
-            // 'average_position' == where the pie chart is located
-            // 'coordinates' == geographic position of the node in the map
-            // 'type' == energy type of the node
-            // 'number' == number of type in the cluster
-            var pie_data = [];
-
-            $.map(energy_count,function(d,i){
-              if(d == 0) return;
-              var new_obj = new Object();
-              new_obj.type = i;
-              new_obj.number = d;
-              for(var i = 0; i < obj.length; i++){
-                if(obj[i].type == new_obj.type){
-                  new_obj.average_position = obj[i].average_position;
-                  new_obj.coordinates = obj[i].coordinates;
-                  break;
-                }
-              }
-              pie_data.push(new_obj);
-            })
-
-            // Create tooltip
-            var contentString = '<table><tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Accident(s) : </td></tr>';
-
-            for(var i = 0; i <  pie_data.length; i++){
-              contentString += '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">'+ pie_data[i].type + '</td><td style="padding-top:2px; font:10px lato">' + pie_data[i].number + '</td></tr>';
-            }
 
             // Create pie chart
             var arc = d3.arc()
@@ -82,8 +82,8 @@ function overlayPieChart(obj) {
             var marker = layer.selectAll("svg")
                 .data(pie(pie_data))
                 .enter().append("svg")
-                .attr('width', radius * 2 + padding)
-                .attr('height', radius * 2 + padding)
+                .attr('width', radius * 2)
+                .attr('height', radius * 2)
                 // On click, zoom
                 .on('click', function(d) {
                     // eg. '1' => num = 1, '10' => num = 2, '100' => num = 3
@@ -96,7 +96,7 @@ function overlayPieChart(obj) {
                     map.setCenter(pt);
                     // Set different zoom according to how many clusters in
                     if(map.getZoom() >= 7){
-                      return map.setZoom(12);
+                      return map.setZoom(opt.maxZoom);
                     }
                     if(num == 1){
                       map.setZoom(7);
@@ -121,13 +121,8 @@ function overlayPieChart(obj) {
             marker.append("path")
                 .attr("d", arc)
                 .attr("transform", "translate(" + radius + "," + radius + ")")
-                .style('strokeWeight', '1px')
                 .style("fill", function(d) {
-                    var type = energy_type_filter[d.data.type];
-                    if (type != null) return energy_color[type];
-                    else {
-                        return energy_color[d.data.type];
-                    }
+                  return energy_color[d.data.type];
                 });
 
             // if 'Damage' menu is clicked
@@ -197,7 +192,7 @@ function overlayPieChart(obj) {
             contentString += '</table>';
 
             // If mouseover the text on the pie chart
-            text.on("mouseover", function(d) {
+            marker.on("mouseover", function(d) {
               // Create small circles indicite the nodes found in the cluster
               var area = layer.selectAll('svg')
                               .data(obj).enter().append('svg')
@@ -222,9 +217,6 @@ function overlayPieChart(obj) {
                     .append("div")
                     .attr("class", "node-information")
                     .style('position', 'absolute');
-
-                tooltip.transition()
-                    .duration(50);
 
                 tooltip.html(contentString)
                     .style("left", (d3.event.pageX) + "px")
