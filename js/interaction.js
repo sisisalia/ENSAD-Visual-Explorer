@@ -334,28 +334,26 @@ var slider = $("#severity-range").slider({
         var index = bottom.indexOf('p');
         bottom = parseInt(bottom.substring(0, index));
         var upper_value = height + bottom;
-        if (upper_value == 57) upper_value = 58;
         var lower_value = bottom;
         var upper_index = severity_height.indexOf(upper_value);
         var lower_index = severity_height.indexOf(lower_value);
+        if(upper_index == -1){
+          var temp = upper_value - 1;
+          upper_index = severity_height.indexOf(temp);
+        }
+        if(upper_index == -1){
+          var temp = upper_value + 1;
+          upper_index = severity_height.indexOf(temp);
+        }
+        if(lower_index == -1){
+          var temp = lower_value - 1;
+          lower_index = severity_height.indexOf(temp);
+        }
+        if(lower_index == -1){
+          var temp = lower_value + 1;
+          lower_index = severity_height.indexOf(temp);
+        }
         severity_level_included = [];
-        // When both lower and upper is on level 5
-        if ((upper_index == lower_index) && (upper_index == 58) ) {
-            $('#lvl5').attr('fill', '#87A1B1');
-            for (i = 4; i >= 0; i--) {
-                $('#lvl' + i).attr('fill', 'white');
-            }
-            severity_level_included.push('Level 5');
-            resetMarkers();
-            return false;
-        };
-        for (i = 0; i <= 5; i++) {
-            $('#lvl' + i).attr('fill', 'transparent');
-        }
-        $('#lvl' + upper_index).attr('fill', '#87A1B1');
-        for (i = lower_index - 1; i >= 0; i--) {
-            $('#lvl' + i).attr('fill', 'white');
-        }
         for(var i = 5; i >= 0; i--){
           if(i == upper_index){
             $('#lvl' + i).css('fill','#87A1B1');
