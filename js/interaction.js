@@ -382,10 +382,8 @@ var slider = $("#severity-range").slider({
 $('[id^="lvl"]').each(function(){
   var id = $(this).attr('id');
   var num = id.substring(id.length - 1);
-  var level = severity_level_included[severity_level_included.length - 1];
-  var upper_limit = level.substring(level.length - 1);
-  level = severity_level_included[0];
-  var lower_limit = level.substring(level.length - 1);
+  var upper_limit = initial_severity[initial_severity.length - 1];
+  var lower_limit = initial_severity[0];
   if(num == upper_limit){
     $(this).css('fill','#87A1B1');
   }
