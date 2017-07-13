@@ -38,10 +38,16 @@ function overlayOverlappingMarkers(array) {
                     return ((d.geodata.y - max_radius) + "px")
                 })
                 // Rotate the different nodes in the cluster so that they will not stack up together
-                .attr('transform', function(d) {
+                // .attr('transform', function(d) {
+                //     var rotate = angle;
+                //     angle += increment;
+                //     return 'rotate(' + rotate + ', ' + (max_radius - 7) + ', ' + '0' + ')';
+                // })
+                .style('-webkit-transform', function(d) {
                     var rotate = angle;
                     angle += increment;
-                    return 'rotate(' + rotate + ', ' + (max_radius - 7) + ', ' + '0' + ')';
+                    var temp = -max_radius + 7;
+                    return 'translateX(50px) rotate(' + rotate + 'deg) translateX('+ temp +'px)';
                 })
                 .attr('class', function(d) {
                     return 'marker';
