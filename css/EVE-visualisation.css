@@ -548,3 +548,11 @@ input:checked + .slider:before {
 .pie-chart{
   cursor:pointer;
 }
+
+#map .gm-style .gmnoprint{
+  margin-top: -50px! important;
+}
+
+#map .gm-style .gmnoprint .gmnoprint{
+  margin-top: -50px!important;
+}
