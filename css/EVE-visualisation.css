@@ -549,10 +549,12 @@ input:checked + .slider:before {
   cursor:pointer;
 }
 
+/*Styling for google map's map style control*/
 #map .gm-style .gmnoprint{
-  margin-top: -50px! important;
+  margin-top: -20px! important;
 }
 
+/*Styling for google map's zoom control*/
 #map .gm-style .gmnoprint .gmnoprint{
-  margin-top: -50px!important;
+  margin-top: -80px!important;
 }
