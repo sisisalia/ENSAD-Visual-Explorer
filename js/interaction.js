@@ -4,25 +4,44 @@ Purpose : Interaction between menu and the map
 
 // Intial set up when page is loaded
 $('header').show();
-$('#about-EVE-content').hide();
+$('.about-EVE-content').hide();
 $('.menu-2').hide();
 $('[id$="-tooltip"]').hide();
 $('.chart-menu').hide();
 $('.node-information').hide();
 $('.cover').fadeOut(100);
 
+// Header Interaction
+$('.big-title').on('click', function() {
+  if($('.about-EVE-content').is(':visible')){
+    $('.about-EVE-content').hide();
+  }else{
+    $('.about-EVE-content').show();
+  }
+})
+$('.fcl-image').on('click', function(){
+  window.location.replace('http://www.fcl.ethz.ch');
+})
+$('.frs-image').on('click', function(){
+  window.location.replace('http://frs.ethz.ch');
+})
+$('.psi-image').on('click', function(){
+  window.location.replace('https://www.psi.ch/lea/');
+})
+
+
 // About EVE link at the bottom right window
-$('#about-EVE-content .fa-times').on('click', function() {
-    $('#about-EVE-content').hide();
+$('.about-EVE-content .fa-times').on('click', function() {
+    $('.about-EVE-content').hide();
 })
 $('#map').on('click', function() {
-    $('#about-EVE-content').hide();
+    $('.about-EVE-content').hide();
 })
-$('#about-EVE').on('click', function() {
-  if($('#about-EVE-content').is(':visible')){
-    $('#about-EVE-content').hide();
+$('.fa-info-circle').on('click', function() {
+  if($('.about-EVE-content').is(':visible')){
+    $('.about-EVE-content').hide();
   }else{
-    $('#about-EVE-content').show();
+    $('.about-EVE-content').show();
   }
 })
 
@@ -155,6 +174,10 @@ $('.fa-area-chart').on('click', function() {
             createRegionsData();
             createRegionsChart();
         }
+        if ($('#chart-type').val() == 'line-chart') {
+            createEnergyTypeData();
+            createLineChart();
+        }
         $('.chart-menu').show();
     }
 })
@@ -170,7 +193,7 @@ $('#chart-type').change(function() {
         createRegionsChart();
     }
     if ($(this).val() == 'line-chart') {
-        createLineData();
+        createEnergyTypeData();
         createLineChart();
     }
 })
@@ -214,11 +237,11 @@ $('.energy-type').on('click', function() {
         energy_type_active.splice(index, 1);
         resetMarkers();
     }
-    if ($('.chart-menu').is(':visible')) {
-        $('#chart').empty();
-        createEnergyTypeData();
-        createEnergyTypeChart();
-    }
+    // if ($('.chart-menu').is(':visible')) {
+    //     $('#chart').empty();
+    //     createEnergyTypeData();
+    //     createEnergyTypeChart();
+    // }
 })
 
 // Upon clicking content of 'More' menu under 'by Energy Chain Stages'
@@ -290,13 +313,75 @@ $('.regions').on('click', function() {
         regions.push(id);
     }
     resetMarkers();
-    if ($('.chart-menu').is(':visible')) {
-        if ($('#chart-type').val() == 'regions-year') {
-            $('#chart').empty();
-            createRegionsData();
-            createRegionsChart();
-        }
-    }
+    // if ($('.chart-menu').is(':visible')) {
+    //     if ($('#chart-type').val() == 'regions-year') {
+    //         $('#chart').empty();
+    //         createRegionsData();
+    //         createRegionsChart();
+    //     }
+    // }
+})
+
+// Click 'Select all' in accidents-menu
+$('#energy_type_select').on('click', function(){
+  energy_type_active = ['Battery', 'Biomass', 'Electricity', 'Fuel cell', 'Geothermal', 'Hydrogen', 'Hydropower', 'LPG', 'Marine', 'Natural gas', 'Non-hydro dam', 'Nuclear', 'Oil', 'Solarthermal', 'Solar photovolatic', 'Wind', 'Not applicable'];
+  resetMarkers();
+  $('.energy-type').each(function(){
+    var text = $(this).attr('src');
+    var index = (text.lastIndexOf('/'));
+    var temp = text.substring(index + 1, text.length);
+    var src = 'image/energy-type-on/' + temp;
+    var type = $(this).attr('class');
+    var index = type.indexOf(' ');
+    var type = type.substring(index + 1, type.length);
+    $('.' + type).attr('src', src);
+    ($('.' + type).parent().css('color', 'black'));
+  })
+})
+
+// Click 'Unselect all' in accidents-menu
+$('#energy_type_unselect').on('click', function(){
+  energy_type_active = [];
+  resetMarkers();
+  $('.energy-type').each(function(){
+    var text = $(this).attr('src');
+    var index = (text.lastIndexOf('/'));
+    var temp = text.substring(index + 1, text.length);
+    var src = 'image/energy-type-off/' + temp;
+    var type = $(this).attr('class');
+    var index = type.indexOf(' ');
+    var type = type.substring(index + 1, type.length);
+    $('.' + type).attr('src', src);
+    ($('.' + type).parent().css('color', '#87A1B1'));
+  })
+})
+
+// Click 'Select all' in energy Chain
+$('#energy_chain_select').on('click', function(){
+  energy_chain_filter_out = [];
+  resetMarkers();
+  $('.energy-stage').each(function() {
+    var text = $(this).attr('src');
+    var index = (text.lastIndexOf('/'));
+    var temp = text.substring(index + 1, text.length);
+    var src = 'image/energy-stage-on/' + temp;
+    $(this).attr('src', src);
+    ($(this).parent().css('color', 'black'));
+  })
+})
+
+// Click 'Unselect all' in energy Chain
+$('#energy_chain_unselect').on('click', function(){
+  energy_chain_filter_out = ['Exploration', 'Extraction', 'Processing', 'Transport', 'Storage', 'Power plant', 'Waste processing', 'Domestic and commercial end use', 'Other end use'];
+  resetMarkers();
+  $('.energy-stage').each(function() {
+    var text = $(this).attr('src');
+    var index = (text.lastIndexOf('/'));
+    var temp = text.substring(index + 1, text.length);
+    var src = 'image/energy-stage-off/' + temp;
+    $(this).attr('src', src);
+    ($(this).parent().css('color', '#87A1B1'));
+  })
 })
 
 // Severity range in 'Damage' menu under 'Severity Level'
@@ -433,28 +518,22 @@ $("#slider-range").slider({
         years = [];
         years.push(ui.values[0]);
         years.push(ui.values[1]);
-        resetMarkers();
-        touch = 1;
-        if ($('.chart-menu').is(':visible')) {
-            $('#chart').empty();
-            if ($('#chart-type').val() == 'energy-type-year') {
-                createEnergyTypeData();
-                createEnergyTypeChart();
-            }
-            if ($('#chart-type').val() == 'regions-year') {
-                createRegionsData();
-                createRegionsChart();
-            }
-        }
+        setTimeout(function() {
+            resetMarkers();
+        }, 100);
+        // if ($('.chart-menu').is(':visible')) {
+        //     $('#chart').empty();
+        //     if ($('#chart-type').val() == 'energy-type-year') {
+        //         createEnergyTypeData();
+        //         createEnergyTypeChart();
+        //     }
+        //     if ($('#chart-type').val() == 'regions-year') {
+        //         createRegionsData();
+        //         createRegionsChart();
+        //     }
+        // }
     },
 });
-
-$('#slider-range').on('mouseout', function(){
-  if(touch == 1){
-    resetMarkers();
-    touch = 0;
-  }
-})
 
 $('#slider-range').slider().slider('pips');
 
@@ -469,53 +548,82 @@ $('#slider-range .ui-slider-handle').css('margin-left', '-3px');
 
 // Refresh
 $('.fa-repeat').on('click', function() {
-    energy_type_active = ['Non-hydro', 'Hydropower', 'Natural gas', 'LPG', 'Battery', 'Biomass', 'Coal', 'Electricity', 'Fuel Cell', 'Geothermal', 'Hydrogen', 'Marine', 'Nuclear', 'Oil', 'Solar', 'Wind','NA'];
+    energy_type_active = ['Non-hydro dam', 'Hydropower', 'Natural gas', 'LPG', 'Not applicable'];
     energy_chain_filter_out = [];
     severity_level_included = ['Level 0', 'Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5'];
     damage_selected = 'Fatalities';
     region_filter_out = [];
-    years = [];
     $('.markers').remove();
     map.panTo(map.getCenter());
     map.setZoom(initial_zoom);
     resetMarkers();
-    $('.energy-type').each(function() {
-        var text = $(this).attr('src');
-        var choice = text.indexOf('-on/');
+    // Set on/off according to 'energy_type_active' variable
+    $('.energy-type').each(function(){
+      var text = $(this).attr('src');
+      var index = (text.lastIndexOf('/'));
+      var temp = text.substring(index + 1, text.length - 4);
+      var filter = energy_type_filter[temp];
+      if(filter != null) temp = filter;
+      var choice = energy_type_active.indexOf(temp);
+      if(choice == -1){
+        var index = (text.lastIndexOf('/'));
+        var temp = text.substring(index + 1, text.length);
+        var src = 'image/energy-type-off/' + temp;
         var type = $(this).attr('class');
         var index = type.indexOf(' ');
         var type = type.substring(index + 1, type.length);
-        // if off, on it
-        if (choice == -1) {
-            var index = (text.lastIndexOf('/'));
-            var temp = text.substring(index + 1, text.length);
-            var src = 'image/energy-type-on/' + temp;
-            $('.' + type).attr('src', src);
-            ($('.' + type).parent().css('color', 'black'));
+        $('.' + type).attr('src', src);
+        ($('.' + type).parent().css('color', '#87A1B1'));
+      }
+    })
+
+    // Set on/off according to 'damage_selected' variable
+    $('.damage-type').each( function() {
+        var text = $.trim(($(this).parent().text()));
+        if (text == damage_selected){
+          $(this).parent().css('color', '#87A1B1');
+          $(this).parent().css('color', 'black');
+          var text = $(this).attr('src');
+          var index = (text.lastIndexOf('/'));
+          var temp = text.substring(index + 1, text.length);
+          var src = 'image/damage-on/' + temp;
+          $(this).attr('src', src);
         }
-    });
+    })
+
+    // Set on/off according to 'energy_chain_filter_out'
     $('.energy-stage').each(function() {
-        var text = $(this).attr('src');
-        var choice = text.indexOf('-on/');
-        // if off, on it
-        if (choice == -1) {
-            var index = (text.lastIndexOf('/'));
-            var temp = text.substring(index + 1, text.length);
-            var src = 'image/energy-stage-on/' + temp;
-            $(this).attr('src', src);
-            ($(this).parent().css('color', 'black'));
+        var text = $.trim(($(this).parent().text()));
+        if(energy_chain_filter_out.indexOf(text) == -1) return;
+        else{
+          var text = $(this).attr('src');
+          var index = (text.lastIndexOf('/'));
+          var temp = text.substring(index + 1, text.length);
+          var src = 'image/energy-stage-off/' + temp;
+          $(this).attr('src', src);
+          ($(this).parent().css('color', '#87A1B1'));
         }
-    });
+    })
+
+    // Set on/off according to 'region_filter_out'
+    $('.regions').each(function() {
+        var id = $(this).attr('id');
+        var checked = region_filter_out.indexOf(id);
+        if (checked == -1) return;
+        else{
+          $('#' + id).attr('checked', false);
+        }
+    })
     $('.damage-type').parent().css('color', '#B9CAD4');
     $('#fatalities').css('color', 'black');
     $('.regions').each(function() {
         $(this).prop('checked', true);
     });
     $("#severity-range").slider({
-        values: [0, 100]
+      values: [values[initial_severity[0]], values[initial_severity[initial_severity.length - 1]]],
     });
     $("#slider-range").slider({
-        values: [1860, 2020]
+        values: [years[0], years[1]]
     });
     $('#year-range').text('1860 - 2020');
     for (i = 0; i <= 5; i++) {
@@ -527,40 +635,4 @@ $('.fa-repeat').on('click', function() {
     }
     $('.chart-menu').hide();
     $('#chart').empty();
-    $('.damage-type').each(function() {
-        var text = $(this).attr('src');
-        var choice = text.indexOf('fatalities.png');
-        if (choice == -1) {
-            var index = (text.lastIndexOf('/'));
-            var temp = text.substring(index + 1, text.length);
-            var src = 'image/damage-off/' + temp;
-            $(this).attr('src', src);
-        } else {
-            var index = (text.lastIndexOf('/'));
-            var temp = text.substring(index + 1, text.length);
-            var src = 'image/damage-on/' + temp;
-            $(this).attr('src', src);
-        }
-    });
 })
-
-// If zoom in/out of google map
-google.maps.event.addListener(map, 'zoom_changed', function() {
-    $('.markers').remove();
-    zoom_level = map.getZoom();
-    if (map.getZoom() == opt.maxZoom) {
-        $("div[title='Zoom in']").css("opacity", "0.5").css('cursor', 'not-allowed');
-    } else {
-        $("div[title='Zoom in']").css("opacity", "1").css('cursor', 'pointer');
-    }
-    if (map.getZoom() == opt.minZoom) {
-        $("div[title='Zoom out']").css("opacity", "0.5").css('cursor', 'not-allowed');
-    } else {
-        $("div[title='Zoom out']").css("opacity", "1").css('cursor', 'pointer');
-    }
-    $('.node-information').remove();
-    // Set timer for the broswer to respond correctly, if not the visualization could become a mess
-    setTimeout(function() {
-        resetMarkers();
-    }, 500);
-});

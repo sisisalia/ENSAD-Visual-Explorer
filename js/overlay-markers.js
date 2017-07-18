@@ -197,13 +197,13 @@ function overlayMarkers() {
                         }
                     })
                     .attr("height", function(d){
-                      if((d.type == 'Non-hydro') || (d.type == 'Not applicable') || (energy_chain_active == 1 && d.stage == 'Domestic and commercial end use')){
+                      if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable') || (energy_chain_active == 1 && d.stage == 'Domestic and commercial end use')){
                         return radius * 2 - 6;
                       }
                       return radius * 2
                     })
                     .attr("width", function(d){
-                      if((d.type == 'Non-hydro') || (d.type == 'Not applicable') || (energy_chain_active == 1 && d.stage == 'Domestic and commercial end use')){
+                      if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable') || (energy_chain_active == 1 && d.stage == 'Domestic and commercial end use')){
                         return radius * 2 - 6;
                       }
                       return radius * 2
@@ -211,13 +211,13 @@ function overlayMarkers() {
                     .attr("x", function(d){
                       if(damage_active == 1){
                         // Due to different size of images, adjustment need to be make
-                        if((d.type == 'Non-hydro') || (d.type == 'Not applicable')){
+                        if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable')){
                         return d.radbydamage - radius + 3;
                       }else{
                         return d.radbydamage - radius;
                       }
                       }else{
-                        if((d.type == 'Non-hydro') || (d.type == 'Not applicable') || (energy_chain_active == 1 && d.stage == 'Domestic and commercial end use')){
+                        if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable') || (energy_chain_active == 1 && d.stage == 'Domestic and commercial end use')){
                         return 3;
                         }else{
                         return 0;
@@ -226,13 +226,13 @@ function overlayMarkers() {
                     })
                     .attr("y", function(d){
                       if(damage_active == 1){
-                        if((d.type == 'Non-hydro') || (d.type == 'Not applicable')){
+                        if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable')){
                         return d.radbydamage - radius + 3;
                       }else{
                         return d.radbydamage - radius;
                       }
                       }else{
-                        if((d.type == 'Non-hydro') || (d.type == 'Not applicable') || (energy_chain_active == 1 && d.stage == 'Domestic and commercial end use')){
+                        if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable') || (energy_chain_active == 1 && d.stage == 'Domestic and commercial end use')){
                         return 3;
                         }else{
                         return 0;
@@ -392,7 +392,6 @@ function getAveragePosition(cluster) {
 
 function resetMarkers() {
     $('.markers').remove();
-    new_map = 1;
     zoom_level = map.getZoom();
     overlayMarkers();
 }

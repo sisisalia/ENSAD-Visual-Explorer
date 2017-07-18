@@ -92,13 +92,13 @@ function overlayOverlappingMarkers(array) {
                 })
                 .attr("x", function(d){
                   // Due to different size of images, need to be manually adjusted
-                  if((d.type == 'Non-hydro') || (d.type == 'Not applicable')|| (energy_chain_active ==  1 && d.stage == 'DOM/COM')){
+                  if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable')|| (energy_chain_active ==  1 && d.stage == 'DOM/COM')){
                     return max_radius - radius + 3;
                   }
                   return max_radius - radius;
                 })
                 .attr("y", function(d){
-                  if((d.type == 'Non-hydro') || (d.type == 'Not applicable')|| (energy_chain_active ==  1 && d.stage == 'DOM/COM')){
+                  if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable')|| (energy_chain_active ==  1 && d.stage == 'DOM/COM')){
                     return (max_radius * 2 + 3)/2 - radius + 3;
                   }
                   return (max_radius * 2 + 3)/2 - radius;
@@ -110,13 +110,13 @@ function overlayOverlappingMarkers(array) {
                     return 'rotate(' + (-rotate ) + ', ' + (max_radius) + ', ' + (max_radius+1.5) + ')';
                 })
                 .attr("height", function(d){
-                  if((d.type == 'Non-hydro') || (d.type == 'Not applicable')|| (energy_chain_active ==  1 && d.stage == 'DOM/COM')){
+                  if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable')|| (energy_chain_active ==  1 && d.stage == 'DOM/COM')){
                     return 10;
                   }
                   return 17;
                 })
                 .attr("width", function(d){
-                  if((d.type == 'Non-hydro') || (d.type == 'Not applicable')|| (energy_chain_active ==  1 && d.stage == 'DOM/COM')){
+                  if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable')|| (energy_chain_active ==  1 && d.stage == 'DOM/COM')){
                     return 10;
                   }
                   return 17;

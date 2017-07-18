@@ -2,11 +2,11 @@
 var regionsColor = {
   'oecd' : '#8CC841',
   'g20' : 'purple',
-  'opec' : 'lightblue',
-  'eu27' : 'yellow',
+  'non_oecd' : 'lightblue',
+  'eu28' : 'yellow',
 }
 
-var regions = ['oecd', 'g20', 'eu27', 'opec'];
+var regions = ['oecd', 'g20', 'eu28', 'non_oecd'];
 
 function createRegionsData(){
   accidents_no = [];
@@ -47,9 +47,9 @@ function createRegionsData(){
 }
 
 function createRegionsChart(){
-  var margin = {top: 20, right: 20, bottom: 30, left: 50},
-  width = 1000 - margin.left - margin.right,
-  height = 150 - margin.top - margin.bottom;
+  var margin = {top: 20, right: 20, bottom: 30, left: 50};
+  var width = ($(window).width() * 70/100) - margin.left - margin.right,
+  height = ($(window).height() * 40/100) - margin.top - margin.bottom;
 
   var svg = d3.select("#chart").append('svg')
         .attr("width", width + margin.left + margin.right)
@@ -123,13 +123,13 @@ function createRegionsChart(){
       .attr("y", 5)
       .attr("dy", "0.32em")
       .text(function(d) {
-        if(d == 'opec'){
-          return 'OPEC';
+        if(d == 'non_oecd'){
+          return 'Non-OECD';
         }
         if(d == 'g20'){
           return 'G20';
         }
-        if(d == 'eu27'){
+        if(d == 'eu28'){
           return 'EU';
         }
         if(d == 'oecd'){

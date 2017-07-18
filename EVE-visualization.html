@@ -20,18 +20,11 @@
   <link rel="stylesheet" type="text/css" href="css/EVE-visualisation.css">
   <!-- <link rel="stylesheet" type="text/css" href="css/valueLab.css"> -->
   <header class="navbar-fixed-top">
-    <title>ENSAD Visual Explorer</title>
-    <div class="title-header">
-      ENSAD Visual Explorer
-    </div>
-    <div>
+    <title>Mapping Global Energy Accidents</title>
+    <div class="title">
+      <span class='big-title'>Mapping Global Energy Accidents</span>
       <img src="image/Logo/fcl.png" alt="FCL" class="fcl-image">
-      <br/>
-    </div>
-    <div>
       <img src="image/Logo/frs.png" alt="FRS" class="frs-image">
-    </div>
-    <div>
       <img src="image/Logo/psi.png" alt="PSI" class="psi-image">
     </div>
   </header>
@@ -128,16 +121,16 @@
         </tr>
         <tr>
           <td>
-            <img src="image/energy-type-on/marine.png" alt="Marine" width="47px" height="47px" class="energy-type marine"></br>
+            <img src="image/energy-type-on/marine.png" alt="Marine" width="47px" height="47px" class="energy-type marine" style="margin-top:-8px;"></br>
             Marine
           </td>
           <td>
-            <img src="image/energy-type-on/naturalgas.png" alt="Natural gas" width="47px" height="47px" class="energy-type naturalgas"></br>
+            <img src="image/energy-type-on/naturalgas.png" alt="Natural gas" width="47px" height="47px" class="energy-type naturalgas" style="margin-top:-8px;"></br>
             Natural gas
           </td>
           <td>
-            <img src="image/energy-type-on/nonhydro.png" alt="Non-hydro" width="47px" height="47px" class="energy-type nonhydro"></br>
-            Non-hydro
+            <img src="image/energy-type-on/nonhydro.png" alt="Non-hydro dam" width="47px" height="47px" class="energy-type nonhydro"></br>
+            Non-hydro dam
           </td>
         </tr>
         <tr>
@@ -169,6 +162,11 @@
           </td>
         </tr>
       </table>
+      <br />
+      <div>
+        <button type='button' class='btn btn-default btn-sm' id='energy_type_select'> Select all </button>
+        <button type='button' class='btn btn-default btn-sm' id='energy_type_unselect'> Unselect all </button>
+      </div>
     </nav>
   </div>
 
@@ -238,7 +236,7 @@
       </tr>
       <tr>
         <td>
-          <img src="image/energy-type-on/nonhydro.png" alt="Non-hydro" width="28px" height="28px" class="energy-type nonhydro"></br>
+          <img src="image/energy-type-on/nonhydro.png" alt="Non-hydro dam" width="28px" height="28px" class="energy-type nonhydro"></br>
         </td>
       </tr>
       <tr>
@@ -331,7 +329,7 @@
       </tr>
       <tr>
         <td id="nonhydro-tooltip">
-          <span class="tooltip-style">Non-hydro</span>
+          <span class="tooltip-style">Non-hydro dam</span>
         </td>
       </tr>
       <tr>
@@ -433,6 +431,12 @@
             </td>
           </tr>
         </table>
+      <p></p>
+        <div>
+          <button type='button' class='btn btn-default btn-sm' id='energy_chain_select'> Select all </button>
+          <button type='button' class='btn btn-default btn-sm' id='energy_chain_unselect'> Unselect all </button>
+        </div>
+      </br> <p></p>
         <p></p>
         <span class="general-title">by Regions</span>
         <table class="menu-2-regions" width="100%">
@@ -588,6 +592,9 @@
           <i style="font-size:17px;" class="fa fa-repeat" aria-hidden="true" title="Refresh"></i>
         </td>
         <td>
+          <i style="font-size:17px;" class="fa fa-info-circle" aria-hidden="true" title="Information"></i>
+        </td>
+        <td>
           <i style="font-size:17px;" class="fa fa-sign-out" aria-hidden="true" title="Sign Out"></i>
         </td>
       </tr>
@@ -595,16 +602,28 @@
   </nav>
 
   <!-- 'About EVE' at the bottom right of the window -->
-  <div id="about-EVE">About EVE</div>
-  <div id='about-EVE-content'>
-    <span id=about-EVE-content-title>About EVE</span>
+  <div class='about-EVE-content'>
+    <span class='about-EVE-content-title'>About Mapping Global Energy Accidents</span>
     <i class="fa fa-times" aria-hidden="true"></i>
     </br>
     </br>
-    <span>The Energy-related Severe Accident Database (ENSAD) is the most comprehensive collection of historical accidents in the energy sector, covering complete energy chains. It was developed and first released by the Paul Scherrer Institut (PSI) in the 1990s, and since then has been continuously updated and extended, both in terms of content as well as scope and features. This project aims to develop a web-based Geographic Information System (GIS) to visualize the geographical distribution and analyse the spatio-temporal characteristics of accidents. The expected result is a web-based ENSAD Visual Explorer (EVE) that allows the public audience to access the ENSAD online with a simple but useful user interface (UI).</span>
+    <span>The Energy-related Severe Accident Database (ENSAD) is the most comprehensive collection of historical accidents in the energy sector, covering complete energy chains. It was developed and first released by the Paul Scherrer Institut (PSI) in the 1990s, and since then has been continuously updated and extended, both in terms of content as well as scope and features. This project aims to develop a web-based Geographic Information System (GIS) to visualize the geographical distribution and analyse the spatio-temporal characteristics of accidents. The expected result is a web-based 'Mapping Global Energy Accidents' that allows the public audience to access the ENSAD online with a simple but useful user interface (UI).</span>
     </br></br>
+    <p class='team-title'>Team</p>
+    <div class='team'>
+      <div class='col-md-6'>
+        <p>Shiho Asada, UI and Visualisation Designer</p>
+        <p>Sisi Salia, UI and Visualisation Developer</p>
+        <p>Zeng Wei, UI and Visualisation Supervisor</p>
+      </div>
+      <div class='col-md-6'>
+        <p>Kim Wansub, Data Specialist</p>
+        <p>Peter Burgherr, ENSAD Development&Analysis</p>
+        <p>Matteo Spada, ENSAD Development&Analysis</p>
+      </div>
+    </div>
     <div class="text-center">
-      <button id="send-feedback"><i class="fa fa-paper-plane" aria-hidden="true"></i> Send feedback </button>
+      <button class="send-feedback"><i class="fa fa-paper-plane" aria-hidden="true"></i> Send feedback </button>
     </div>
   </div>
 
@@ -630,7 +649,6 @@
   <script src='js/interaction.js'></script>
   <script src='chart/energy-type-vs-year.js'></script>
   <script src='chart/regions-vs-year.js'></script>
-  <script src='chart/lineChart.js'></script>
   <script src='js/overlay-piechart.js'></script>
   <script src='js/overlay-overlapping-markers.js'></script>
   <script src='js/dbscan.js'></script>

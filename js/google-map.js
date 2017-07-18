@@ -20,6 +20,8 @@ if($(window).width() < 1500){
   };
 }
 
+// alert($(window).width());
+
 // Get data from 'map-styles.json' using ajax
 var style = (function() {
     var json = null;
@@ -44,6 +46,11 @@ var styledMapType = new google.maps.StyledMapType(style, {
 var map = new google.maps.Map(d3.select("#map").node(), {
     center: new google.maps.LatLng(37.76487, 0),
     zoom: opt.minZoom + 1,
+    zoomControl: true,
+    zoomControlOptions: {
+        position: google.maps.ControlPosition.RIGHT_BOTTOM
+    },
+    mapTypeControl: true,
     mapTypeControlOptions: {
         // 'Map', 'satellite', 'simple map'
         mapTypeIds: ['roadmap', 'terrain', 'satellite', 'hybrid',
@@ -119,4 +126,25 @@ google.maps.event.addListener(map, 'bounds_changed', function() {
         ne = cur_bounds.getNorthEast();
         sw = cur_bounds.getSouthWest();
     }
+});
+
+// If zoom in/out of google map
+google.maps.event.addListener(map, 'zoom_changed', function() {
+    $('.markers').remove();
+    zoom_level = map.getZoom();
+    if (map.getZoom() == opt.maxZoom) {
+        $("div[title='Zoom in']").css("opacity", "0.5").css('cursor', 'not-allowed');
+    } else {
+        $("div[title='Zoom in']").css("opacity", "1").css('cursor', 'pointer');
+    }
+    if (map.getZoom() == opt.minZoom) {
+        $("div[title='Zoom out']").css("opacity", "0.5").css('cursor', 'not-allowed');
+    } else {
+        $("div[title='Zoom out']").css("opacity", "1").css('cursor', 'pointer');
+    }
+    $('.node-information').remove();
+    // Set timer for the broswer to respond correctly, if not the visualization could become a mess
+    setTimeout(function() {
+        resetMarkers();
+    }, 500);
 });

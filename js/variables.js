@@ -26,7 +26,7 @@ var energy_type_image_color = {
   'Wind' : '/image/energy-type-on/wind.png',
   'Solar photovolatic' : '/image/energy-type-on/solarp.png',
   'Not applicable' : '/image/energy-type-on/na.png',
-  'Non-hydro' : '/image/energy-type-on/nonhydro.png',
+  'Non-hydro dam' : '/image/energy-type-on/nonhydro.png',
 };
 
 // Energy type image without color
@@ -48,7 +48,7 @@ var energy_type_image_white = {
   'Wind' : '/image/energy-type-white/wind-w.png',
   'Solar photovolatic' : '/image/energy-type-white/solarp-w.png',
   'Not applicable' : '/image/energy-type-white/na-w.png',
-  'Non-hydro' : '/image/energy-type-white/nonhydro-w.png',
+  'Non-hydro dam' : '/image/energy-type-white/nonhydro-w.png',
 };
 
 // Energy chain image with color
@@ -123,7 +123,7 @@ var energy_color = {
   'Solar photovolatic' : '#9e642b',
   'Wind' : '#1f9b4b',
   'Not applicable' : '#b4b4b4',
-  'Non-hydro' : '#7fd6e2',
+  'Non-hydro dam' : '#7fd6e2',
 };
 
 ///////////////////////////
@@ -136,6 +136,7 @@ Rule : The object's keys will follow the name indicated on the 'Menu' in the int
 */
 
 var energy_type_filter = {
+  'Non-hydro' : 'Non-hydro dam',
   'Natural Gas' : 'Natural gas',
   'Solar Photovolatic' : 'Solar photovolatic',
   'Fuel Cell' : 'Fuel cell',
@@ -156,7 +157,7 @@ var energy_type_filter = {
   'solarp' : 'Solar photovolatic',
   'wind' : 'Wind',
   'na' : 'Not applicable',
-  'nonhydro' : 'Non-hydro',
+  'nonhydro' : 'Non-hydro dam',
   'NA' : 'Not applicable',
 };
 
@@ -182,6 +183,6 @@ var damage_filter = {
 ///        Variables        ///
 ///////////////////////////////
 
-var touch = 0;
 var projection;
 var zoom_level;
+var menu_image_width = '47px';

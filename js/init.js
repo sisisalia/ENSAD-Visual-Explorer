@@ -40,7 +40,7 @@ var severity_level_spillsize = [0,199,1000,10000,100000];
 var severity_level_economic_damage = [0,4.99,20,100,1000];
 
 // Energy type included will be active in the map
-var energy_type_active = ['Hydropower', 'Natural gas', 'LPG', 'Battery', 'Biomass', 'Coal', 'Electricity', 'Fuel cell', 'Geothermal', 'Hydrogen', 'Marine', 'Nuclear', 'Oil', 'Solarthermal', 'Solar photovolatic', 'Wind', 'Non-hydro', 'Not applicable'];
+var energy_type_active = ['Hydropower', 'Natural gas', 'LPG', 'Non-hydro dam', 'Not applicable'];
 
 // Energy chain included will be filtered out from the map
 var energy_chain_filter_out = [];
