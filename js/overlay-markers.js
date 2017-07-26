@@ -129,6 +129,46 @@ function overlayMarkers() {
                             contentString += '<div style="padding:3px;"><img src="' + energy_type_image_color[d.type] + '" width="15" height="15"></div>';
                         }
 
+                        // Bar tooltip
+                        // var damage = ['fatalities', 'injured', 'evacuees','economic_damage'];
+                        //
+                        // for(var i = 0; i < damage.length; i++){
+                        //   if(d[damage[i]] == 'NA') {
+                        //     window['bar' + i] = 'NA';
+                        //   }else{
+                        //     var level = d[damage[i]];
+                        //     var num = parseInt(level[level.length - 1]);
+                        //     var color = [];
+                        //     for(var j = 0; j < 6; j++){
+                        //       if(j <= num){
+                        //         color.push('#87A1B1');
+                        //       }else{
+                        //         color.push('white');
+                        //       }
+                        //     }
+                        //     window['bar' + i]= '<table class="bar'+ i +'"><tr><td class="text-center" style="font-style:italic; padding-top:2px;">Low</td><td><svg width="60" height="10" style="margin-top:5px; padding-left:5px;">' +
+                        //       '<rect x="0" y="0" width="10" height="10" style="fill:'+ color[1] +';stroke-width:1;stroke:rgb(0,0,0)" />' +
+                        //       '<rect x="10" y="0" width="10" height="10" style="fill:' + color[2] +';stroke-width:1;stroke:rgb(0,0,0)" />' +
+                        //       '<rect x="20" y="0" width="10" height="10" style="fill:'+ color[3] + ';stroke-width:1;stroke:rgb(0,0,0)" />' +
+                        //       '<rect x="30" y="0" width="10" height="10" style="fill:'+ color[4] +';stroke-width:1;stroke:rgb(0,0,0)" />' +
+                        //       '<rect x="40" y="0" width="10" height="10" style="fill:'+ color[5] + ';stroke-width:1;stroke:rgb(0,0,0)" />' +
+                        //     '</svg></td><td  class="text-center" style="font-style:italic; padding-top:2px;">High</td></tr></table>';
+                        //   }
+                        // }
+                        //
+                        // contentString += '<table>' +
+                        // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Year</td><td style="font:10px lato">' + d.year + '</td></tr>' +
+                        // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Location</td><td style="font:10px lato">' + d.location + '</td></tr>' +
+                        // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy type</td><td style="font:10px lato">' + d.type + '</td></tr>' +
+                        // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy stage</td><td style="font:10px lato">' + d.stage + '</td></tr>' +
+                        // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Infrastructure</td><td style="font:10px lato">' + d.infrastructure + '</td></tr>' +
+                        // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Fatalities</td><td style="font:10px lato">' + bar0 + '</td></tr>' +
+                        // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Injuries</td><td style="font:10px lato">' + bar1 + '</td></tr>' +
+                        // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Evacuees</td><td style="font:10px lato">' + bar2 + '</td></tr>' +
+                        // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Economic damage</td><td style="font:10px lato">' + bar3 + '</td></tr>' +
+                        // '</table>';
+
+                        // Text tooltip
                         contentString += '<table>' +
                         '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Year</td><td style="font:10px lato">' + d.year + '</td></tr>' +
                         '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Location</td><td style="font:10px lato">' + d.location + '</td></tr>' +
@@ -136,7 +176,7 @@ function overlayMarkers() {
                         '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy stage</td><td style="font:10px lato">' + d.stage + '</td></tr>' +
                         '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Infrastructure</td><td style="font:10px lato">' + d.infrastructure + '</td></tr>' +
                         '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Fatalities</td><td style="font:10px lato">' + d.fatalities + '</td></tr>' +
-                        '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Injured</td><td style="font:10px lato">' + d.injured + '</td></tr>' +
+                        '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Injuries</td><td style="font:10px lato">' + d.injured + '</td></tr>' +
                         '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Evacuees</td><td style="font:10px lato">' + d.evacuees + '</td></tr>' +
                         '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Economic damage</td><td style="font:10px lato">' + d.economic_damage + '</td></tr>' +
                         '</table>';
@@ -251,48 +291,8 @@ function overlayMarkers() {
 function filterData() {
     var result = [];
     for (var i = 0; i < data_size; i++) {
-        var selected = data.features[i].properties;
-        // Year filter
-        var incident_year = parseInt(selected.incident_date.substring(0,4));
-        // If incident year == 1000 in the data, changed it to 'NA'
-        if(incident_year == 1000){
-          selected.incident_date = 'NA';
-          incident_year = 'NA';
-        }
-        // Always include 'NA' despite the filtering
-        if(years && incident_year != 'NA'){
-          if(incident_year < years[0]) continue;
-          if(incident_year > years[1]) continue;
-        }
-        // Energy type filter
-        var energy_type = selected.energy_chain;
-        if (energy_type == null) energy_type = 'NA';
-        var filter = energy_type_filter[energy_type];
-        if (filter != null) energy_type = filter;
-        var index = energy_type_active.indexOf(energy_type);
-        if (index == -1) continue;
-        // Energy stage filter
-        var stage = selected.energy_chain_stage;
-        if(stage == null) stage = 'NA';
-        filter = energy_chain_filter[stage];
-        if(filter != null) stage = filter;
-        index = energy_chain_filter_out.indexOf(stage);
-        if(index != -1) continue;
-        // Region filter
-        for(var j = 0; j < region_filter_out.length; j++){
-          var check = selected[region_filter_out[j]];
-          if(check == true) break;
-        }
-        if(check == true) continue;
-        // Severity level check
-        if(damage_active == 1){
-          // Get severity number
-          var severity = selected[damage_filter[damage_selected]];
-          // Changed to severity level
-          var severity_lvl = severityLevel(parseInt(severity), window['severity_level_' + damage_filter[damage_selected]]);
-          // Always include NA
-          if(severity_level_included.indexOf(severity_lvl) == -1 && severity_lvl != 'NA') continue;
-        }
+        var exclude = excludeData(i);
+        if(exclude == -1) continue;
         // Create an object
         var obj = new Object();
         d = new google.maps.LatLng(data.features[i].geometry.coordinates[1], data.features[i].geometry.coordinates[0]);
@@ -394,4 +394,59 @@ function resetMarkers() {
     $('.markers').remove();
     zoom_level = map.getZoom();
     overlayMarkers();
+}
+
+// Exclude out the data according to the filter
+// i == the index in variable 'data'
+// without_severity == whether to filter severity level or not
+// If set as 1, do not filter severity level
+// If set as null, filter severity level
+function excludeData(i, without_severity){
+  var result = 0;
+  var selected = data.features[i].properties;
+  // Year filter
+  var incident_year = parseInt(selected.incident_date.substring(0,4));
+  // If incident year == 1000 in the data, changed it to 'NA'
+  if(incident_year == 1000){
+    selected.incident_date = 'NA';
+    incident_year = 'NA';
+  }
+  // Always include 'NA' despite the filtering
+  if(years && incident_year != 'NA'){
+    if(incident_year < years[0]) result = -1;
+    if(incident_year > years[1]) result = -1;
+  }
+  // Energy type filter
+  var energy_type = selected.energy_chain;
+  if (energy_type == null) energy_type = 'NA';
+  var filter = energy_type_filter[energy_type];
+  if (filter != null) energy_type = filter;
+  var index = energy_type_active.indexOf(energy_type);
+  if (index == -1) result = -1;
+  // Energy stage filter
+  var stage = selected.energy_chain_stage;
+  if(stage == null) stage = 'NA';
+  filter = energy_chain_filter[stage];
+  if(filter != null) stage = filter;
+  index = energy_chain_filter_out.indexOf(stage);
+  if(index != -1) result = -1;
+  // Region filter
+  var region_filter_out = ['oecd', 'non_oecd', 'eu28', 'g20'];
+  region_filter_out = region_filter_out.filter(function(x) { return region_active.indexOf(x) < 0 })
+  for(var j = 0; j < region_filter_out.length; j++){
+    var check = selected[region_filter_out[j]];
+    if(check == true) break;
+  }
+  if(check == true) result = -1;
+  if(without_severity) return result;
+  // Severity level check
+  if(damage_active == 1){
+    // Get severity number
+    var severity = selected[damage_filter[damage_selected]];
+    // Changed to severity level
+    var severity_lvl = severityLevel(parseInt(severity), window['severity_level_' + damage_filter[damage_selected]]);
+    // Always include NA
+    if(severity_level_included.indexOf(severity_lvl) == -1 && severity_lvl != 'NA') result = -1;
+  }
+  return result;
 }

@@ -30,7 +30,7 @@ $('.psi-image').on('click', function(){
 })
 
 
-// About EVE link at the bottom right window
+// About EVE link at extra menu
 $('.about-EVE-content .fa-times').on('click', function() {
     $('.about-EVE-content').hide();
 })
@@ -41,6 +41,7 @@ $('.fa-info-circle').on('click', function() {
   if($('.about-EVE-content').is(':visible')){
     $('.about-EVE-content').hide();
   }else{
+    $('.chart-menu').hide();
     $('.about-EVE-content').show();
   }
 })
@@ -93,11 +94,11 @@ $('.energy-stage').each(function() {
     }
 })
 
-// Set on/off according to 'region_filter_out'
+// Set on/off according to 'region_active'
 $('.regions').each(function() {
     var id = $(this).attr('id');
-    var checked = region_filter_out.indexOf(id);
-    if (checked == -1) return;
+    var checked = region_active.indexOf(id);
+    if (checked != -1) return;
     else{
       $('#' + id).attr('checked', false);
     }
@@ -120,6 +121,7 @@ $(".menu-2-accidents .energy-type").mouseout(function() {
 
 // Upon clicking on 'Damage' menu
 $('.damage').on('click', function() {
+    $('.menu-2-damage-content').show();
     if ($('.menu-2-damage').is(':hidden')) {
         $('.menu-1').hide();
         $('.menu-2-more').hide();
@@ -127,6 +129,7 @@ $('.damage').on('click', function() {
         $('.menu-2-damage').show();
         energy_chain_active = 0;
         damage_active = 1;
+        not = 1;
         resetMarkers();
     }
 })
@@ -144,6 +147,7 @@ $('.accidents').on('click', function() {
 
 // Upon clicking on 'More' menu
 $('.more').on('click', function() {
+    $('.menu-2-more-content').show();
     if ($('.menu-2-more').is(':hidden')) {
         $('.menu-1').hide();
         $('.menu-2-damage').hide();
@@ -162,39 +166,73 @@ $('.fa-sign-out').on('click', function() {
 
 // Upon clicking on 'Chart' icon at 'Extra menu'
 $('.fa-area-chart').on('click', function() {
+  $('#chart').empty();
+  if($('.about-EVE-content').is(':visible')){
+    $('.about-EVE-content').hide();
+  }
     if ($('.chart-menu').is(':visible')) {
         $('.chart-menu').hide();
         $('#chart').empty();
     } else {
-        if ($('#chart-type').val() == 'energy-type-year') {
-            createEnergyTypeData();
-            createEnergyTypeChart();
+        var scale = $('#scale').val();
+        if(scale == 'linear'){
+          createRegionsChartData();
+          createEnergyTypeChartData();
+        }else{
+          createRegionsChartData(1);
+          createEnergyTypeChartData(1);
         }
-        if ($('#chart-type').val() == 'regions-year') {
-            createRegionsData();
-            createRegionsChart();
+        var y_axis = $('#chart-y').val();
+        var x_axis = $('#chart-display').val();
+        var index = y_axis.indexOf('-');
+        y_axis = y_axis.substring(index + 1,y_axis.length);
+        var index1 = x_axis.indexOf('-');
+        var index2 = x_axis.lastIndexOf('-');
+        var type = x_axis.substring(index1 + 1, index2);
+        type = type.replace('-','_');
+        var chart_type = x_axis.substring(index2 + 1, x_axis.length);
+        if(chart_type == 'bar'){
+          barChart(window[type + '_chart_data'][y_axis], type, y_axis);
         }
-        if ($('#chart-type').val() == 'line-chart') {
-            createEnergyTypeData();
-            createLineChart();
+        if(chart_type == 'line'){
+          if(type == 'regions'){
+            createRegionLine(window[type + '_chart_data'][y_axis], y_axis);
+          }else{
+            createEnergyLine(window[type + '_chart_data'][y_axis], y_axis);
+          }
         }
         $('.chart-menu').show();
     }
 })
 
-$('#chart-type').change(function() {
+$('#chart-display, #chart-y, #scale').change(function() {
     $('#chart').empty();
-    if ($(this).val() == 'energy-type-year') {
-        createEnergyTypeData();
-        createEnergyTypeChart();
+    var scale = $('#scale').val();
+    if(scale == 'linear'){
+      createRegionsChartData();
+      createEnergyTypeChartData();
+    }else{
+      createRegionsChartData(1);
+      createEnergyTypeChartData(1);
     }
-    if ($(this).val() == 'regions-year') {
-        createRegionsData();
-        createRegionsChart();
+    var y_axis = $('#chart-y').val();
+    var x_axis = $('#chart-display').val();
+    var index = y_axis.indexOf('-');
+    y_axis = y_axis.substring(index + 1,y_axis.length);
+    var index1 = x_axis.indexOf('-');
+    var index2 = x_axis.lastIndexOf('-');
+    var type = x_axis.substring(index1 + 1, index2);
+    type = type.replace('-','_');
+    var chart_type = x_axis.substring(index2 + 1, x_axis.length);
+    if(chart_type == 'bar'){
+      barChart(window[type + '_chart_data'][y_axis], type, y_axis);
     }
-    if ($(this).val() == 'line-chart') {
-        createEnergyTypeData();
-        createLineChart();
+    if(chart_type == 'line'){
+      if(type == 'regions'){
+        createRegionLine(window[type + '_chart_data'][y_axis], y_axis);
+      }else{
+        createEnergyLine(window[type + '_chart_data'][y_axis], y_axis);
+      }
     }
 })
 
@@ -237,11 +275,9 @@ $('.energy-type').on('click', function() {
         energy_type_active.splice(index, 1);
         resetMarkers();
     }
-    // if ($('.chart-menu').is(':visible')) {
-    //     $('#chart').empty();
-    //     createEnergyTypeData();
-    //     createEnergyTypeChart();
-    // }
+    if ($('.chart-menu').is(':visible')) {
+        $('#chart-display, #chart-y').trigger('change');
+    }
 })
 
 // Upon clicking content of 'More' menu under 'by Energy Chain Stages'
@@ -270,6 +306,9 @@ $('.energy-stage').on('click', function() {
         ($(this).parent().css('color', '#87A1B1'));
         energy_chain_filter_out.push($(this).next().next().text());
         resetMarkers();
+    }
+    if ($('.chart-menu').is(':visible')) {
+        $('#chart-display, #chart-y').trigger('change');
     }
 })
 
@@ -303,23 +342,16 @@ $('.damage-type').on('click', function() {
 // Upon clicking the content in 'More' menu under 'by Regions'
 $('.regions').on('click', function() {
     var id = $(this).attr('id');
-    var checked = region_filter_out.indexOf(id);
+    var checked = region_active.indexOf(id);
     if (checked == -1) {
-        region_filter_out.push(id);
-        var index = regions.indexOf(id);
-        regions.splice(index, 1);
+        region_active.push(id);
     } else {
-        region_filter_out.splice(checked, 1);
-        regions.push(id);
+        region_active.splice(checked, 1);
     }
     resetMarkers();
-    // if ($('.chart-menu').is(':visible')) {
-    //     if ($('#chart-type').val() == 'regions-year') {
-    //         $('#chart').empty();
-    //         createRegionsData();
-    //         createRegionsChart();
-    //     }
-    // }
+    if ($('.chart-menu').is(':visible')) {
+        $('#chart-display, #chart-y').trigger('change');
+    }
 })
 
 // Click 'Select all' in accidents-menu
@@ -411,13 +443,20 @@ var slider = $("#severity-range").slider({
         } else {
             slider.slider('values', 1, value);
         }
-        // By using the height of the slider to determine the subsequent actions
         var height = $('.ui-slider-range').css('height');
         var index = height.indexOf('p');
         height = parseInt(height.substring(0, index));
+        // Safari returns percentage not pixel
         var bottom = $('.ui-slider-range').css('bottom');
-        var index = bottom.indexOf('p');
-        bottom = parseInt(bottom.substring(0, index));
+        var check = bottom.indexOf('%');
+        if(check != -1){
+          bottom = parseInt(bottom.substring(0, check));
+          index = values.indexOf(bottom);
+          bottom = severity_height[index];
+        }else{
+          var index = bottom.indexOf('p');
+          bottom = parseInt(bottom.substring(0, index));
+        }
         var upper_value = height + bottom;
         var lower_value = bottom;
         var upper_index = severity_height.indexOf(upper_value);
@@ -439,14 +478,15 @@ var slider = $("#severity-range").slider({
           lower_index = severity_height.indexOf(temp);
         }
         severity_level_included = [];
+        for(var i = lower_index; i <= upper_index; i++){
+          severity_level_included.push('Level ' + i);
+        }
         for(var i = 5; i >= 0; i--){
           if(i == upper_index){
             $('#lvl' + i).css('fill','#87A1B1');
-            severity_level_included.push('Level ' + i);
           }
           if(i < upper_index){
             $('#lvl' + i).css('fill','transparent');
-            severity_level_included.push('Level ' + i);
           }
           if(i > upper_index){
             $('#lvl' + i).css('fill','white');
@@ -521,17 +561,10 @@ $("#slider-range").slider({
         setTimeout(function() {
             resetMarkers();
         }, 100);
-        // if ($('.chart-menu').is(':visible')) {
-        //     $('#chart').empty();
-        //     if ($('#chart-type').val() == 'energy-type-year') {
-        //         createEnergyTypeData();
-        //         createEnergyTypeChart();
-        //     }
-        //     if ($('#chart-type').val() == 'regions-year') {
-        //         createRegionsData();
-        //         createRegionsChart();
-        //     }
-        // }
+        if ($('.chart-menu').is(':visible')) {
+            changeDuration();
+            $('#chart-display, #chart-y').trigger('change');
+        }
     },
 });
 
@@ -552,7 +585,8 @@ $('.fa-repeat').on('click', function() {
     energy_chain_filter_out = [];
     severity_level_included = ['Level 0', 'Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5'];
     damage_selected = 'Fatalities';
-    region_filter_out = [];
+    region_active = ['oecd','non_oecd', 'g20', 'eu28'];
+    years = [minYear, maxYear];
     $('.markers').remove();
     map.panTo(map.getCenter());
     map.setZoom(initial_zoom);
@@ -575,18 +609,34 @@ $('.fa-repeat').on('click', function() {
         $('.' + type).attr('src', src);
         ($('.' + type).parent().css('color', '#87A1B1'));
       }
+      if(choice != -1){
+        var index = (text.lastIndexOf('/'));
+        var temp = text.substring(index + 1, text.length);
+        var src = 'image/energy-type-on/' + temp;
+        var type = $(this).attr('class');
+        var index = type.indexOf(' ');
+        var type = type.substring(index + 1, type.length);
+        $('.' + type).attr('src', src);
+        ($('.' + type).parent().css('color', 'black'));
+      }
     })
 
     // Set on/off according to 'damage_selected' variable
     $('.damage-type').each( function() {
         var text = $.trim(($(this).parent().text()));
         if (text == damage_selected){
-          $(this).parent().css('color', '#87A1B1');
           $(this).parent().css('color', 'black');
           var text = $(this).attr('src');
           var index = (text.lastIndexOf('/'));
           var temp = text.substring(index + 1, text.length);
           var src = 'image/damage-on/' + temp;
+          $(this).attr('src', src);
+        }else{
+          $(this).parent().css('color', '#87A1B1');
+          var text = $(this).attr('src');
+          var index = (text.lastIndexOf('/'));
+          var temp = text.substring(index + 1, text.length);
+          var src = 'image/damage-off/' + temp;
           $(this).attr('src', src);
         }
     })
@@ -594,7 +644,14 @@ $('.fa-repeat').on('click', function() {
     // Set on/off according to 'energy_chain_filter_out'
     $('.energy-stage').each(function() {
         var text = $.trim(($(this).parent().text()));
-        if(energy_chain_filter_out.indexOf(text) == -1) return;
+        if(energy_chain_filter_out.indexOf(text) == -1){
+          var text = $(this).attr('src');
+          var index = (text.lastIndexOf('/'));
+          var temp = text.substring(index + 1, text.length);
+          var src = 'image/energy-stage-on/' + temp;
+          $(this).attr('src', src);
+          ($(this).parent().css('color', 'black'));
+        }
         else{
           var text = $(this).attr('src');
           var index = (text.lastIndexOf('/'));
@@ -605,11 +662,13 @@ $('.fa-repeat').on('click', function() {
         }
     })
 
-    // Set on/off according to 'region_filter_out'
+    // Set on/off according to 'region_active'
     $('.regions').each(function() {
         var id = $(this).attr('id');
-        var checked = region_filter_out.indexOf(id);
-        if (checked == -1) return;
+        var checked = region_active.indexOf(id);
+        if (checked != -1){
+          $('#' + id).attr('checked', true);
+        }
         else{
           $('#' + id).attr('checked', false);
         }
@@ -623,16 +682,23 @@ $('.fa-repeat').on('click', function() {
       values: [values[initial_severity[0]], values[initial_severity[initial_severity.length - 1]]],
     });
     $("#slider-range").slider({
-        values: [years[0], years[1]]
+        values: years
     });
     $('#year-range').text('1860 - 2020');
     for (i = 0; i <= 5; i++) {
         if (i == 5) {
-            $('#lvl5').attr('fill', '#87A1B1');
+            $('#lvl5').css('fill', '#87A1B1');
         } else {
-            $('#lvl' + i).attr('fill', 'transparent');
+            $('#lvl' + i).css('fill', 'transparent');
         }
     }
     $('.chart-menu').hide();
     $('#chart').empty();
+})
+
+$('.fa-compress').on('click', function(){
+  $('.menu-1').hide();
+  $('.menu-2').show();
+  $('.menu-2-more').hide();
+  $('.menu-2-damage').hide();
 })

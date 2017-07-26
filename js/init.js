@@ -49,6 +49,12 @@ var energy_chain_filter_out = [];
 // years[0] will be the earliest year while years[1] will be the latest year
 var years = [minYear, maxYear];
 
+// Step of years used in charts
+var year_steps = 5;
+
+// Region included will be active in the map
+var region_active = ['oecd', 'g20', 'eu28', 'non_oecd'];
+
 // severity level to be included
 var severity_level_included = ['Level 0', 'Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5'];
 
@@ -58,7 +64,5 @@ var damage_selected = 'Fatalities';
 var damage_active = 0;
 // Toogle between 0 and 1, if user clicks 'More', it will become 1, other than that it will be kept as 0
 var energy_chain_active = 0;
-// Region to be filtered out, it should contain the attribute named in the raw data, eg g20, eu28, oecd, non-oecd
-var region_filter_out = [];
 
 $('#year-range').html(years[0] + ' - ' + years[1]);

@@ -139,6 +139,46 @@ function overlayOverlappingMarkers(array) {
                       contentString += '<div style="padding:3px;"><img src="' + energy_type_image_color[d.type] + '" width="15" height="15"></div>';
                   }
 
+                  // Bar tooltip
+                  // var damage = ['fatalities', 'injured', 'evacuees','economic_damage'];
+                  //
+                  // for(var i = 0; i < damage.length; i++){
+                  //   if(d[damage[i]] == 'NA') {
+                  //     window['bar' + i] = 'NA';
+                  //   }else{
+                  //     var level = d[damage[i]];
+                  //     var num = parseInt(level[level.length - 1]);
+                  //     var color = [];
+                  //     for(var j = 0; j < 6; j++){
+                  //       if(j <= num){
+                  //         color.push('#87A1B1');
+                  //       }else{
+                  //         color.push('white');
+                  //       }
+                  //     }
+                  //     window['bar' + i]= '<table class="bar'+ i +'"><tr><td class="text-center" style="font-style:italic; padding-top:2px;">Low</td><td><svg width="60" height="10" style="margin-top:5px; padding-left:5px;">' +
+                  //       '<rect x="0" y="0" width="10" height="10" style="fill:'+ color[1] +';stroke-width:1;stroke:rgb(0,0,0)" />' +
+                  //       '<rect x="10" y="0" width="10" height="10" style="fill:' + color[2] +';stroke-width:1;stroke:rgb(0,0,0)" />' +
+                  //       '<rect x="20" y="0" width="10" height="10" style="fill:'+ color[3] + ';stroke-width:1;stroke:rgb(0,0,0)" />' +
+                  //       '<rect x="30" y="0" width="10" height="10" style="fill:'+ color[4] +';stroke-width:1;stroke:rgb(0,0,0)" />' +
+                  //       '<rect x="40" y="0" width="10" height="10" style="fill:'+ color[5] + ';stroke-width:1;stroke:rgb(0,0,0)" />' +
+                  //     '</svg></td><td  class="text-center" style="font-style:italic; padding-top:2px;">High</td></tr></table>';
+                  //   }
+                  // }
+                  //
+                  // contentString += '<table>' +
+                  // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Year</td><td style="font:10px lato">' + d.year + '</td></tr>' +
+                  // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Location</td><td style="font:10px lato">' + d.location + '</td></tr>' +
+                  // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy type</td><td style="font:10px lato">' + d.type + '</td></tr>' +
+                  // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy stage</td><td style="font:10px lato">' + d.stage + '</td></tr>' +
+                  // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Infrastructure</td><td style="font:10px lato">' + d.infrastructure + '</td></tr>' +
+                  // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Fatalities</td><td style="font:10px lato">' + bar0 + '</td></tr>' +
+                  // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Injuries</td><td style="font:10px lato">' + bar1 + '</td></tr>' +
+                  // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Evacuees</td><td style="font:10px lato">' + bar2 + '</td></tr>' +
+                  // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Economic damage</td><td style="font:10px lato">' + bar3 + '</td></tr>' +
+                  // '</table>';
+
+                  // Text tooltip
                   contentString += '<table>' +
                   '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Year</td><td style="font:10px lato">' + d.year + '</td></tr>' +
                   '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Location</td><td style="font:10px lato">' + d.location + '</td></tr>' +

@@ -20,9 +20,9 @@
   <link rel="stylesheet" type="text/css" href="css/EVE-visualisation.css">
   <!-- <link rel="stylesheet" type="text/css" href="css/valueLab.css"> -->
   <header class="navbar-fixed-top">
-    <title>Mapping Global Energy Accidents</title>
+    <title>ENSAD Visual Explorer</title>
     <div class="title">
-      <span class='big-title'>Mapping Global Energy Accidents</span>
+      <span class='big-title'>ENSAD Visual Explorer</span>
       <img src="image/Logo/fcl.png" alt="FCL" class="fcl-image">
       <img src="image/Logo/frs.png" alt="FRS" class="frs-image">
       <img src="image/Logo/psi.png" alt="PSI" class="psi-image">
@@ -75,6 +75,7 @@
     <nav class="main-menu-1">
       <p style="margin-top:-8px;"></p>
       <span class="general-title">Select Energy Type</span>
+      <i class="fa fa-compress" style="float:right; padding-top:5px; padding-right:10px;" aria-hidden="true"></i>
       <table id="energy-types">
         <col width="33.3%"><col width="33.3%"><col width="33.3%">
         <tr>
@@ -383,6 +384,7 @@
       <!-- 'More' menu content -->
       <div class="menu-2-more-content">
         <span class="general-title">by Energy Chain Stages</span>
+        <i class="fa fa-compress" style="float:right; padding-top:5px; padding-right:5px;" aria-hidden="true"></i>
         <table id="energy-stages">
           <col width="33.3%"><col width="33.3%"><col width="33.3%">
           <tr>
@@ -491,6 +493,7 @@
       </table>
       <div class="menu-2-damage-content">
         <span class="general-title">by Damage Type</span>
+        <i class="fa fa-compress" style="float:right; padding-top:5px; padding-right:5px;" aria-hidden="true"></i>
         <table id="damage-types">
           <col width="33.3%"><col width="33.3%"><col width="33.3%">
           <tr>
@@ -528,9 +531,29 @@
             <td style="padding-left:20px;">
               <div id="severity-range"></div>
             </td>
+            <!-- Bar tooltip -->
+            <!-- <td>
+              <svg style="margin-left:-10px;" height="110" width="175">
+                <circle id="lvl5" cx="68" cy="58.981" r="49.981" stroke="#B9CAD4" stroke-width="1" fill="transparent" />
+                <circle id="lvl4" cx="68" cy="63.3358" r="45.6262" stroke="#B9CAD4" stroke-width="1" fill="transparent" />
+                <circle id="lvl3" cx="68" cy="68.1527" r="40.8093" stroke="#B9CAD4" stroke-width="1" fill="transparent" />
+                <circle id="lvl2" cx="68" cy="73.6201" r="35.3419" stroke="#B9CAD4" stroke-width="1" fill="transparent" />
+                <circle id="lvl1" cx="68" cy="80.1055" r="28.8565" stroke="#B9CAD4" stroke-width="1" fill="transparent" />
+                <circle id="lvl0" cx="68" cy="88.5574" r="20.4046" stroke="#B9CAD4" stroke-width="1" fill="transparent" />
+                <path stroke="#C8C8C8" stroke-width="1" stroke-dasharray="5,2" d="M0 9 l140 0" />
+                <text x="145" y="10" fill="black" font-family="lato" font-size="11">High</text>
+                <path stroke="#C8C8C8" stroke-width="1" stroke-dasharray="5,2" d="M0 17 l140 0" />
+                <path stroke="#C8C8C8" stroke-width="1" stroke-dasharray="5,2" d="M0 27 l140 0" />
+                <path stroke="#C8C8C8" stroke-width="1" stroke-dasharray="5,2" d="M0 38 l140 0" />
+                <path stroke="#C8C8C8" stroke-width="1" stroke-dasharray="5,2" d="M0 51 l140 0" />
+                <path stroke="#C8C8C8" stroke-width="1" stroke-dasharray="5,2" d="M0 68 l140 0" />
+                <text x="145" y="71" fill="black" font-family="lato" font-size="11">Low</text>
+                <path stroke="#C8C8C8" stroke-width="1" stroke-dasharray="5,2" d="M0 109 l140 0" />
+              </svg>
+            </td> -->
+            <!-- Text tooltip -->
             <td>
               <svg style="margin-left:-10px;" height="110" width="175">
-                <!-- The area of circles are directly proportional to each other -->
                 <circle id="lvl5" cx="68" cy="58.981" r="49.981" stroke="#B9CAD4" stroke-width="1" fill="transparent" />
                 <circle id="lvl4" cx="68" cy="63.3358" r="45.6262" stroke="#B9CAD4" stroke-width="1" fill="transparent" />
                 <circle id="lvl3" cx="68" cy="68.1527" r="40.8093" stroke="#B9CAD4" stroke-width="1" fill="transparent" />
@@ -554,6 +577,7 @@
             </td>
           </tr>
         </table>
+        <!-- Text tooltip -->
         <span style="font:10px lato;">
           <p style="margin-top:8px;">*Level 5... Very high</p>
           <p style="margin-top:-10px;">*Level 4... High</p>
@@ -603,24 +627,20 @@
 
   <!-- 'About EVE' at the bottom right of the window -->
   <div class='about-EVE-content'>
-    <span class='about-EVE-content-title'>About Mapping Global Energy Accidents</span>
+    <span class='about-EVE-content-title'>About ENSAD Visual Explorer</span>
     <i class="fa fa-times" aria-hidden="true"></i>
     </br>
     </br>
-    <span>The Energy-related Severe Accident Database (ENSAD) is the most comprehensive collection of historical accidents in the energy sector, covering complete energy chains. It was developed and first released by the Paul Scherrer Institut (PSI) in the 1990s, and since then has been continuously updated and extended, both in terms of content as well as scope and features. This project aims to develop a web-based Geographic Information System (GIS) to visualize the geographical distribution and analyse the spatio-temporal characteristics of accidents. The expected result is a web-based 'Mapping Global Energy Accidents' that allows the public audience to access the ENSAD online with a simple but useful user interface (UI).</span>
+    <span>The Energy-related Severe Accident Database (ENSAD) is the most comprehensive collection of historical accidents in the energy sector, covering complete energy chains. It was developed and first released by the Paul Scherrer Institut (PSI) in the 1990s, and since then has been continuously updated and extended, both in terms of content as well as scope and features. This project aims to develop a web-based Geographic Information System (GIS) to visualize the geographical distribution and analyse the spatio-temporal characteristics of accidents. The expected result is a web-based 'ENSAD Visual Explorer' that allows the public audience to access the ENSAD online with a simple but useful user interface (UI).</span>
     </br></br>
     <p class='team-title'>Team</p>
     <div class='team'>
-      <div class='col-md-6'>
         <p>Shiho Asada, UI and Visualisation Designer</p>
         <p>Sisi Salia, UI and Visualisation Developer</p>
         <p>Zeng Wei, UI and Visualisation Supervisor</p>
-      </div>
-      <div class='col-md-6'>
         <p>Kim Wansub, Data Specialist</p>
         <p>Peter Burgherr, ENSAD Development&Analysis</p>
         <p>Matteo Spada, ENSAD Development&Analysis</p>
-      </div>
     </div>
     <div class="text-center">
       <button class="send-feedback"><i class="fa fa-paper-plane" aria-hidden="true"></i> Send feedback </button>
@@ -629,10 +649,25 @@
 
   <!-- Chart -->
   <div class="chart-menu">
-    <select name="chart-type" id='chart-type'>
-      <option value="energy-type-year">Years vs Energy type</option>
-      <option value="regions-year">Years vs Regions</option>
-      <option value="line-chart">Line Chart </option>
+    Display :
+    <select name="chart-display" id='chart-display'>
+      <option value="chart-energy-types-bar">Energy types - Bar chart</option>
+      <option value="chart-energy-types-line">Energy types - Line chart</option>
+      <option value="chart-regions-bar">Regions - Bar chart</option>
+      <option value="chart-regions-line">Regions - Line chart</option>
+    </select>
+    <span style="padding-left : 5px;">Y-axis :</span>
+    <select name="chart-y" id='chart-y'>
+      <option value="chart-accidents">Number of accidents</option>
+      <option value="chart-fatalities">Number of fatalities</option>
+      <option value="chart-injuries">Number of injuries</option>
+      <option value="chart-evacuees">Number of evacuees</option>
+      <option value="chart-economics">Number of economic damage</option>
+    </select>
+    <span style="padding-left : 5px;">Scale :</span>
+    <select name='scale' id='scale'>
+      <option value='linear'>Linear scale</option>
+      <option value='log'>Log scale</option>
     </select>
     <div id="chart"></div>
   </div>
@@ -640,34 +675,45 @@
   <!-- Google Map -->
   <div id="map"></div>
 
-  <script src="https://maps.googleapis.com/maps/api/js?v=3&amp;libraries=places&amp;key=AIzaSyCTVQh_6X6mO8NWR58geheSip4zrQARKlo&amp;callback=initMap"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?v=3&amp;libraries=places&amp;key=AIzaSyCTVQh_6X6mO8NWR58geheSip4zrQARKlo&amp"></script>
  <script src="//d3js.org/d3.v4.min.js"></script>
   <script src='js/google-map.js'></script>
   <script src='data/set-data.js'></script>
-  <script src='js/variables.js'></script>
   <script src='js/init.js'></script>
+  <script src='js/variables.js'></script>
   <script src='js/interaction.js'></script>
-  <script src='chart/energy-type-vs-year.js'></script>
-  <script src='chart/regions-vs-year.js'></script>
   <script src='js/overlay-piechart.js'></script>
   <script src='js/overlay-overlapping-markers.js'></script>
   <script src='js/dbscan.js'></script>
   <script src='js/overlay-markers.js'></script>
   <script type="text/javascript">
     overlayMarkers();
-    // Used to create data for chart
-    function yearCategory(duration, year){
-      earliest_year = parseInt(duration[0]);
+
+    // Used to create data for chart purpose
+    function yearCategory(year){
       for(var i = 0; i < duration.length; i++){
-        var cat = parseInt(duration[i+1]);
+        var cat1 = parseInt(duration[i]);
+        var cat2 = parseInt(duration[i+1]);
         var year = parseInt(year);
-        if(year < earliest_year){
-          return null;
-        }
-        if(year < cat){
+        if((year >= cat1) && (year < cat2)){
           return i;
         }
       }
+      return null;
     }
+
+    // Store array of years for chart purpose
+    var duration = [];
+    changeDuration();
+    function changeDuration(){
+      duration = [];
+      for(var i = years[0]; i <= years[1]; i += year_steps){
+        duration.push(i);
+      }
+    }
+
   </script>
+  <script src='data/chart-energy-types-data.js'></script>
+  <script src='data/chart-regions-data.js'></script>
+  <script src='chart/charts.js'></script>
 </body>

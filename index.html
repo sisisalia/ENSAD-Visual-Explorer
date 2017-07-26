@@ -17,18 +17,12 @@
 <body>
 
 <div class="navbar navbar-fixed-top" style="background-color:white; border-color:white;">
-    <div class="title-header col col-xs-6 col-sm-6 col-md-6 col-lg-6">
-        Mapping Global Energy Accidents
-    </div>
-    <div class="col col-xs-2 col-sm-2 col-md-2 col-lg-2">
-      <img src="image/Logo/psi.png" alt="PSI" class="psi-image">
-    </div>
-    <div class="col col-xs-2 col-sm-2 col-md-2 col-lg-2">
-      <img src="image/Logo/frs.png" alt="FRS" class="frs-image">
-    </div>
-    <div class="col col-xs-2 col-sm-2 col-md-2 col-lg-2">
-        <img src="image/Logo/fcl.png" alt="FCL" class="fcl-image">
-    </div>
+  <div class="title">
+    <span class='big-title'>ENSAD Visual Explorer</span>
+    <img src="image/Logo/fcl.png" alt="FCL" class="fcl-image">
+    <img src="image/Logo/frs.png" alt="FRS" class="frs-image">
+    <img src="image/Logo/psi.png" alt="PSI" class="psi-image">
+  </div>
 </div>
 
 <div class="container">
@@ -40,7 +34,7 @@
     <button class="start">Start now</button> </br>
     </br></br>
     <div id="learn-more">
-      <span>Learn more about 'Mapping Global Energy Accidents'</span> </br>
+      <span>Learn more about 'ENSAD Visual Explorer'</span> </br>
       <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
     </div>
   </div>
@@ -48,9 +42,9 @@
 
   <div class="row row-2">
     <div class="col-sm-6 col-md-6 col-lg-6">
-      <p class="title">What is 'Mapping Global Energy Accidents'?</p>
+      <p class="title">What is 'ENSAD Visual Explorer'?</p>
       <p class="content">The Energy-related Severe Accident Database (ENSAD) is the most comprehensive collection of historical accidents in the energy sector, covering complete energy chains. It was developed and first released by the Paul Scherrer Institut (PSI) in the 1990s, and since then has been continuously updated and extended, both in terms of content as well as scope and features.</p>
-      <p class="content">This project aims to develeop a web-based Geographic Information System (GIS) to visualize the geographical distribution and analyse the spatio-temporal charcateristics of accidents. The expected result is a web-based 'Mapping Global Energy Accidents' that allows the public audience to access the ENSAD online with a simple but useful user interface (UI). The EVE visualises and maps the data from ENSAD and also presents graphs by using the data.</p>
+      <p class="content">This project aims to develeop a web-based Geographic Information System (GIS) to visualize the geographical distribution and analyse the spatio-temporal charcateristics of accidents. The expected result is a web-based 'ENSAD Visual Explorer' that allows the public audience to access the ENSAD online with a simple but useful user interface (UI). The EVE visualises and maps the data from ENSAD and also presents graphs by using the data.</p>
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6">
       <p></p>
@@ -110,6 +104,16 @@ $('#learn-more').on('click',function(){
     $('html, body').animate({
         scrollTop: $(".row-2").offset().top - 60
     }, 700);
+})
+
+$('.fcl-image').on('click', function(){
+  window.location.replace('http://www.fcl.ethz.ch');
+})
+$('.frs-image').on('click', function(){
+  window.location.replace('http://frs.ethz.ch');
+})
+$('.psi-image').on('click', function(){
+  window.location.replace('https://www.psi.ch/lea/');
 })
 
 </script>

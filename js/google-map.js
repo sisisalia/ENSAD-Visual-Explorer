@@ -7,20 +7,10 @@ Purpose :
 
 // Minimum and maximum zooming of google map
 // for smaller screen
-if($(window).width() < 1500){
-  var opt = {
-      minZoom: 2,
-      maxZoom: 15
-  };
-// for bigger screen
-}else{
-  var opt = {
-      minZoom: 3,
-      maxZoom: 15
-  };
-}
-
-// alert($(window).width());
+var opt = {
+    minZoom: 3,
+    maxZoom: 15
+};
 
 // Get data from 'map-styles.json' using ajax
 var style = (function() {

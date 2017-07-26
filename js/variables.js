@@ -126,6 +126,14 @@ var energy_color = {
   'Non-hydro dam' : '#7fd6e2',
 };
 
+// Color for regions in chart
+var region_color = {
+  'oecd' : '#8CC841',
+  'g20' : 'purple',
+  'non_oecd' : 'lightblue',
+  'eu28' : 'yellow',
+}
+
 ///////////////////////////
 ////    Transform     ////
 //////////////////////////
@@ -168,6 +176,13 @@ var energy_chain_filter = {
   'DOM/COM' : 'Domestic and commercial end use',
 };
 
+var region_filter = {
+  'oecd' : 'OECD',
+  'g20' : 'G20',
+  'non_oecd' : 'Non-OECD',
+  'eu28' : 'EU',
+}
+
 /* Special case */
 // Left side is the one represented on the 'Menu'
 // Right side is the varibles used in the coding
@@ -185,4 +200,3 @@ var damage_filter = {
 
 var projection;
 var zoom_level;
-var menu_image_width = '47px';

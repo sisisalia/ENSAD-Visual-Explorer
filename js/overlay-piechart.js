@@ -25,6 +25,31 @@ function overlayPieChart(obj) {
               ave_level = i;
             }
           })
+
+          // Bar tooltip
+          // if(ave_level != undefined){
+          //   var color = [];
+          //   for(var i = 0; i < 6; i++){
+          //     if(i <= parseInt(ave_level[ave_level.length - 1])){
+          //       color.push('#87A1B1');
+          //     }else{
+          //       color.push('white');
+          //     }
+          //   }
+          //   var bar = '<table class="bar'+ i +'"><tr><td class="text-center" style="font-style:italic; padding-top:2px;">Low</td><td><svg width="60" height="10" style="margin-top:5px; padding-left:5px;">' +
+          //     '<rect x="0" y="0" width="10" height="10" style="fill:'+ color[1] +';stroke-width:1;stroke:rgb(0,0,0)" />' +
+          //     '<rect x="10" y="0" width="10" height="10" style="fill:' + color[2] +';stroke-width:1;stroke:rgb(0,0,0)" />' +
+          //     '<rect x="20" y="0" width="10" height="10" style="fill:'+ color[3] + ';stroke-width:1;stroke:rgb(0,0,0)" />' +
+          //     '<rect x="30" y="0" width="10" height="10" style="fill:'+ color[4] +';stroke-width:1;stroke:rgb(0,0,0)" />' +
+          //     '<rect x="40" y="0" width="10" height="10" style="fill:'+ color[5] + ';stroke-width:1;stroke:rgb(0,0,0)" />' +
+          //   '</svg></td><td class="text-center" style="font-style:italic; padding-top:2px;">High</td></tr></table>';
+          //
+          //   tooltip_temp = '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Average damage level</td><td style="padding-top:2px; font:10px lato">' + bar + '</td></tr>';
+          // }
+
+          // Text tooltip
+          // Add 'Average damage level' to tooltip
+          tooltip_temp = '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Average damage level</td><td style="padding-top:2px; font:10px lato">' + ave_level + '</td></tr>';
         }
 
         // number of objects in a cluster
@@ -68,6 +93,13 @@ function overlayPieChart(obj) {
         for(var i = 0; i <  pie_data.length; i++){
           contentString += '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">'+ pie_data[i].type + '</td><td style="padding-top:2px; font:10px lato">' + pie_data[i].number + '</td></tr>';
         }
+
+        if(damage_active == 1){
+          contentString += tooltip_temp;
+        }
+
+        // Close the tooltip
+        contentString += '</table>';
 
         overlay.draw = function() {
 
@@ -127,8 +159,6 @@ function overlayPieChart(obj) {
 
             // if 'Damage' menu is clicked
             if(damage_active == 1){
-              // Add 'Average damage level' to tooltip
-              contentString += '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Average damage level</td><td style="padding-top:2px; font:10px lato">' + ave_level + '</td></tr>';
               // Due to different size of radius, changed the position of text accordingly
               var text = marker.append('text')
                   .style('fill', 'white')
@@ -187,9 +217,6 @@ function overlayPieChart(obj) {
                       return total_nodes;
                   });
             }
-
-            // Close the tooltip
-            contentString += '</table>';
 
             // If mouseover the text on the pie chart
             marker.on("mouseover", function(d) {
