@@ -130,7 +130,7 @@ function overlayMarkers() {
                         }
 
                         // Bar tooltip
-                        // var damage = ['fatalities', 'injured', 'evacuees','economic_damage'];
+                        // var damage = ['fatalities', 'injuries', 'evacuees','economic_damage'];
                         //
                         // for(var i = 0; i < damage.length; i++){
                         //   if(d[damage[i]] == 'NA') {
@@ -157,28 +157,28 @@ function overlayMarkers() {
                         // }
                         //
                         // contentString += '<table>' +
-                        // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Year</td><td style="font:10px lato">' + d.year + '</td></tr>' +
-                        // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Location</td><td style="font:10px lato">' + d.location + '</td></tr>' +
-                        // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy type</td><td style="font:10px lato">' + d.type + '</td></tr>' +
-                        // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy stage</td><td style="font:10px lato">' + d.stage + '</td></tr>' +
-                        // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Infrastructure</td><td style="font:10px lato">' + d.infrastructure + '</td></tr>' +
-                        // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Fatalities</td><td style="font:10px lato">' + bar0 + '</td></tr>' +
-                        // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Injuries</td><td style="font:10px lato">' + bar1 + '</td></tr>' +
-                        // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Evacuees</td><td style="font:10px lato">' + bar2 + '</td></tr>' +
-                        // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Economic damage</td><td style="font:10px lato">' + bar3 + '</td></tr>' +
+                        // '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Year</td><td style="font:10px lato">' + d.year + '</td></tr>' +
+                        // '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Location</td><td style="font:10px lato">' + d.location + '</td></tr>' +
+                        // '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Energy type</td><td style="font:10px lato">' + d.type + '</td></tr>' +
+                        // '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Energy stage</td><td style="font:10px lato">' + d.stage + '</td></tr>' +
+                        // '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Infrastructure</td><td style="font:10px lato">' + d.infrastructure + '</td></tr>' +
+                        // '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Fatalities</td><td style="font:10px lato">' + bar0 + '</td></tr>' +
+                        // '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Injuries</td><td style="font:10px lato">' + bar1 + '</td></tr>' +
+                        // '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Evacuees</td><td style="font:10px lato">' + bar2 + '</td></tr>' +
+                        // '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Economic damage</td><td style="font:10px lato">' + bar3 + '</td></tr>' +
                         // '</table>';
 
                         // Text tooltip
                         contentString += '<table>' +
-                        '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Year</td><td style="font:10px lato">' + d.year + '</td></tr>' +
-                        '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Location</td><td style="font:10px lato">' + d.location + '</td></tr>' +
-                        '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy type</td><td style="font:10px lato">' + d.type + '</td></tr>' +
-                        '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy stage</td><td style="font:10px lato">' + d.stage + '</td></tr>' +
-                        '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Infrastructure</td><td style="font:10px lato">' + d.infrastructure + '</td></tr>' +
-                        '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Fatalities</td><td style="font:10px lato">' + d.fatalities + '</td></tr>' +
-                        '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Injuries</td><td style="font:10px lato">' + d.injured + '</td></tr>' +
-                        '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Evacuees</td><td style="font:10px lato">' + d.evacuees + '</td></tr>' +
-                        '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Economic damage</td><td style="font:10px lato">' + d.economic_damage + '</td></tr>' +
+                        '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Year</td><td style="font:10px lato">' + d.year + '</td></tr>' +
+                        '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Location</td><td style="font:10px lato">' + d.location + '</td></tr>' +
+                        '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Energy type</td><td style="font:10px lato">' + d.type + '</td></tr>' +
+                        '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Energy stage</td><td style="font:10px lato">' + d.stage + '</td></tr>' +
+                        '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Infrastructure</td><td style="font:10px lato">' + d.infrastructure + '</td></tr>' +
+                        '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Fatalities</td><td style="font:10px lato">' + d.fatalities + '</td></tr>' +
+                        '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Injuries</td><td style="font:10px lato">' + d.injuries + '</td></tr>' +
+                        '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Evacuees</td><td style="font:10px lato">' + d.evacuees + '</td></tr>' +
+                        '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Economic damage</td><td style="font:10px lato">' + d.economic_damage + '</td></tr>' +
                         '</table>';
 
                         tooltip.html(contentString)
@@ -237,13 +237,13 @@ function overlayMarkers() {
                         }
                     })
                     .attr("height", function(d){
-                      if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable') || (energy_chain_active == 1 && d.stage == 'Domestic and commercial end use')){
+                      if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable') || (d.type == 'Solar photovolatic') || (energy_chain_active == 1 && d.stage == 'Domestic and commercial end use')){
                         return radius * 2 - 6;
                       }
                       return radius * 2
                     })
                     .attr("width", function(d){
-                      if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable') || (energy_chain_active == 1 && d.stage == 'Domestic and commercial end use')){
+                      if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable') || (d.type == 'Solar photovolatic') || (energy_chain_active == 1 && d.stage == 'Domestic and commercial end use')){
                         return radius * 2 - 6;
                       }
                       return radius * 2
@@ -251,13 +251,13 @@ function overlayMarkers() {
                     .attr("x", function(d){
                       if(damage_active == 1){
                         // Due to different size of images, adjustment need to be make
-                        if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable')){
+                        if((d.type == 'Non-hydro dam') || (d.type == 'Solar photovolatic') || (d.type == 'Not applicable')){
                         return d.radbydamage - radius + 3;
                       }else{
                         return d.radbydamage - radius;
                       }
                       }else{
-                        if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable') || (energy_chain_active == 1 && d.stage == 'Domestic and commercial end use')){
+                        if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable') || (d.type == 'Solar photovolatic') || (energy_chain_active == 1 && d.stage == 'Domestic and commercial end use')){
                         return 3;
                         }else{
                         return 0;
@@ -266,13 +266,13 @@ function overlayMarkers() {
                     })
                     .attr("y", function(d){
                       if(damage_active == 1){
-                        if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable')){
+                        if((d.type == 'Non-hydro dam') || (d.type == 'Solar photovolatic') || (d.type == 'Not applicable')){
                         return d.radbydamage - radius + 3;
                       }else{
                         return d.radbydamage - radius;
                       }
                       }else{
-                        if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable') || (energy_chain_active == 1 && d.stage == 'Domestic and commercial end use')){
+                        if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable') || (d.type == 'Solar photovolatic') || (energy_chain_active == 1 && d.stage == 'Domestic and commercial end use')){
                         return 3;
                         }else{
                         return 0;
@@ -341,8 +341,8 @@ function setIndividualPoint(node, existing_object){
   if (obj.infrastructure == null) obj.infrastructure = 'NA';
   var fatalities = selected.fatalities;
   obj.fatalities = severityLevel(parseInt(fatalities), severity_level_fatalities);
-  var injured = selected.injuries;
-  obj.injured = severityLevel(parseInt(injured), severity_level_injured);
+  var injuries = selected.injuries;
+  obj.injuries = severityLevel(parseInt(injuries), severity_level_injuries);
   var evacuees = selected.evacuees;
   obj.evacuees = severityLevel(parseInt(evacuees), severity_level_evacuees);
   var economic_damage = selected.economic_damage;

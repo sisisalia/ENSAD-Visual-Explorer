@@ -10,14 +10,15 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://use.fontawesome.com/986cdf5935.js"></script>
-  <!-- Typekit for "adelle" font family -->
-  <script src="https://use.typekit.net/fng0vff.js"></script>
-<script>try{Typekit.load({ async: true });}catch(e){}</script>
+  <link href="https://fonts.googleapis.com/css?family=Bree+Serif" rel="stylesheet">
+  <header>
+    <title>ENSAD Visual Explorer</title>
+  </header>
 </head>
 <body>
 
 <div class="navbar navbar-fixed-top" style="background-color:white; border-color:white;">
-  <div class="title">
+  <div class="header-title">
     <span class='big-title'>ENSAD Visual Explorer</span>
     <img src="image/Logo/fcl.png" alt="FCL" class="fcl-image">
     <img src="image/Logo/frs.png" alt="FRS" class="frs-image">
@@ -42,7 +43,7 @@
 
   <div class="row row-2">
     <div class="col-sm-6 col-md-6 col-lg-6">
-      <p class="title">What is 'ENSAD Visual Explorer'?</p>
+      <p class="title">What is 'EVE'?</p>
       <p class="content">The Energy-related Severe Accident Database (ENSAD) is the most comprehensive collection of historical accidents in the energy sector, covering complete energy chains. It was developed and first released by the Paul Scherrer Institut (PSI) in the 1990s, and since then has been continuously updated and extended, both in terms of content as well as scope and features.</p>
       <p class="content">This project aims to develeop a web-based Geographic Information System (GIS) to visualize the geographical distribution and analyse the spatio-temporal charcateristics of accidents. The expected result is a web-based 'ENSAD Visual Explorer' that allows the public audience to access the ENSAD online with a simple but useful user interface (UI). The EVE visualises and maps the data from ENSAD and also presents graphs by using the data.</p>
     </div>
@@ -107,13 +108,36 @@ $('#learn-more').on('click',function(){
 })
 
 $('.fcl-image').on('click', function(){
-  window.location.replace('http://www.fcl.ethz.ch');
+  var win = window.open('http://www.fcl.ethz.ch', '_blank');
+  if (win) {
+      //Browser has allowed it to be opened
+      win.focus();
+  } else {
+      //Browser has blocked it
+      alert('Please allow popups for this website');
+  }
 })
+
 $('.frs-image').on('click', function(){
-  window.location.replace('http://frs.ethz.ch');
+  var win = window.open('http://frs.ethz.ch', '_blank');
+  if (win) {
+      //Browser has allowed it to be opened
+      win.focus();
+  } else {
+      //Browser has blocked it
+      alert('Please allow popups for this website');
+  }
 })
+
 $('.psi-image').on('click', function(){
-  window.location.replace('https://www.psi.ch/lea/');
+  var win = window.open('https://www.psi.ch/lea/', '_blank');
+  if (win) {
+      //Browser has allowed it to be opened
+      win.focus();
+  } else {
+      //Browser has blocked it
+      alert('Please allow popups for this website');
+  }
 })
 
 </script>

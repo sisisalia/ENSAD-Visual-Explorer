@@ -5,13 +5,6 @@ Purpose :
 3. Set minimum and maximum zoom level
 */
 
-// Minimum and maximum zooming of google map
-// for smaller screen
-var opt = {
-    minZoom: 3,
-    maxZoom: 15
-};
-
 // Get data from 'map-styles.json' using ajax
 var style = (function() {
     var json = null;
@@ -35,7 +28,7 @@ var styledMapType = new google.maps.StyledMapType(style, {
 // Create the Google Map
 var map = new google.maps.Map(d3.select("#map").node(), {
     center: new google.maps.LatLng(37.76487, 0),
-    zoom: opt.minZoom + 1,
+    zoom: initial_zoom,
     zoomControl: true,
     zoomControlOptions: {
         position: google.maps.ControlPosition.RIGHT_BOTTOM

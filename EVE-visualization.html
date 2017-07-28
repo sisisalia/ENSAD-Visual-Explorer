@@ -14,9 +14,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
   <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-  <!-- Typekit for "adelle" font family -->
-  <script src="https://use.typekit.net/fng0vff.js"></script>
-  <script>try{Typekit.load({ async: true });}catch(e){}</script>
+  <link href="https://fonts.googleapis.com/css?family=Bree+Serif" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/EVE-visualisation.css">
   <!-- <link rel="stylesheet" type="text/css" href="css/valueLab.css"> -->
   <header class="navbar-fixed-top">
@@ -502,8 +500,8 @@
               <span>Fatalities</span>
             </td>
             <td>
-              <img src="image/damage-off/injured.png" alt="waste" width="47px" height="47px" class="damage-type"></br>
-              <span>Injured</span>
+              <img src="image/damage-off/injuries.png" alt="waste" width="47px" height="47px" class="damage-type"></br>
+              <span>injuries</span>
             </td>
             <td>
               <img src="image/damage-off/evacuees.png" alt="waste" width="47px" height="47px" class="damage-type"></br>
@@ -592,7 +590,7 @@
 
   <!-- 'Year' of accidents menu at the top right of the window -->
   <nav class="year-menu">
-    <div class="year-item" style="font: bold 12px adelle; padding-top: 20px;">
+    <div class="year-item" style="font: bold 12px; font-family: 'Bree Serif', serif; padding-top: 20px;">
       Year
     </div>
     <br />
@@ -627,7 +625,7 @@
 
   <!-- 'About EVE' at the bottom right of the window -->
   <div class='about-EVE-content'>
-    <span class='about-EVE-content-title'>About ENSAD Visual Explorer</span>
+    <span class='about-EVE-content-title'>About EVE</span>
     <i class="fa fa-times" aria-hidden="true"></i>
     </br>
     </br>
@@ -677,9 +675,9 @@
 
   <script src="https://maps.googleapis.com/maps/api/js?v=3&amp;libraries=places&amp;key=AIzaSyCTVQh_6X6mO8NWR58geheSip4zrQARKlo&amp"></script>
  <script src="//d3js.org/d3.v4.min.js"></script>
+ <script src='js/init.js'></script>
   <script src='js/google-map.js'></script>
   <script src='data/set-data.js'></script>
-  <script src='js/init.js'></script>
   <script src='js/variables.js'></script>
   <script src='js/interaction.js'></script>
   <script src='js/overlay-piechart.js'></script>

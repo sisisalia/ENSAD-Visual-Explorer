@@ -38,11 +38,6 @@ function overlayOverlappingMarkers(array) {
                     return ((d.geodata.y - max_radius) + "px")
                 })
                 // Rotate the different nodes in the cluster so that they will not stack up together
-                // .attr('transform', function(d) {
-                //     var rotate = angle;
-                //     angle += increment;
-                //     return 'rotate(' + rotate + ', ' + (max_radius - 7) + ', ' + '0' + ')';
-                // })
                 .style('-webkit-transform', function(d) {
                     var rotate = angle;
                     angle += increment;
@@ -92,13 +87,13 @@ function overlayOverlappingMarkers(array) {
                 })
                 .attr("x", function(d){
                   // Due to different size of images, need to be manually adjusted
-                  if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable')|| (energy_chain_active ==  1 && d.stage == 'DOM/COM')){
+                  if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable')|| (d.type == 'Solar photovolatic') || (energy_chain_active ==  1 && d.stage == 'DOM/COM')){
                     return max_radius - radius + 3;
                   }
                   return max_radius - radius;
                 })
                 .attr("y", function(d){
-                  if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable')|| (energy_chain_active ==  1 && d.stage == 'DOM/COM')){
+                  if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable')|| (d.type == 'Solar photovolatic') || (energy_chain_active ==  1 && d.stage == 'DOM/COM')){
                     return (max_radius * 2 + 3)/2 - radius + 3;
                   }
                   return (max_radius * 2 + 3)/2 - radius;
@@ -110,13 +105,13 @@ function overlayOverlappingMarkers(array) {
                     return 'rotate(' + (-rotate ) + ', ' + (max_radius) + ', ' + (max_radius+1.5) + ')';
                 })
                 .attr("height", function(d){
-                  if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable')|| (energy_chain_active ==  1 && d.stage == 'DOM/COM')){
+                  if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable')|| (d.type == 'Solar photovolatic') || (energy_chain_active ==  1 && d.stage == 'DOM/COM')){
                     return 10;
                   }
                   return 17;
                 })
                 .attr("width", function(d){
-                  if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable')|| (energy_chain_active ==  1 && d.stage == 'DOM/COM')){
+                  if((d.type == 'Non-hydro dam') || (d.type == 'Not applicable')|| (d.type == 'Solar photovolatic') || (energy_chain_active ==  1 && d.stage == 'DOM/COM')){
                     return 10;
                   }
                   return 17;
@@ -140,7 +135,7 @@ function overlayOverlappingMarkers(array) {
                   }
 
                   // Bar tooltip
-                  // var damage = ['fatalities', 'injured', 'evacuees','economic_damage'];
+                  // var damage = ['fatalities', 'injuries', 'evacuees','economic_damage'];
                   //
                   // for(var i = 0; i < damage.length; i++){
                   //   if(d[damage[i]] == 'NA') {
@@ -167,28 +162,28 @@ function overlayOverlappingMarkers(array) {
                   // }
                   //
                   // contentString += '<table>' +
-                  // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Year</td><td style="font:10px lato">' + d.year + '</td></tr>' +
-                  // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Location</td><td style="font:10px lato">' + d.location + '</td></tr>' +
-                  // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy type</td><td style="font:10px lato">' + d.type + '</td></tr>' +
-                  // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy stage</td><td style="font:10px lato">' + d.stage + '</td></tr>' +
-                  // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Infrastructure</td><td style="font:10px lato">' + d.infrastructure + '</td></tr>' +
-                  // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Fatalities</td><td style="font:10px lato">' + bar0 + '</td></tr>' +
-                  // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Injuries</td><td style="font:10px lato">' + bar1 + '</td></tr>' +
-                  // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Evacuees</td><td style="font:10px lato">' + bar2 + '</td></tr>' +
-                  // '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Economic damage</td><td style="font:10px lato">' + bar3 + '</td></tr>' +
+                  // '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Year</td><td style="font:10px lato">' + d.year + '</td></tr>' +
+                  // '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Location</td><td style="font:10px lato">' + d.location + '</td></tr>' +
+                  // '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Energy type</td><td style="font:10px lato">' + d.type + '</td></tr>' +
+                  // '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Energy stage</td><td style="font:10px lato">' + d.stage + '</td></tr>' +
+                  // '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Infrastructure</td><td style="font:10px lato">' + d.infrastructure + '</td></tr>' +
+                  // '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Fatalities</td><td style="font:10px lato">' + bar0 + '</td></tr>' +
+                  // '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Injuries</td><td style="font:10px lato">' + bar1 + '</td></tr>' +
+                  // '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Evacuees</td><td style="font:10px lato">' + bar2 + '</td></tr>' +
+                  // '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Economic damage</td><td style="font:10px lato">' + bar3 + '</td></tr>' +
                   // '</table>';
 
                   // Text tooltip
                   contentString += '<table>' +
-                  '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Year</td><td style="font:10px lato">' + d.year + '</td></tr>' +
-                  '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Location</td><td style="font:10px lato">' + d.location + '</td></tr>' +
-                  '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy type</td><td style="font:10px lato">' + d.type + '</td></tr>' +
-                  '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Energy stage</td><td style="font:10px lato">' + d.stage + '</td></tr>' +
-                  '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Infrastructure</td><td style="font:10px lato">' + d.infrastructure + '</td></tr>' +
-                  '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Fatalities</td><td style="font:10px lato">' + d.fatalities + '</td></tr>' +
-                  '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Injured</td><td style="font:10px lato">' + d.injured + '</td></tr>' +
-                  '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Evacuees</td><td style="font:10px lato">' + d.evacuees + '</td></tr>' +
-                  '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Economic damage</td><td style="font:10px lato">' + d.economic_damage + '</td></tr>' +
+                  '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Year</td><td style="font:10px lato">' + d.year + '</td></tr>' +
+                  '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Location</td><td style="font:10px lato">' + d.location + '</td></tr>' +
+                  '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Energy type</td><td style="font:10px lato">' + d.type + '</td></tr>' +
+                  '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Energy stage</td><td style="font:10px lato">' + d.stage + '</td></tr>' +
+                  '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Infrastructure</td><td style="font:10px lato">' + d.infrastructure + '</td></tr>' +
+                  '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Fatalities</td><td style="font:10px lato">' + d.fatalities + '</td></tr>' +
+                  '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">injuries</td><td style="font:10px lato">' + d.injuries + '</td></tr>' +
+                  '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Evacuees</td><td style="font:10px lato">' + d.evacuees + '</td></tr>' +
+                  '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Economic damage</td><td style="font:10px lato">' + d.economic_damage + '</td></tr>' +
                   '</table>';
 
                   tooltip.html(contentString)
@@ -202,7 +197,7 @@ function overlayOverlappingMarkers(array) {
 
 
             // Add a black dot in the exact position of the cluster
-            marker.append("circle")
+            var dot = marker.append("circle")
                 .attr("r", 3)
                 .attr('fill', 'black')
                 .attr('stroke', 'white')
@@ -216,7 +211,7 @@ function overlayOverlappingMarkers(array) {
                 });
 
             // Create dashed line to connect the black dot and the nodes after transform
-            marker.append("svg:line")
+            var line = marker.append("svg:line")
                 .style('stroke', 'black')
                 .style("stroke-dasharray", "3,3")
                 .attr('class', 'line')

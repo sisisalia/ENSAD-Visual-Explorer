@@ -103,7 +103,7 @@ function barChart(obj, type, y_axis){
   // Create y axis with text == 'Number of ...' or 'lg(Number of ...)'
   g.append("g")
       .attr("class", "axis")
-      .call(d3.axisLeft(y).ticks(5, "s"))
+      .call(d3.axisLeft(y).ticks(10, "s"))
       .append("text")
       .attr("x", 2)
       .attr("y", y(y.ticks().pop()) + 0.5)

@@ -20,13 +20,34 @@ $('.big-title').on('click', function() {
   }
 })
 $('.fcl-image').on('click', function(){
-  window.location.replace('http://www.fcl.ethz.ch');
+  var win = window.open('http://www.fcl.ethz.ch', '_blank');
+  if (win) {
+      //Browser has allowed it to be opened
+      win.focus();
+  } else {
+      //Browser has blocked it
+      alert('Please allow popups for this website');
+  }
 })
 $('.frs-image').on('click', function(){
-  window.location.replace('http://frs.ethz.ch');
+  var win = window.open('http://frs.ethz.ch', '_blank');
+  if (win) {
+      //Browser has allowed it to be opened
+      win.focus();
+  } else {
+      //Browser has blocked it
+      alert('Please allow popups for this website');
+  }
 })
 $('.psi-image').on('click', function(){
-  window.location.replace('https://www.psi.ch/lea/');
+  var win = window.open('https://www.psi.ch/lea/', '_blank');
+  if (win) {
+      //Browser has allowed it to be opened
+      win.focus();
+  } else {
+      //Browser has blocked it
+      alert('Please allow popups for this website');
+  }
 })
 
 
@@ -684,7 +705,7 @@ $('.fa-repeat').on('click', function() {
     $("#slider-range").slider({
         values: years
     });
-    $('#year-range').text('1860 - 2020');
+    $('#year-range').html(years[0] + ' - ' + years[1]);
     for (i = 0; i <= 5; i++) {
         if (i == 5) {
             $('#lvl5').css('fill', '#87A1B1');
@@ -696,6 +717,7 @@ $('.fa-repeat').on('click', function() {
     $('#chart').empty();
 })
 
+// When resize button in menu is clicked
 $('.fa-compress').on('click', function(){
   $('.menu-1').hide();
   $('.menu-2').show();

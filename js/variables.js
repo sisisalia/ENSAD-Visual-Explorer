@@ -81,7 +81,7 @@ var energy_chain_image_white = {
 var damage_on = {
   'Evacuees' : '/image/damage-on/evacuees.png',
   'Fatalities' : '/image/damage-on/fatalities.png',
-  'Injured' : '/image/damage-on/injured.png',
+  'injuries' : '/image/damage-on/injuries.png',
   'Spill size' : '/image/damage-on/spillsize.png',
   'Economics' : '/image/damage-on/dollars.png',
 }
@@ -90,7 +90,7 @@ var damage_on = {
 var damage_off = {
   'Evacuees' : '/image/damage-off/evacuees.png',
   'Fatalities' : '/image/damage-off/fatalities.png',
-  'Injured' : '/image/damage-off/injured.png',
+  'injuries' : '/image/damage-off/injuries.png',
   'Spill size' : '/image/damage-off/spillsize.png',
   'Economics' : '/image/damage-off/dollars.png',
 }
@@ -188,7 +188,7 @@ var region_filter = {
 // Right side is the varibles used in the coding
 var damage_filter = {
   'Fatalities' : 'fatalities',
-  'Injured' : 'injured',
+  'injuries' : 'injuries',
   'Evacuees' : 'evacuees',
   'Economics' : 'economic_damage',
   'Spill size' : 'spillsize',

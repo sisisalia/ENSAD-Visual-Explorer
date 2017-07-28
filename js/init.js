@@ -20,7 +20,11 @@ var circle_size = {
   'Level 4' : 18.447561,
   'Level 5' : 20.20829,
 };
-
+// Minimum and maximum zooming of google map
+var opt = {
+    minZoom: 3,
+    maxZoom: 15
+};
 // Initial zoom level
 var initial_zoom = opt.minZoom + 1;
 // Key == zoom level while value == distance to be clustered in km
@@ -34,7 +38,7 @@ var zoom = {
 
 // Taking example of fatalities: 0 is 'Level 0', 1 - 4 is 'Level 1' , 5 - 20 is 'Level 2', 21 - 100 is 'Level 3', 101 - 500 is 'Level 4', 501 above is 'Level 5'
 var severity_level_fatalities = [0,4,20,100,500];
-var severity_level_injured = [0,9,50,100,500];
+var severity_level_injuries = [0,9,50,100,500];
 var severity_level_evacuees = [0,199,1000,5000,10000];
 var severity_level_spillsize = [0,199,1000,10000,100000];
 var severity_level_economic_damage = [0,4.99,20,100,1000];

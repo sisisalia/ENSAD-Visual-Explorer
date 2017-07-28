@@ -1,10 +1,10 @@
 /* Header */
 .navbar{
-    font-family: "adelle";
+    font-family: 'Bree Serif';
     width:100%;
     height: auto;
 }
-.title{
+.header-title{
     font-size: 20px;
     font-weight: bold;
     font-style: italic;
@@ -90,7 +90,9 @@
   padding-right:10%;
 }
 .title{
-  font:bold 20px adelle;
+  font-weight: bold;
+  font-size: 20px;
+  font-family: 'Bree Serif';
   line-height: 32px;
 }
 .content{
@@ -101,7 +103,7 @@
 }
 .sub-title{
 	color: #22343C;
-	font-family: "Adelle";
+  font-family: 'Bree Serif';
 	font-size: 14px;
 	line-height: 17px;
 }
@@ -111,7 +113,9 @@
   padding: 0;
 }
 .link-title{
-  font: bold 24px adelle;
+  font-weight: bold;
+  font-size : 24px;
+  font-family: 'Bree Serif';
 }
 .link-to-application{
     background-image: url("/image/screenshot.png");

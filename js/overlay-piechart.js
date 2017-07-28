@@ -44,12 +44,12 @@ function overlayPieChart(obj) {
           //     '<rect x="40" y="0" width="10" height="10" style="fill:'+ color[5] + ';stroke-width:1;stroke:rgb(0,0,0)" />' +
           //   '</svg></td><td class="text-center" style="font-style:italic; padding-top:2px;">High</td></tr></table>';
           //
-          //   tooltip_temp = '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Average damage level</td><td style="padding-top:2px; font:10px lato">' + bar + '</td></tr>';
+          //   tooltip_temp = '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Average damage level</td><td style="padding-top:2px; font:10px lato">' + bar + '</td></tr>';
           // }
 
           // Text tooltip
           // Add 'Average damage level' to tooltip
-          tooltip_temp = '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Average damage level</td><td style="padding-top:2px; font:10px lato">' + ave_level + '</td></tr>';
+          tooltip_temp = '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Average damage level</td><td style="padding-top:2px; font:10px lato">' + ave_level + '</td></tr>';
         }
 
         // number of objects in a cluster
@@ -88,10 +88,10 @@ function overlayPieChart(obj) {
         })
 
         // Create tooltip
-        var contentString = '<table><tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">Accident(s) : </td></tr>';
+        var contentString = '<table><tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">Accident(s) : </td></tr>';
 
         for(var i = 0; i <  pie_data.length; i++){
-          contentString += '<tr><td style="padding-top:3px; padding-right:5px; font:10px adelle;">'+ pie_data[i].type + '</td><td style="padding-top:2px; font:10px lato">' + pie_data[i].number + '</td></tr>';
+          contentString += '<tr><td style=" padding:2px; padding-right:8px; font:10px Lato;">'+ pie_data[i].type + '</td><td style="padding-top:2px; font:10px lato">' + pie_data[i].number + '</td></tr>';
         }
 
         if(damage_active == 1){
